@@ -9,7 +9,7 @@ void move(int n, Player *player, int grid);
 void setPosition(int n, Player *player);
 int rollDice(int difficulty);
 int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake);
-void timer();
+bool timer();
 int checkNearestLadder(Ladder L[], int ladderCount, Player player);
 
 void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,
@@ -20,7 +20,15 @@ int checkWin(Player player, Player Winners[]);
 int rollDice(int difficulty) {
   int min = 1;
   int max = 6;
-  return (rand() % (max - min + 1) + min);
+
+  if (difficulty == 1) {
+    return (rand() % (6 - 4 + 1) + min);
+  } else if (difficulty == 2) {
+    return (rand() % (max - min + 1) + min);
+  } else if (difficulty == 3) {
+    return (rand() % (3 - 1 + 1) + min);
+  }
+
 }
 
 int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake) {
@@ -78,8 +86,6 @@ void move(int n, Player *player, int grid) {
   if ((*player).position > max) {
     (*player).position = max - (*player).position + max;
   }
-  printf("Player %s have moved %d steps, now on block number %d\n",
-         (*player).name, n, (*player).position);
 }
 
 void stepOnPlayer(Player playerArray[], int playerCount, int blockNum,
@@ -104,8 +110,15 @@ void stepOnPlayer(Player playerArray[], int playerCount, int blockNum,
 
 void setPosition(int n, Player *player) { (*player).position = n; }
 
-void timer() {
-  int seconds = 3;
+bool timer(int difficulty) {
+  int seconds; 
+  if (difficulty == 1) {
+    seconds = 10;
+  } else if (difficulty == 2) {
+    seconds = 5;
+  } else if (difficulty == 3) {
+    seconds = 3;
+  }
 
   printf("Seconds: ");
 

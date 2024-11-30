@@ -107,6 +107,8 @@ void multiplayer(int players) {
         printf(") mendapat giliran lagi");
         i -= 1;
       }
+      printPlayerIcons(i, colors, 4);
+      printf(" Mendpatkan angka %d", dice);
       printf("\nTekan spasi untuk ke giliran selanjutnya\n");
       while (isRunning) {
         ch = getchar();

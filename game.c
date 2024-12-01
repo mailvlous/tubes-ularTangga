@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <time.h>
 void move(int n, Player *player, int grid);
+
+int score(Player *player, int minus, int baseScore);
 void setPosition(int n, Player *player);
 int rollDice(int difficulty);
 int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake);
@@ -88,6 +90,27 @@ void move(int n, Player *player, int grid) {
   }
 }
 
+int score(Player *player, int minus, int baseScore) {
+  int score;
+  baseScore = (*player).score;
+
+  (*player).score -= minus; // Kurangi skor pemain
+  score = (*player).score;
+  return score;
+  // for (int i = 0; i < 100; i++) {
+  //   (*player).score = baseScore - minus;
+  //   score = (*player).score;
+  //   return score;
+  // }
+
+}
+
+void printScore(int score) {
+  printf("Score: %d\n", score);
+}
+
+
+
 void stepOnPlayer(Player playerArray[], int playerCount, int blockNum,
                   int playerNum) {
   int playerHere[playerCount];
@@ -108,7 +131,9 @@ void stepOnPlayer(Player playerArray[], int playerCount, int blockNum,
   }
 }
 
-void setPosition(int n, Player *player) { (*player).position = n; }
+void setPosition(int n, Player *player) {
+   (*player).position = n;
+ }
 
 bool timer(int difficulty) {
   int seconds; 
@@ -124,10 +149,9 @@ bool timer(int difficulty) {
 
   while (seconds > 0) {
 
-    int h = seconds / 3600;
-    int m = (seconds % 3600) / 60;
+
     int s = seconds % 60;
-    printf("\r%02d:%02d:%02d", h, m, s);
+    printf(" %d ", s);
     fflush(stdout);
     clock_t stop = clock() + CLOCKS_PER_SEC;
     while (clock() < stop) {
@@ -135,6 +159,7 @@ bool timer(int difficulty) {
     seconds--;
   }
   printf("\rTime's up!\n");
+  return false;
 }
 
 void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,

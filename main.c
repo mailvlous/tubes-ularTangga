@@ -9,6 +9,8 @@
 void multiplayer(int players);
 int setDifficulty();
 
+int score(Player *player, int minus, int baseScore);
+
 int main() {
   printf("\n");
   printf("---------------------\n");
@@ -66,6 +68,7 @@ void multiplayer(int players) {
   getLadderSnakeCount(&ladderCount, &snakeCount, difficulty);
   Snake S[snakeCount];
   Ladder L[ladderCount];
+  int minus;
 
   initiateBoard(snakeCount, ladderCount, S, L);
   bool isRunning = true;
@@ -78,21 +81,35 @@ void multiplayer(int players) {
       printBoardVSPlayer(S, L, playerArray, snakeCount, ladderCount, players,
                          grid);
       printBlock0(playerArray, players);
+
       char ch;
 
       printf("Giliran Player %d (", i + 1);
       printPlayerIcons(i, colors, 4);
       printf(")\nTekan spasi untuk mengocok dadu\n");
-      while (isRunning) {
-        ch = getchar();
+
+      int baseScore = 116;
+      while (isRunning) { 
+        ch = getch(); 
         if (ch == ' ') {
-          break;
+          // playerArray[i].score = score(&playerArray[i], minus, baseScore); // Kurangi skor
+          // minus++; // Tambah nilai pengurangan
+          // printf("Skor Pemain %d sekarang: %d\n", i + 1, &playerArray[i].score);
+          break; // Keluar dari loop untuk giliran pemain
         }
       }
-
+      
       int dice = rollDice(difficulty);
       system("clear");
       move(dice, &playerArray[i], grid);
+
+      
+      // // playerArray[i].score = 116;
+      // minus = 1;
+      // playerArray[i].score = score(&playerArray[i], minus, baseScore);
+      // minus++;
+
+
 
       checkLadderSnake(&playerArray[i], L, S, ladderCount, snakeCount);
       if (difficulty == 3) {
@@ -104,15 +121,23 @@ void multiplayer(int players) {
       if (dice == 6) {
         printf("Karena mendapat angka 6, Player %d (", i + 1);
         printPlayerIcons(i, colors, 4);
-        printf(") mendapat giliran lagi");
+        printf(" mendapat giliran lagi");
         i -= 1;
       }
+
+
+
       printPlayerIcons(i, colors, 4);
-      printf(" Mendpatkan angka %d", dice);
+      printf(" Mendpatkan angka %d \n", dice);
+      printScore(playerArray[i].score );
+      printf("%d \n", minus);
       printf("\nTekan spasi untuk ke giliran selanjutnya\n");
       while (isRunning) {
-        ch = getchar();
+        ch = getch();
         if (ch == ' ') {
+          playerArray[i].score = score(&playerArray[i], minus, baseScore); // Kurangi skor
+          minus++; // Tambah nilai pengurangan
+          printf("Skor Pemain %d sekarang: %d\n", i + 1, &playerArray[i].score);
           break;
         }
       }

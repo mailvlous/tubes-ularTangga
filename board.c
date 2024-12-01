@@ -30,6 +30,8 @@ void printBoardVSPlayer(Snake S[], Ladder L[], Player playerArray[],
 void printBoardVSComputer(Snake S[], Ladder L[], Player playerArray[],
                           int snakeCount, int ladderCount, int playerCount,
                           int grid);
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void printBoardVSPlayer(Snake S[], Ladder L[], Player playerArray[],

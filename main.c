@@ -90,7 +90,7 @@ void multiplayer(int players) {
       printPlayerIcons(i, colors, 4);
       printf(")\nTekan spasi untuk mengocok dadu\n");
 
-      int baseScore = 116;
+      
       timer(difficulty);
       
       while (isRunning) { 
@@ -108,10 +108,12 @@ void multiplayer(int players) {
       move(dice, &playerArray[i], grid);
 
       
-      // // playerArray[i].score = 116;
-      // minus = 1;
-      // playerArray[i].score = score(&playerArray[i], minus, baseScore);
-      // minus++;
+      // playerArray[i].score = 116;
+      int baseScore = 116;
+    
+      minus = 1;
+      playerArray[i].score = score(&playerArray[i], dice, baseScore);
+      minus++;
 
 
 

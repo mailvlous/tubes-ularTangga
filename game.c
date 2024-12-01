@@ -144,11 +144,17 @@ bool timer(int difficulty) {
   } else if (difficulty == 3) {
     seconds = 3;
   }
-
+  char ch;
   printf("Seconds: ");
 
   while (seconds > 0) {
-    char ch;
+    if (_kbhit()) {  // Periksa apakah ada input dari keyboard
+        ch = _getch();  // Ambil input dari keyboard
+        if (ch == ' ') {  // Jika tombol spasi ditekan
+            seconds = 0;  // Atur waktu menjadi 0
+            break;  // Keluar dari loop
+        }
+    }
 
     int s = seconds % 60;
     printf(" %d ", s);
@@ -157,12 +163,11 @@ bool timer(int difficulty) {
     while (clock() < stop) {
     }
     seconds--;
+    
 
-    ch = getch();
-      if (ch == ' ') {
-        break;
-      }
+
   }
+
   printf("\rTime's up!\n");
   return true;
 }

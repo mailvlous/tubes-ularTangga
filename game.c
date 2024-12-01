@@ -148,7 +148,7 @@ bool timer(int difficulty) {
   printf("Seconds: ");
 
   while (seconds > 0) {
-
+    char ch;
 
     int s = seconds % 60;
     printf(" %d ", s);
@@ -157,9 +157,14 @@ bool timer(int difficulty) {
     while (clock() < stop) {
     }
     seconds--;
+
+    ch = getch();
+      if (ch == ' ') {
+        break;
+      }
   }
   printf("\rTime's up!\n");
-  return false;
+  return true;
 }
 
 void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,

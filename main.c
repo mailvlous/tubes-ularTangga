@@ -11,6 +11,8 @@ int setDifficulty();
 
 int score(Player *player, int minus, int baseScore);
 
+bool timer(int difficulty);
+
 int main() {
   printf("\n");
   printf("---------------------\n");
@@ -89,6 +91,8 @@ void multiplayer(int players) {
       printf(")\nTekan spasi untuk mengocok dadu\n");
 
       int baseScore = 116;
+      timer(difficulty);
+      
       while (isRunning) { 
         ch = getch(); 
         if (ch == ' ') {

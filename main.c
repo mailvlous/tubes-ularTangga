@@ -90,30 +90,28 @@ void multiplayer(int players) {
       printPlayerIcons(i, colors, 4);
       printf(")\nTekan spasi untuk mengocok dadu\n");
 
-      
+      int baseScore = 116;
       timer(difficulty);
       
-      while (isRunning) { 
-        ch = getch(); 
-        if (ch == ' ') {
-          // playerArray[i].score = score(&playerArray[i], minus, baseScore); // Kurangi skor
-          // minus++; // Tambah nilai pengurangan
-          // printf("Skor Pemain %d sekarang: %d\n", i + 1, &playerArray[i].score);
-          break; // Keluar dari loop untuk giliran pemain
-        }
-      }
+      // while (isRunning) { 
+      //   ch = getch(); 
+      //   if (ch == ' ') {
+      //     // playerArray[i].score = score(&playerArray[i], minus, baseScore); // Kurangi skor
+      //     // minus++; // Tambah nilai pengurangan
+      //     // printf("Skor Pemain %d sekarang: %d\n", i + 1, &playerArray[i].score);
+      //     break; // Keluar dari loop untuk giliran pemain
+      //   }
+      // }
       
       int dice = rollDice(difficulty);
       system("clear");
       move(dice, &playerArray[i], grid);
 
       
-      // playerArray[i].score = 116;
-      int baseScore = 116;
-    
-      minus = 1;
-      playerArray[i].score = score(&playerArray[i], dice, baseScore);
-      minus++;
+      // // playerArray[i].score = 116;
+      // minus = 1;
+      // playerArray[i].score = score(&playerArray[i], minus, baseScore);
+      // minus++;
 
 
 
@@ -138,6 +136,7 @@ void multiplayer(int players) {
       printScore(playerArray[i].score );
       printf("%d \n", minus);
       printf("\nTekan spasi untuk ke giliran selanjutnya\n");
+      printf("%d", playerArray[i].position);
       while (isRunning) {
         ch = getch();
         if (ch == ' ') {

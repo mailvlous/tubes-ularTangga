@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <conio.h>
 void move(int n, Player *player, int grid);
 
 int score(Player *player, int minus, int baseScore);
@@ -151,7 +152,7 @@ bool timer(int difficulty) {
     if (_kbhit()) {  // Periksa apakah ada input dari keyboard
         ch = _getch();  // Ambil input dari keyboard
         if (ch == ' ') {  // Jika tombol spasi ditekan
-            seconds = 0;  // Atur waktu menjadi 0
+            seconds = 0  ;  // Atur waktu menjadi 0
             break;  // Keluar dari loop
         }
     }

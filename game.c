@@ -8,7 +8,12 @@
 #include <conio.h>
 void move(int n, Player *player, int grid);
 
-int score(Player *player, int minus, int baseScore);
+void setScores(Player *players, int size, int newScore);
+int score(Player *player);
+
+void printScore(Player *player, int players);
+
+int scoreTotal(Player *player, int position);
 void setPosition(int n, Player *player);
 int rollDice(int difficulty);
 int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake);
@@ -91,13 +96,18 @@ void move(int n, Player *player, int grid) {
   }
 }
 
-int score(Player *player, int minus, int baseScore) {
-  int score;
-  baseScore = (*player).score;
+void setScores(Player *players, int size, int newScore) {
+    for (int i = 0; i < size; i++) {
+        players[i].score = newScore;
+    }
+}
 
-  (*player).score -= minus; // Kurangi skor pemain
-  score = (*player).score;
-  return score;
+
+int score(Player *player) {
+
+  return (*player).score - (*player).position;
+  // (*player).score -= ((*player).position); // Kurangi skor pemain
+  // return (*player).score;
   // for (int i = 0; i < 100; i++) {
   //   (*player).score = baseScore - minus;
   //   score = (*player).score;
@@ -106,8 +116,16 @@ int score(Player *player, int minus, int baseScore) {
 
 }
 
-void printScore(int score) {
-  printf("Score: %d\n", score);
+// int scoreTotal(Player *player, int position) {
+//   return (*player).score - (*player).position;
+// }
+
+
+
+void printScore(Player *playerArray, int players) {
+  for (int i = 0; i < players; i++) {
+    printf("Player %s mendapatkan Score: %d\n", playerArray[i].name, playerArray[i].score);
+  }
 }
 
 

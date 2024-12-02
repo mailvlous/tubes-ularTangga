@@ -9,7 +9,11 @@
 void multiplayer(int players);
 int setDifficulty();
 
-int score(Player *player, int minus, int baseScore);
+void setScores(Player *players, int size, int newScore);
+
+int score(Player *player);
+
+void printScore(Player *player, int players);
 
 bool timer(int difficulty);
 
@@ -71,6 +75,7 @@ void multiplayer(int players) {
   Snake S[snakeCount];
   Ladder L[ladderCount];
   int minus;
+  setScores(playerArray, players, 200);
 
   initiateBoard(snakeCount, ladderCount, S, L);
   bool isRunning = true;
@@ -90,7 +95,7 @@ void multiplayer(int players) {
       printPlayerIcons(i, colors, 4);
       printf(")\nTekan spasi untuk mengocok dadu\n");
 
-      int baseScore = 116;
+      
       timer(difficulty);
       
       // while (isRunning) { 
@@ -104,9 +109,10 @@ void multiplayer(int players) {
       // }
       
       int dice = rollDice(difficulty);
+      int scoreTotal;
       system("clear");
       move(dice, &playerArray[i], grid);
-
+      playerArray[i].score = score(&playerArray[i]);
       
       // // playerArray[i].score = 116;
       // minus = 1;
@@ -128,21 +134,22 @@ void multiplayer(int players) {
         printf(" mendapat giliran lagi");
         i -= 1;
       }
+      // int baseScore = 116;
 
+      // playerArray[i].score = score(&playerArray[i].position);
+      // printScore(playerArray[i].score);
 
 
       printPlayerIcons(i, colors, 4);
       printf(" Mendpatkan angka %d \n", dice);
-      printScore(playerArray[i].score );
-      printf("%d \n", minus);
+      printScore(&playerArray[i], players);
+      // printf("%d \n", minus);
       printf("\nTekan spasi untuk ke giliran selanjutnya\n");
       printf("%d", playerArray[i].position);
+
       while (isRunning) {
         ch = getch();
         if (ch == ' ') {
-          playerArray[i].score = score(&playerArray[i], minus, baseScore); // Kurangi skor
-          minus++; // Tambah nilai pengurangan
-          printf("Skor Pemain %d sekarang: %d\n", i + 1, &playerArray[i].score);
           break;
         }
       }

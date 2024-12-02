@@ -198,6 +198,7 @@ void printBlock0(Player playerArray[], int playerCount) {
   }
 }
 
+
 void printBoardVSComputer(Snake S[], Ladder L[], Player playerArray[],
                           int snakeCount, int ladderCount, int playerCount,
                           int grid) {

@@ -1,0 +1,2 @@
+Player 1 mendapatkan Score: 186
+Player 2 mendapatkan Score: 195

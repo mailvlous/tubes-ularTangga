@@ -25,6 +25,8 @@ void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,
 int checkNearestSnake(Snake S[], int snakeCount, Player player);
 int checkWin(Player player, Player Winners[]);
 
+void writeOutputToFile(Player *playerArray, int players);
+
 int rollDice(int difficulty) {
   int min = 1;
   int max = 6;
@@ -105,6 +107,7 @@ void setScores(Player *players, int size, int newScore) {
 
 int score(Player *player) {
 
+
   return (*player).score - (*player).position;
   // (*player).score -= ((*player).position); // Kurangi skor pemain
   // return (*player).score;
@@ -128,6 +131,24 @@ void printScore(Player *playerArray, int players) {
   }
 }
 
+void writeOutputToFile(Player *playerArray, int players) {
+      // Open file for writing
+    FILE *file = fopen("output.txt", "w");
+    if (file == NULL) {
+        perror("Error opening file");
+        return 1;
+    }
+
+    // Writing formatted text using fprintf
+    for (int i = 0; i < players; i++) {
+      fprintf(file, "Player %s mendapatkan Score: %d\n", playerArray[i].name, playerArray[i].score);
+    }
+
+    // Close the file
+    fclose(file);
+
+    printf("Data written to 'output.txt'.\n");
+}
 
 
 void stepOnPlayer(Player playerArray[], int playerCount, int blockNum,
@@ -210,5 +231,7 @@ void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,
     }
   }
 }
+
+
 
 #endif

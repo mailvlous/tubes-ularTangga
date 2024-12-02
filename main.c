@@ -17,6 +17,8 @@ void printScore(Player *player, int players);
 
 bool timer(int difficulty);
 
+void writeOutputToFile(Player *playerArray, int players);
+
 int main() {
   printf("\n");
   printf("---------------------\n");
@@ -75,7 +77,7 @@ void multiplayer(int players) {
   Snake S[snakeCount];
   Ladder L[ladderCount];
   int minus;
-  setScores(playerArray, players, 200);
+  setScores(playerArray, players, 1000);
 
   initiateBoard(snakeCount, ladderCount, S, L);
   bool isRunning = true;
@@ -145,12 +147,15 @@ void multiplayer(int players) {
       printScore(&playerArray[i], players);
       // printf("%d \n", minus);
       printf("\nTekan spasi untuk ke giliran selanjutnya\n");
+      printf("\nTekan q untuk keluar, kembali ke menu awal, dan mencetak skor\n");
       printf("%d", playerArray[i].position);
-
       while (isRunning) {
         ch = getch();
         if (ch == ' ') {
           break;
+        } else if (ch == 'q') {
+          writeOutputToFile(&playerArray[i], players);
+          isRunning = false;
         }
       }
     }

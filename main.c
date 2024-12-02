@@ -77,7 +77,7 @@ void multiplayer(int players) {
   Snake S[snakeCount];
   Ladder L[ladderCount];
   int minus;
-  setScores(playerArray, players, 1000);
+  setScores(playerArray, players, 116);
 
   initiateBoard(snakeCount, ladderCount, S, L);
   bool isRunning = true;

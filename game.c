@@ -108,7 +108,7 @@ void setScores(Player *players, int size, int newScore) {
 int score(Player *player) {
 
 
-  return (*player).score - (*player).position;
+  return (*player).score - ((*player).position * 0.01);
   // (*player).score -= ((*player).position); // Kurangi skor pemain
   // return (*player).score;
   // for (int i = 0; i < 100; i++) {

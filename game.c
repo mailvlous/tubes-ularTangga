@@ -68,11 +68,20 @@ int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake) {
   }
 }
 
+void sixCheck(int dice, int *i, char colors[][7]) {
+  if (dice == 6) {
+    printf("Karena mendapat angka 6, Player %d (", *i + 1);
+    printPlayerIcons(*i, colors, 4);
+    printf(") mendapat giliran lagi");
+    *i -= 1;
+  }
+}
+
 int checkNearestLadder(Ladder L[], int ladderCount, Player player) {
   for (int i = player.position + 1; i <= player.position + 6; i++) {
     for (int j = 0; j < ladderCount; j++) {
       if (i == L[i][0]) {
-        return i;
+        return i - player.position;
       }
     }
   }
@@ -83,7 +92,7 @@ int checkNearestSnake(Snake S[], int snakeCount, Player player) {
   for (int i = player.position + 1; i <= player.position + 6; i++) {
     for (int j = 0; j < snakeCount; j++) {
       if (i == S[i][0]) {
-        return i;
+        return i - player.position;
       }
     }
   }

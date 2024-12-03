@@ -8,8 +8,14 @@
 
 void multiplayer(int players);
 int setDifficulty();
+void startGame();
 
 int main() {
+  startGame();
+  return 0;
+}
+
+void startGame() {
   printf("\n");
   printf("---------------------\n");
   printf("Snakes and Ladders !!\n");
@@ -52,7 +58,6 @@ int main() {
       printf("\n");
     }
   }
-  return 0;
 }
 
 void multiplayer(int players) {

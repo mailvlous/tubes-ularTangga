@@ -7,7 +7,7 @@
 // #include <curses.h>
 
 void fairMode(int players);
-int modePicker();
+void modePicker();
 void multiplayer(int players);
 int setDifficulty();
 void startGame();
@@ -27,14 +27,14 @@ int main() {
   return 0;
 }
 
-int modePicker() {
+void modePicker() {
   int mode;
   getchar();
   scanf("%d", &mode);
   while (mode != 1 || mode != 2) {
     scanf("%d", &mode);
   }
-  return mode;
+  
 }
 
 
@@ -58,12 +58,13 @@ void startGame() {
     getchar();
     switch (menuPicked) {
     case 1:
+      modePicker();
       printf("\n");
       printf("Banyak player (1 sampai 4): ");
       int players;
       scanf("%d", &players);
       printf("\n");
-      multiplayer(players);
+      fairMode(players);
       break;
     case 2:
       printf("\n");
@@ -85,7 +86,7 @@ void startGame() {
   }
 }
 
-void multiplayer(int players) {
+void fairMode(int players) {
   // printf("Ceritanya anda bermain nichhh dengan %d player", players);
   char colors[4][7] = {"\033[31m", "\033[34m", "\033[32m", "\033[33m"};
   int ladderCount, snakeCount;

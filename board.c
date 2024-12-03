@@ -596,14 +596,14 @@ void searchPlayer(Player playerArray[], int playerCount, int blockNum,
 
 /////////////////////////////////
 
-void initiateComputers(Computer computerArray[], int computerCount) {
-  for (int i = 0; i < computerCount; i++) {
-    printf("Nama player ke-%d: ", i + 1);
-    getchar();
-    scanf("%49[^\n]", computerArray[i].name);
-    computerArray[i].position = 0;
-  }
-}
+// void initiateComputers(Computer computerArray[], int computerCount) {
+//   for (int i = 0; i < computerCount; i++) {
+//     printf("Nama player ke-%d: ", i + 1);
+//     getchar();
+//     scanf("%49[^\n]", computerArray[i].name);
+//     computerArray[i].position = 0;
+//   }
+// }
 
 // void printPlayers(Player playerArray[], int playerCount, char colors[][7],
 //                   int colorCount) {

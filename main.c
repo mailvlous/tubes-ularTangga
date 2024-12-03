@@ -6,6 +6,8 @@
 #include <stdlib.h>
 // #include <curses.h>
 
+void fairMode(int players);
+int modePicker();
 void multiplayer(int players);
 int setDifficulty();
 void startGame();
@@ -14,6 +16,18 @@ int main() {
   startGame();
   return 0;
 }
+
+int modePicker() {
+  int mode;
+  getchar();
+  scanf("%d", &mode);
+  while (mode != 1 || mode != 2) {
+    scanf("%d", &mode);
+  }
+  return mode;
+}
+
+
 
 void startGame() {
   printf("\n");
@@ -77,6 +91,7 @@ void multiplayer(int players) {
   int grid = 10;
   while (isRunning) {
     for (int i = 0; i < players; i++) {
+      
       system("clear");
       printf("Keterangan: L = Tangga, S = Ular");
       printf("\n");
@@ -106,12 +121,7 @@ void multiplayer(int players) {
       printBoardVSPlayer(S, L, playerArray, snakeCount, ladderCount, players,
                          grid);
       printBlock0(playerArray, players);
-      if (dice == 6) {
-        printf("Karena mendapat angka 6, Player %d (", i + 1);
-        printPlayerIcons(i, colors, 4);
-        printf(") mendapat giliran lagi");
-        i -= 1;
-      }
+      sixCheck(dice, &i, colors);
       printf("\nTekan spasi untuk ke giliran selanjutnya\n");
       while (isRunning) {
         ch = getchar();

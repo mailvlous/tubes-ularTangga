@@ -5,11 +5,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <conio.h>
 void move(int n, Player *player, int grid);
+
+void setScores(Player *players, int size, int newScore);
+int score(Player *player);
+
+void printScore(Player *player, int players);
+
+int scoreTotal(Player *player, int position);
 void setPosition(int n, Player *player);
 int rollDice(int difficulty);
 int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake);
-void timer();
+bool timer();
 int checkNearestLadder(Ladder L[], int ladderCount, Player player);
 
 void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,
@@ -17,10 +25,20 @@ void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,
 int checkNearestSnake(Snake S[], int snakeCount, Player player);
 int checkWin(Player player, Player Winners[]);
 
+void writeOutputToFile(Player *playerArray, int players);
+
 int rollDice(int difficulty) {
   int min = 1;
   int max = 6;
-  return (rand() % (max - min + 1) + min);
+
+  if (difficulty == 1) {
+    return (rand() % (6 - 4 + 1) + min);
+  } else if (difficulty == 2) {
+    return (rand() % (max - min + 1) + min);
+  } else if (difficulty == 3) {
+    return (rand() % (3 - 1 + 1) + min);
+  }
+
 }
 
 int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake) {
@@ -87,9 +105,60 @@ void move(int n, Player *player, int grid) {
   if ((*player).position > max) {
     (*player).position = max - (*player).position + max;
   }
-  printf("Player %s have moved %d steps, now on block number %d\n",
-         (*player).name, n, (*player).position);
 }
+
+void setScores(Player *players, int size, int newScore) {
+    for (int i = 0; i < size; i++) {
+        players[i].score = newScore;
+    }
+}
+
+
+int score(Player *player) {
+
+
+  return (*player).score - ((*player).position * 0.01);
+  // (*player).score -= ((*player).position); // Kurangi skor pemain
+  // return (*player).score;
+  // for (int i = 0; i < 100; i++) {
+  //   (*player).score = baseScore - minus;
+  //   score = (*player).score;
+  //   return score;
+  // }
+
+}
+
+// int scoreTotal(Player *player, int position) {
+//   return (*player).score - (*player).position;
+// }
+
+
+
+void printScore(Player *playerArray, int players) {
+  for (int i = 0; i < players; i++) {
+    printf("Player %s mendapatkan Score: %d\n", playerArray[i].name, playerArray[i].score);
+  }
+}
+
+void writeOutputToFile(Player *playerArray, int players) {
+      // Open file for writing
+    FILE *file = fopen("output.txt", "w");
+    if (file == NULL) {
+        perror("Error opening file");
+        return 1;
+    }
+
+    // Writing formatted text using fprintf
+    for (int i = 0; i < players; i++) {
+      fprintf(file, "Player %s mendapatkan Score: %d\n", playerArray[i].name, playerArray[i].score);
+    }
+
+    // Close the file
+    fclose(file);
+
+    printf("Data written to 'output.txt'.\n");
+}
+
 
 void stepOnPlayer(Player playerArray[], int playerCount, int blockNum,
                   int playerNum) {
@@ -111,26 +180,45 @@ void stepOnPlayer(Player playerArray[], int playerCount, int blockNum,
   }
 }
 
-void setPosition(int n, Player *player) { (*player).position = n; }
+void setPosition(int n, Player *player) {
+   (*player).position = n;
+ }
 
-void timer() {
-  int seconds = 3;
-
+bool timer(int difficulty) {
+  int seconds; 
+  if (difficulty == 1) {
+    seconds = 10;
+  } else if (difficulty == 2) {
+    seconds = 5;
+  } else if (difficulty == 3) {
+    seconds = 3;
+  }
+  char ch;
   printf("Seconds: ");
 
   while (seconds > 0) {
+    if (_kbhit()) {  // Periksa apakah ada input dari keyboard
+        ch = _getch();  // Ambil input dari keyboard
+        if (ch == ' ') {  // Jika tombol spasi ditekan
+            seconds = 0  ;  // Atur waktu menjadi 0
+            break;  // Keluar dari loop
+        }
+    }
 
-    int h = seconds / 3600;
-    int m = (seconds % 3600) / 60;
     int s = seconds % 60;
-    printf("\r%02d:%02d:%02d", h, m, s);
+    printf(" %d ", s);
     fflush(stdout);
     clock_t stop = clock() + CLOCKS_PER_SEC;
     while (clock() < stop) {
     }
     seconds--;
+    
+
+
   }
+
   printf("\rTime's up!\n");
+  return true;
 }
 
 void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,
@@ -152,5 +240,7 @@ void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,
     }
   }
 }
+
+
 
 #endif

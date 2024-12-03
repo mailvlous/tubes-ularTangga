@@ -5,6 +5,8 @@ typedef struct {
   int position;
   int score;
   int type;
+  bool isPlaying;
+  bool isComputer;
 } Player;
 
 typedef struct {

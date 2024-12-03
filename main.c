@@ -12,6 +12,16 @@ void multiplayer(int players);
 int setDifficulty();
 void startGame();
 
+void setScores(Player *players, int size, int newScore);
+
+int score(Player *player);
+
+void printScore(Player *player, int players);
+
+bool timer(int difficulty);
+
+void writeOutputToFile(Player *playerArray, int players);
+
 int main() {
   startGame();
   return 0;
@@ -85,6 +95,8 @@ void multiplayer(int players) {
   getLadderSnakeCount(&ladderCount, &snakeCount, difficulty);
   Snake S[snakeCount];
   Ladder L[ladderCount];
+  int minus;
+  setScores(playerArray, players, 116);
 
   initiateBoard(snakeCount, ladderCount, S, L);
   bool isRunning = true;
@@ -98,21 +110,38 @@ void multiplayer(int players) {
       printBoardVSPlayer(S, L, playerArray, snakeCount, ladderCount, players,
                          grid);
       printBlock0(playerArray, players);
+
       char ch;
 
       printf("Giliran Player %d (", i + 1);
       printPlayerIcons(i, colors, 4);
       printf(")\nTekan spasi untuk mengocok dadu\n");
-      while (isRunning) {
-        ch = getchar();
-        if (ch == ' ') {
-          break;
-        }
-      }
 
+      
+      timer(difficulty);
+      
+      // while (isRunning) { 
+      //   ch = getch(); 
+      //   if (ch == ' ') {
+      //     // playerArray[i].score = score(&playerArray[i], minus, baseScore); // Kurangi skor
+      //     // minus++; // Tambah nilai pengurangan
+      //     // printf("Skor Pemain %d sekarang: %d\n", i + 1, &playerArray[i].score);
+      //     break; // Keluar dari loop untuk giliran pemain
+      //   }
+      // }
+      
       int dice = rollDice(difficulty);
+      int scoreTotal;
       system("clear");
       move(dice, &playerArray[i], grid);
+      playerArray[i].score = score(&playerArray[i]);
+      
+      // // playerArray[i].score = 116;
+      // minus = 1;
+      // playerArray[i].score = score(&playerArray[i], minus, baseScore);
+      // minus++;
+
+
 
       checkLadderSnake(&playerArray[i], L, S, ladderCount, snakeCount);
       if (difficulty == 3) {
@@ -121,12 +150,18 @@ void multiplayer(int players) {
       printBoardVSPlayer(S, L, playerArray, snakeCount, ladderCount, players,
                          grid);
       printBlock0(playerArray, players);
+
       sixCheck(dice, &i, colors);
       printf("\nTekan spasi untuk ke giliran selanjutnya\n");
+      printf("\nTekan q untuk keluar, kembali ke menu awal, dan mencetak skor\n");
+      printf("%d", playerArray[i].position);
       while (isRunning) {
-        ch = getchar();
+        ch = getch();
         if (ch == ' ') {
           break;
+        } else if (ch == 'q') {
+          writeOutputToFile(&playerArray[i], players);
+          isRunning = false;
         }
       }
     }

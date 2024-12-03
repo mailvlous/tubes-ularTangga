@@ -105,6 +105,8 @@ void move(int n, Player *player, int grid) {
   if ((*player).position > max) {
     (*player).position = max - (*player).position + max;
   }
+  printf("Player %s moved %d steps, now on block %d\n ",
+             (*player).name, n, (*player).position);
 }
 
 void setScores(Player *players, int size, int newScore) {

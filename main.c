@@ -40,6 +40,7 @@ int modePicker() {
 
 
 void startGame() {
+  system("cls");
   printf("\n");
   printf("---------------------\n");
   printf("Snakes and Ladders !!\n");
@@ -104,7 +105,7 @@ void multiplayer(int players) {
   while (isRunning) {
     for (int i = 0; i < players; i++) {
       
-      system("clear");
+      system("cls");
       printf("Keterangan: L = Tangga, S = Ular");
       printf("\n");
       printBoardVSPlayer(S, L, playerArray, snakeCount, ladderCount, players,
@@ -132,7 +133,7 @@ void multiplayer(int players) {
       
       int dice = rollDice(difficulty);
       int scoreTotal;
-      system("clear");
+      system("cls");
       move(dice, &playerArray[i], grid);
       playerArray[i].score = score(&playerArray[i]);
       
@@ -154,7 +155,7 @@ void multiplayer(int players) {
       sixCheck(dice, &i, colors);
       printf("\nTekan spasi untuk ke giliran selanjutnya\n");
       printf("\nTekan q untuk keluar, kembali ke menu awal, dan mencetak skor\n");
-      printf("%d", playerArray[i].position);
+      printf("Posisi: %d\n", playerArray[i].position);
       while (isRunning) {
         ch = getch();
         if (ch == ' ') {

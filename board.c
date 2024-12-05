@@ -511,11 +511,12 @@ void printPlayerIcons(int playerNum, char colors[][7], int colorCount) {
 
   for (int i = 0; i < colorCount; i++) {
     if (i == playerNum) {
-      printf("%sP", colors[i]);
+      printf("%so", colors[i]);
       resetColor();
     }
   }
 }
+
 
 void printPlayers(Player playerArray[], int playerCount, char colors[][7],
                   int colorCount) {

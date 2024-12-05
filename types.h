@@ -8,6 +8,8 @@ typedef struct {
   int score;
   bool isPlaying;
   bool isComputer;
+  bool isWin;
+  int rankPlayer;
 } Player;
 
 // typedef struct {

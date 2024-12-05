@@ -6,9 +6,9 @@
 #include <stdlib.h>
 // #include <curses.h>
 
-void fairMode(int players, int mode);
+void multiplayer(int players, int mode);
 int modePicker();
-void multiplayer(int players);
+void multiplayer(int players, int mode);
 int setDifficulty();
 void startGame();
 
@@ -22,24 +22,20 @@ bool timer(int difficulty);
 
 void writeOutputToFile(Player *playerArray, int players);
 
+int howManyPlayers(int players);
+
+void checkWin(Player *player, int players);
+
+void decideRank(Player *player, int players);
+
+void printRank(Player *player, int players);
+
+// void printWinner(int WinnerArray[], int winnerCount);
+
 int main() {
   startGame();
   return 0;
 }
-
-int modePicker() {
-      printf("Mode:\n");
-    printf("1. Normal (Fair)\n");
-    printf("2. Rigged\n");
-  // getchar();
-  int mode;
-  scanf("%d", &mode);
-  while (mode != 1 && mode != 2) {
-    scanf("%d", &mode);
-  }
-  return mode;
-}
-
 
 
 void startGame() {
@@ -55,19 +51,18 @@ void startGame() {
     printf("2. VS Computer\n");
     printf("3. Exit\n");
     printf("Pilih menu (1/2): ");
-    int menuPicked;
-    int mode;
-    scanf("%d", &menuPicked);
-    getchar();
-    switch (menuPicked) {
+    //int menuPicked;
+    printf("wsaws");
+    //scanf("%d", &menuPicked);
+    //getchar();
+    int mode = modePicker();
+    switch (mode) {
     case 1:
-      mode = modePicker();
       printf("\n");
       printf("Banyak player (1 sampai 4): ");
       int players;
-      scanf("%d", &players);
-      printf("\n");
-      fairMode(players, mode);
+      players = howManyPlayers(players);
+      multiplayer(players, mode);
       break;
     case 2:
       printf("\n");
@@ -89,12 +84,13 @@ void startGame() {
   }
 }
 
-void fairMode(int players, int mode) {
+void multiplayer(int players, int mode) {
   // printf("Ceritanya anda bermain nichhh dengan %d player", players);
   char colors[4][7] = {"\033[31m", "\033[34m", "\033[32m", "\033[33m"};
   int ladderCount, snakeCount;
   Player playerArray[players];
   initiatePlayers(playerArray, players);
+  decideComputerOrPlayer(playerArray, players);
   printPlayers(playerArray, players, colors, 4);
   int difficulty = setDifficulty();
   getLadderSnakeCount(&ladderCount, &snakeCount, difficulty);
@@ -102,8 +98,8 @@ void fairMode(int players, int mode) {
   Ladder L[ladderCount];
   int minus;
   setScores(playerArray, players, 116);
-  int winnerArray[players - 1];
-  
+  int winnerArray[players-1];
+
   int winnerCount = 0;
   initiateBoard(snakeCount, ladderCount, S, L);
   bool isRunning = true;
@@ -111,19 +107,11 @@ void fairMode(int players, int mode) {
   while (isRunning) {
     for (int i = 0; i < players; i++) {
       system("cls");
-      printf("%d", players);
-      printf("%d", i);
-      if (winnerCount == players - 1) {
+      if (winnerCount == players) {
         printf("GAME SELESAIIII");
         isRunning = false;
         break;
       } else if (playerArray[i].isPlaying == true) {
-          
-      printf("Keterangan: L = Tangga, S = Ular");
-      printf("\n");
-      printBoardVSPlayer(S, L, playerArray, snakeCount, ladderCount, players,
-                         grid);
-      printBlock0(playerArray, players);
 
       char ch;
 
@@ -176,40 +164,86 @@ void fairMode(int players, int mode) {
         if (difficulty == 3) {
           stepOnPlayer(playerArray,players,playerArray[i].position,i);
         }
+        printf("Keterangan: L = Tangga, S = Ular");
+        printf("\n");
         printBoardVSPlayer(S, L, playerArray, snakeCount, ladderCount, players,
-                          grid);
+                           grid);
         printBlock0(playerArray, players);
-        printScore(playerArray, players);
 
- 
+        char ch;
 
-        sixCheck(dice, &i, colors);
-        // printf("%d", winnerCount);
-      } else {
-          printBoardVSPlayer(S, L, playerArray, snakeCount, ladderCount, players,
-                          grid);
-        printBlock0(playerArray, players);
-        printScore(playerArray, players);
-      }
+        printf("Giliran Player %d (", i + 1);
+        printPlayerIcons(i, colors, 4);
+        printf("\nTekan spasi untuk mengocok dadu\n");
 
-      printf("\nTekan spasi untuk ke giliran selanjutnya\n");
-      printf("\nTekan q untuk keluar, kembali ke menu awal, dan mencetak skor\n");
-      printf("Posisi: %d\n", playerArray[i].position);
-      // bool wawa = true;
-      // while (isRunning) {
-      // printf("%d", i);
-      bool waitInput = true;
-      while (waitInput) {
-        ch = getch();
-        if (ch == 'q') {
-          writeOutputToFile(&playerArray[i], players);
-          isRunning = false;
-        } else if (ch == ' ') {
-          waitInput = false;
+        bool roll = timer(difficulty);
+
+        int dice;
+        if (roll == true) {
+
+          if (mode == 1) {
+            dice = rollDice(difficulty);
+          } else {
+            int nearestLadder =
+                checkNearestLadder(L, ladderCount, playerArray[i]);
+            int nearestSnake = checkNearestSnake(S, snakeCount, playerArray[i]);
+            dice = rollDiceRigged(difficulty, nearestLadder, nearestSnake);
+          }
+
+          int scoreTotal;
+          system("cls");
+          move(dice, &playerArray[i], grid);
+          playerArray[i].score = score(&playerArray[i]);
         } else {
-          printf("Input tidak valid\n");
+          dice = 0;
         }
-      }
+
+        bool isWin;
+
+        checkWin(&playerArray[i], players);
+        decideRank(&playerArray[i], players);
+        
+
+        if (!isWin) {
+          checkLadderSnake(&playerArray[i], L, S, ladderCount, snakeCount);
+          if (difficulty == 3) {
+            stepOnPlayer(playerArray, players, playerArray[i].position, i);
+          }
+          printBoardVSPlayer(S, L, playerArray, snakeCount, ladderCount,
+                             players, grid);
+          printBlock0(playerArray, players);
+          printScore(playerArray, players);
+
+          sixCheck(dice, &i, colors);
+          // printf("%d", winnerCount);
+        } else {
+          printBoardVSPlayer(S, L, playerArray, snakeCount, ladderCount,
+                             players, grid);
+          printBlock0(playerArray, players);
+          printScore(playerArray, players);
+        }
+
+        printf("\nTekan spasi untuk ke giliran selanjutnya\n");
+        printf("\nTekan q untuk keluar, kembali ke menu awal, dan mencetak "
+               "skor\n");
+        printf("Posisi: %d\n", playerArray[i].position);
+        printRank(&playerArray[i], players);
+        // bool wawa = true;
+        // while (isRunning) {
+        // printf("%d", i);
+        bool waitInput = true;
+        while (waitInput) {
+          ch = getch();
+          if (ch == 'q') {
+            writeOutputToFile(&playerArray[i], players);
+            isRunning = false;
+            break;
+          } else if (ch == ' ') {
+            waitInput = false;
+          } else {
+            printf("Input tidak valid\n");
+          }
+        }
       }
     }
   }

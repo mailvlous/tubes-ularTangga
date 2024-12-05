@@ -2,11 +2,12 @@
 #define game_c
 #include "board.c"
 #include "types.h"
+#include <conio.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <time.h>
-#include <conio.h>
+
 void move(int n, Player *player, int grid);
 
 void setScores(Player *players, int size, int newScore);
@@ -24,10 +25,24 @@ int checkNearestLadder(Ladder L[], int ladderCount, Player player);
 void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,
                       int snakeCount);
 int checkNearestSnake(Snake S[], int snakeCount, Player player);
-void checkWin(Player *player, int WinnerArray[], int *winnerCount, int playerNum, bool *isWin);
 
 void writeOutputToFile(Player *playerArray, int players);
 int move0(int n);
+
+int modePicker();
+
+int howManyPlayers(int players);
+
+void checkWin(Player *player, int players);
+
+void decideRank(Player *player, int players);
+
+void printRank(Player *player, int players);
+
+
+void decideComputerOrPlayer(Player *player, int players);
+
+
 
 int rollDice(int difficulty) {
   int min = 1;
@@ -42,21 +57,63 @@ int rollDice(int difficulty) {
   // }
 
   return (rand() % (max - min + 1) + min);
-
 }
 
-void checkWin(Player *player, int WinnerArray[], int *winnerCount, int playerNum, bool *isWin) {
-  if ((*player).position == 100) {
-    (*player).isPlaying = false;
-    WinnerArray[*winnerCount] = playerNum;
-    (*winnerCount)++;
-    printf("Player %d menang!!\n", playerNum + 1);
-    *isWin = true;
-  } else {
-    *isWin = false;
+void checkWin(Player *player, int players) {
+  for (int i = 0; i < players; i++) {
+    if ((*player).position == 100) {
+      (*player).isPlaying = false;
+      (*player).isWin = true;
+    } else {
+      (*player).isWin = false;
   }
-  
+  }
 }
+
+void decideRank(Player *player, int players) {
+  int n = 3;
+  for (int i = 0; i < players; i++) {
+    if ((*player).isWin == true) {
+      (*player).rankPlayer = 4 - n;
+      n--;
+    }
+  }
+}
+
+void printRank(Player *player, int players) {
+  for (int i = 0; i < players; i++) {
+    if ((*player).isWin == true && (*player).rankPlayer == 1) {
+      printf("%s Peringkat ke - %d dengan Skor : %d \n", player[i].name, player[i].rankPlayer, player[i].score);
+    } else if ((*player).isWin == true && (*player).rankPlayer == 2) {
+      printf("%s Peringkat ke - %d dengan Skor : %d \n", player[i].name, player[i].rankPlayer, player[i].score);
+    } else if ((*player).isWin == true && (*player).rankPlayer == 3) {
+      printf("%s Peringkat ke - %d dengan Skor : %d \n", player[i].name, player[i].rankPlayer, player[i].score);
+    } else if ((*player).isWin == true && (*player).rankPlayer == 4) {
+      printf("%s Peringkat ke - %d dengan Skor : %d \n", player[i].name, player[i].rankPlayer, player[i].score);
+    }
+  }
+}
+
+void decideComputerOrPlayer(Player *player, int players) {
+  int input;
+  for (int i = 0; i < players; i++) {
+    printf("Tentukan player dengan nama %s adalah Player asli atau Computer \n Tekan 1 untuk Player dan 2 untuk Computer : ", player[i].name);
+    scanf("%d", &input);
+    if (input == 1) {
+      player[i].isComputer = false;
+    } else {
+      player[i].isComputer = true;
+    }
+  }
+}
+
+bool isComputerOrPlayer(Player *player, int players) {
+
+}
+
+// printWinner(Player *playerArray, int players, int WinnerArray[], int winnerCount) {
+//   if (())
+// }
 
 int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake) {
   int min = 1;
@@ -149,14 +206,12 @@ int move0(int n){
 }
 
 void setScores(Player *players, int size, int newScore) {
-    for (int i = 0; i < size; i++) {
-        players[i].score = newScore;
-    }
+  for (int i = 0; i < size; i++) {
+    players[i].score = newScore;
+  }
 }
 
-
 int score(Player *player) {
-
 
   return (*player).score - ((*player).position * 0.01);
   // (*player).score -= ((*player).position); // Kurangi skor pemain
@@ -166,40 +221,37 @@ int score(Player *player) {
   //   score = (*player).score;
   //   return score;
   // }
-
 }
 
 // int scoreTotal(Player *player, int position) {
 //   return (*player).score - (*player).position;
 // }
 
-
-
 void printScore(Player *playerArray, int players) {
   for (int i = 0; i < players; i++) {
-    printf("Player %s mendapatkan Score: %d\n", playerArray[i].name, playerArray[i].score);
+    printf("Player %s mendapatkan Score: %d\n", playerArray[i].name,
+           playerArray[i].score);
   }
 }
 
 void writeOutputToFile(Player *playerArray, int players) {
-      // Open file for writing
-    FILE *file = fopen("output.txt", "w");
-    if (file == NULL) {
-        perror("Error opening file");
-        return 1;
-    }
+  // Open file for writing
+  FILE *file = fopen("output.txt", "w");
+  if (file == NULL) {
+    perror("Error opening file");
+  }
 
-    // Writing formatted text using fprintf
-    for (int i = 0; i < players; i++) {
-      fprintf(file, "Player %s mendapatkan Score: %d\n", playerArray[i].name, playerArray[i].score);
-    }
+  // Writing formatted text using fprintf
+  for (int i = 0; i < players; i++) {
+    fprintf(file, "Player %s mendapatkan Score: %d\n", playerArray[i].name,
+            playerArray[i].score);
+  }
 
-    // Close the file
-    fclose(file);
+  // Close the file
+  fclose(file);
 
-    printf("Data written to 'output.txt'.\n");
+  printf("Data written to 'output.txt'.\n");
 }
-
 
 void stepOnPlayer(Player playerArray[], int playerCount, int blockNum,
                   int playerNum) {
@@ -221,12 +273,14 @@ void stepOnPlayer(Player playerArray[], int playerCount, int blockNum,
   }
 }
 
+
+
 void setPosition(int n, Player *player) {
-   (*player).position = n;
- }
+   (*player).position = n; 
+}
 
 bool timer(int difficulty) {
-  int seconds; 
+  int seconds;
   if (difficulty == 1) {
     seconds = 10;
   } else if (difficulty == 2) {
@@ -238,13 +292,13 @@ bool timer(int difficulty) {
   printf("Seconds: ");
 
   while (seconds > 0) {
-    if (_kbhit()) {  // Periksa apakah ada input dari keyboard
-        ch = _getch();  // Ambil input dari keyboard
-        if (ch == ' ') {  // Jika tombol spasi ditekan
-            seconds = 0  ;  // Atur waktu menjadi 0
-              // Keluar dari loop
-            return true; 
-        }
+    if (_kbhit()) {    // Periksa apakah ada input dari keyboard
+      ch = _getch();   // Ambil input dari keyboard
+      if (ch == ' ') { // Jika tombol spasi ditekan
+        seconds = 0;   // Atur waktu menjadi 0
+                     // Keluar dari loop
+        return true;
+      }
     }
 
     int s = seconds % 60;
@@ -254,9 +308,6 @@ bool timer(int difficulty) {
     while (clock() < stop) {
     }
     seconds--;
-    
-
-
   }
 
   printf("\rTime's up!\n");
@@ -283,6 +334,31 @@ void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,
   }
 }
 
+int modePicker() {
+  printf("Mode:\n");
+  printf("1. Normal (Fair)\n");
+  printf("2. Rigged\n");
+  int mode;
+  scanf("%d", &mode);
+  while (mode != 1 && mode != 2) {
+    scanf("%d", &mode);
+  }
+  return mode;
+}
+
+int howManyPlayers(int players) {
+  printf("\n");
+  printf("Banyak player (1 sampai 4): ");
+  scanf("%d", &players);
+
+  return players;
+}
+
+void printWinner(int WinnerArray[], int winnerCount) {
+  for (int i = 0; i<winnerCount; i++) {
+    printf("%d",WinnerArray[i]);
+  }
+}
 
 
 #endif

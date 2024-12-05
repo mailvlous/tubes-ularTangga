@@ -19,7 +19,7 @@ int scoreTotal(Player *player, int position);
 void setPosition(int n, Player *player);
 int rollDice(int difficulty);
 int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake);
-bool timer();
+bool timer(int difficulty, Player *player);
 int checkNearestLadder(Ladder L[], int ladderCount, Player player);
 
 void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,
@@ -256,7 +256,7 @@ void setPosition(int n, Player *player) {
    (*player).position = n; 
 }
 
-bool timer(int difficulty) {
+bool timer(int difficulty, Player *player) {
   int seconds;
   if (difficulty == 1) {
     seconds = 10;
@@ -266,9 +266,10 @@ bool timer(int difficulty) {
     seconds = 3;
   }
   char ch;
-  printf("Seconds: ");
+  printf("Timer: ");
 
-  while (seconds > 0) {
+  if ((*player).isComputer == false ) {
+    while (seconds > 0) {
     if (_kbhit()) {    // Periksa apakah ada input dari keyboard
       ch = _getch();   // Ambil input dari keyboard
       if (ch == ' ') { // Jika tombol spasi ditekan
@@ -286,6 +287,19 @@ bool timer(int difficulty) {
     }
     seconds--;
   }
+  } else {
+    int seconds = 1;
+    int s = seconds % 60;
+    printf(" %d ", s);
+    fflush(stdout);
+    clock_t stop = clock() + CLOCKS_PER_SEC;
+    while (clock() < stop) {
+    }
+    seconds--;
+    return true;
+  }
+
+
 
   printf("\rTime's up!\n");
   return false;

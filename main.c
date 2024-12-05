@@ -18,7 +18,7 @@ int score(Player *player);
 
 void printScore(Player *player, int players);
 
-bool timer(int difficulty);
+bool timer(int difficulty, Player *player);
 
 void writeOutputToFile(Player *playerArray, int players);
 
@@ -119,7 +119,7 @@ void multiplayer(int players, int mode) {
         printPlayerIcons(i, colors, 4);
         printf("\nTekan spasi untuk mengocok dadu\n");
 
-        bool roll = timer(difficulty);
+        bool roll = timer(difficulty, playerArray);
 
         int dice;
         if (roll == true) {

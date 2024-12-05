@@ -31,7 +31,6 @@ void printBoardVSComputer(Snake S[], Ladder L[], Player playerArray[],
                           int snakeCount, int ladderCount, int playerCount,
                           int grid);
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void printBoardVSPlayer(Snake S[], Ladder L[], Player playerArray[],
@@ -197,7 +196,6 @@ void printBlock0(Player playerArray[], int playerCount) {
     printf("---------\n");
   }
 }
-
 
 void printBoardVSComputer(Snake S[], Ladder L[], Player playerArray[],
                           int snakeCount, int ladderCount, int playerCount,
@@ -485,7 +483,7 @@ void initiatePlayers(Player playerArray[], int playerCount) {
    * @playerArray : Array untuk menyimpan data pemain.
    * @playerCount : Jumlah pemain yang akan diinisialisasi.
    */
-  
+
   for (int i = 0; i < playerCount; i++) {
     printf("Nama player ke-%d: ", i + 1);
     getchar();

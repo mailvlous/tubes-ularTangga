@@ -4,6 +4,7 @@
 #include "types.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <time.h>
 #include <conio.h>
 void move(int n, Player *player, int grid);
@@ -23,7 +24,7 @@ int checkNearestLadder(Ladder L[], int ladderCount, Player player);
 void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,
                       int snakeCount);
 int checkNearestSnake(Snake S[], int snakeCount, Player player);
-bool checkWin(Player *player, int WinnerArray[], int *winnerCount, int playerNum);
+void checkWin(Player *player, int WinnerArray[], int *winnerCount, int playerNum, bool *isWin);
 
 void writeOutputToFile(Player *playerArray, int players);
 
@@ -43,15 +44,17 @@ int rollDice(int difficulty) {
 
 }
 
-bool checkWin(Player *player, int WinnerArray[], int *winnerCount, int playerNum) {
+void checkWin(Player *player, int WinnerArray[], int *winnerCount, int playerNum, bool *isWin) {
   if ((*player).position == 100) {
     (*player).isPlaying = false;
     WinnerArray[*winnerCount] = playerNum;
-    *winnerCount += 1;
-    printf("Player blabla menanh!!");
-    return true;
+    (*winnerCount)++;
+    printf("Player %d menang!!\n", playerNum + 1);
+    *isWin = true;
+  } else {
+    *isWin = false;
   }
-  return false;
+  
 }
 
 int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake) {

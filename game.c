@@ -27,6 +27,7 @@ int checkNearestSnake(Snake S[], int snakeCount, Player player);
 void checkWin(Player *player, int WinnerArray[], int *winnerCount, int playerNum, bool *isWin);
 
 void writeOutputToFile(Player *playerArray, int players);
+int move0(int n);
 
 int rollDice(int difficulty) {
   int min = 1;
@@ -116,13 +117,35 @@ int checkNearestSnake(Snake S[], int snakeCount, Player player) {
 }
 
 void move(int n, Player *player, int grid) {
-  int max = grid * grid;
+  if ((*player).position == 0){
+    int check = move0(n);
+    if (check == true){
+      (*player).position += 1;
+      printf("Player %s moved %d steps, now on block %d\n ",
+             (*player).name, n, (*player).position);
+      printf("yay, anda dapat angka 1\n");
+    } else {
+        (*player).position += 0;
+      printf("Player %s moved %d steps, now on block %d\n ",
+             (*player).name, n, (*player).position);
+      printf("aww, anda tidak dapat angka 1\n");       
+    }
+  } else if ((*player).position != 0){
+int max = grid * grid;
   (*player).position += n;
   if ((*player).position > max) {
     (*player).position = max - (*player).position + max;
   }
   printf("Player %s moved %d steps, now on block %d\n ",
              (*player).name, n, (*player).position);
+  }
+}
+
+int move0(int n){
+  if (n == 1){
+    return true;
+  }
+  return false;
 }
 
 void setScores(Player *players, int size, int newScore) {

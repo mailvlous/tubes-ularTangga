@@ -56,11 +56,12 @@ void startGame() {
     printf("3. Exit\n");
     printf("Pilih menu (1/2): ");
     int menuPicked;
+    int mode;
     scanf("%d", &menuPicked);
     getchar();
     switch (menuPicked) {
     case 1:
-      int mode = modePicker();
+      mode = modePicker();
       printf("\n");
       printf("Banyak player (1 sampai 4): ");
       int players;
@@ -143,8 +144,9 @@ void fairMode(int players, int mode) {
       //   }
       // }
       int dice;
+
       if (roll == true) {
-        
+  
       if (mode == 1) {
         dice = rollDice(difficulty);
       } else {

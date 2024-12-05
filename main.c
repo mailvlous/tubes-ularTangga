@@ -143,7 +143,7 @@ void fairMode(int players) {
       // playerArray[i].score = score(&playerArray[i], minus, baseScore);
       // minus++;
 
-
+ 
 
       checkLadderSnake(&playerArray[i], L, S, ladderCount, snakeCount);
       if (difficulty == 3) {

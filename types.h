@@ -1,10 +1,11 @@
 #ifndef types_h
 #define types_h
+#include <stdbool.h>
+
 typedef struct {
   char name[50];
   int position;
   int score;
-  int type;
   bool isPlaying;
   bool isComputer;
 } Player;

@@ -485,12 +485,14 @@ void initiatePlayers(Player playerArray[], int playerCount) {
    * @playerArray : Array untuk menyimpan data pemain.
    * @playerCount : Jumlah pemain yang akan diinisialisasi.
    */
-
+  
   for (int i = 0; i < playerCount; i++) {
     printf("Nama player ke-%d: ", i + 1);
     getchar();
     scanf("%49[^\n]", playerArray[i].name);
     playerArray[i].position = 0;
+    playerArray[i].isComputer = false;
+    playerArray[i].isPlaying = true;
   }
 }
 

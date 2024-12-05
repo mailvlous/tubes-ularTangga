@@ -23,7 +23,7 @@ int checkNearestLadder(Ladder L[], int ladderCount, Player player);
 void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,
                       int snakeCount);
 int checkNearestSnake(Snake S[], int snakeCount, Player player);
-int checkWin(Player player, Player Winners[]);
+bool checkWin(Player *player, int WinnerArray[], int *winnerCount, int playerNum);
 
 void writeOutputToFile(Player *playerArray, int players);
 
@@ -31,14 +31,27 @@ int rollDice(int difficulty) {
   int min = 1;
   int max = 6;
 
-  if (difficulty == 1) {
-    return (rand() % (6 - 4 + 1) + min);
-  } else if (difficulty == 2) {
-    return (rand() % (max - min + 1) + min);
-  } else if (difficulty == 3) {
-    return (rand() % (3 - 1 + 1) + min);
-  }
+  // if (difficulty == 1) {
+  //   return (rand() % (6 - 4 + 1) + min);
+  // } else if (difficulty == 2) {
+  //   return (rand() % (max - min + 1) + min);
+  // } else if (difficulty == 3) {
+  //   return (rand() % (3 - 1 + 1) + min);
+  // }
 
+  return (rand() % (max - min + 1) + min);
+
+}
+
+bool checkWin(Player *player, int WinnerArray[], int *winnerCount, int playerNum) {
+  if ((*player).position == 100) {
+    (*player).isPlaying = false;
+    WinnerArray[*winnerCount] = playerNum;
+    *winnerCount += 1;
+    printf("Player blabla menanh!!");
+    return true;
+  }
+  return false;
 }
 
 int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake) {
@@ -203,7 +216,8 @@ bool timer(int difficulty) {
         ch = _getch();  // Ambil input dari keyboard
         if (ch == ' ') {  // Jika tombol spasi ditekan
             seconds = 0  ;  // Atur waktu menjadi 0
-            break;  // Keluar dari loop
+              // Keluar dari loop
+            return true; 
         }
     }
 
@@ -220,7 +234,7 @@ bool timer(int difficulty) {
   }
 
   printf("\rTime's up!\n");
-  return true;
+  return false;
 }
 
 void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,

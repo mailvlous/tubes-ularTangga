@@ -30,6 +30,8 @@ void decideRank(Player *player, int players);
 
 void printRank(Player *player, int players);
 
+void colorsComputer(Player *playerArray, int players);
+
 // void printWinner(int WinnerArray[], int winnerCount);
 
 int main() {
@@ -85,6 +87,7 @@ void multiplayer(int players, int mode) {
   Player playerArray[players];
   initiatePlayers(playerArray, players);
   decideComputerOrPlayer(playerArray, players);
+  colorsComputer(playerArray, players);
   printPlayers(playerArray, players, colors, 4);
   int difficulty = setDifficulty();
   getLadderSnakeCount(&ladderCount, &snakeCount, difficulty);
@@ -118,6 +121,7 @@ void multiplayer(int players, int mode) {
         printf("Giliran Player %d (", i + 1);
         printPlayerIcons(i, colors, 4);
         printf("\nTekan spasi untuk mengocok dadu\n");
+        colorsComputer(playerArray, players);
 
         bool roll = timer(difficulty, playerArray);
 
@@ -137,6 +141,8 @@ void multiplayer(int players, int mode) {
           system("cls");
           move(dice, &playerArray[i], grid);
           playerArray[i].score = score(&playerArray[i]);
+          printPlayerIcons(i, colors, 4);
+          colorsComputer(playerArray, players);
         } else {
           dice = 0;
         }

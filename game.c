@@ -41,6 +41,8 @@ void printRank(Player *player, int players);
 
 void decideComputerOrPlayer(Player *player, int players);
 
+void colorsComputer(Player *playerArray, int players);
+
 
 
 int rollDice(int difficulty) {
@@ -303,6 +305,14 @@ bool timer(int difficulty, Player *player) {
 
   printf("\rTime's up!\n");
   return false;
+}
+
+void colorsComputer(Player *playerArray, int players) {
+    for (int i = 0; i < players; i++) {
+        if (playerArray[i].isComputer ==  true) {
+            strcpy(playerArray[i].name, "(Computer)");
+        }
+    }
 }
 
 void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,

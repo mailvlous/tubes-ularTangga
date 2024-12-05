@@ -6,7 +6,7 @@
 #include <stdlib.h>
 // #include <curses.h>
 
-void fairMode(int players, int mode);
+void multiplayer(int players, int mode);
 int modePicker();
 void multiplayer(int players);
 int setDifficulty();
@@ -66,7 +66,7 @@ void startGame() {
       int players;
       scanf("%d", &players);
       printf("\n");
-      fairMode(players, mode);
+      multiplayer(players, mode);
       break;
     case 2:
       printf("\n");
@@ -88,7 +88,7 @@ void startGame() {
   }
 }
 
-void fairMode(int players, int mode) {
+void multiplayer(int players, int mode) {
   // printf("Ceritanya anda bermain nichhh dengan %d player", players);
   char colors[4][7] = {"\033[31m", "\033[34m", "\033[32m", "\033[33m"};
   int ladderCount, snakeCount;
@@ -110,8 +110,6 @@ void fairMode(int players, int mode) {
   while (isRunning) {
     for (int i = 0; i < players; i++) {
       system("cls");
-      printf("%d", players);
-      printf("%d", i);
       if (winnerCount == players - 1) {
         printf("GAME SELESAIIII");
         isRunning = false;

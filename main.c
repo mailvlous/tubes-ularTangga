@@ -101,7 +101,8 @@ void fairMode(int players, int mode) {
   Ladder L[ladderCount];
   int minus;
   setScores(playerArray, players, 116);
-  int WinnerArray[players - 1];
+  int winnerArray[players - 1];
+  
   int winnerCount = 0;
   initiateBoard(snakeCount, ladderCount, S, L);
   bool isRunning = true;
@@ -109,10 +110,12 @@ void fairMode(int players, int mode) {
   while (isRunning) {
     for (int i = 0; i < players; i++) {
       system("cls");
+      printf("%d", players);
       printf("%d", i);
       if (winnerCount == players - 1) {
         printf("GAME SELESAIIII");
         isRunning = false;
+        break;
       } else if (playerArray[i].isPlaying == true) {
           
       printf("Keterangan: L = Tangga, S = Ular");
@@ -164,8 +167,9 @@ void fairMode(int players, int mode) {
       // playerArray[i].score = score(&playerArray[i], minus, baseScore);
       // minus++;
       // printf("%d", i);
-
-      if (checkWin(&playerArray[i], WinnerArray, &winnerCount, i) == false) {
+      bool isWin;
+      checkWin(&playerArray[i], winnerArray, &winnerCount, i, &isWin);
+      if (!isWin) {
           checkLadderSnake(&playerArray[i], L, S, ladderCount, snakeCount);
         if (difficulty == 3) {
           stepOnPlayer(playerArray,players,playerArray[i].position,i);
@@ -191,14 +195,19 @@ void fairMode(int players, int mode) {
       printf("Posisi: %d\n", playerArray[i].position);
       // bool wawa = true;
       // while (isRunning) {
+      // printf("%d", i);
+      bool waitInput = true;
+      while (waitInput) {
         ch = getch();
-        if (ch == ' ') {
-          break;
-        } else if (ch == 'q') {
+        if (ch == 'q') {
           writeOutputToFile(&playerArray[i], players);
           isRunning = false;
+        } else if (ch == ' ') {
+          waitInput = false;
+        } else {
+          printf("Input tidak valid\n");
         }
-      
+      }
       }
     }
   }

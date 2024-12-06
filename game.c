@@ -39,6 +39,7 @@ void decideRank(Player *player, int players);
 
 void printRank(Player *player, int players);
 
+void checkLose(int playerCount, Player playerArray[]);
 
 void decideComputerOrPlayer(Player *player, int players);
 
@@ -62,11 +63,18 @@ int rollDice(int difficulty) {
 void checkWin(Player *player, int players) {
   for (int i = 0; i < players; i++) {
     if ((*player).position == 100) {
-      (*player).isPlaying = false;
       (*player).isWin = true;
     } else {
       (*player).isWin = false;
   }
+  }
+}
+
+void checkLose(int playerCount, Player playerArray[]) {
+  for (int i = 0; i < playerCount; i++) {
+    if (playerArray[i].isWin == false) {
+      playerArray[i].score -= 50;
+    }
   }
 }
 

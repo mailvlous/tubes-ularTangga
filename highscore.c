@@ -82,7 +82,7 @@ void saveHighScoreFromPlayer(Player playerArray[], int playerCount) {
     // displayScores(users, count);
 }
 
-void savePlayer(Player *playerArray, int players) {
+/*void savePlayer(Player *playerArray, int players) {
   // Open file for writing
   FILE *file = fopen("saveFile.txt", "w");
   if (file == NULL) {
@@ -111,7 +111,7 @@ if (file == NULL) {
     fclose(file);
 }
 
-/*void saveTurn(int players){
+void saveTurn(int players){
 FILE *file = fopen("saveFile.txt", "w");
 if (file == NULL) {
     perror("Error opening file");
@@ -119,7 +119,7 @@ if (file == NULL) {
     fprintf(file, "%d", players );
     fclose(file);    
 }
- */
+ 
 }
 void saveGame(Player playerArray[], int players, int ladderCount, int snakeCount, int dificulty){
 FILE *file = fopen("saveFile.txt", "w");
@@ -131,5 +131,5 @@ savePlayer(&playerArray, players);
 //saveBoard(ladderCount, snakeCount, dificulty);
 fclose(file); 
 }
-
+*/
 #endif

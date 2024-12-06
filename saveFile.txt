@@ -1,4 +1,27 @@
-рцч
-, 10, -1382136759, 247, 127
-э, -142608328, 10, 75, 0
-
+playerCount 2
+mode 1
+currentTurn 0
+ladderCount 5
+snakeCount 5
+winnerCount 0
+difficulty 2
+colorCount 4
+grid 10
+LADDERBEGIN
+8 83
+75 88
+15 99
+11 52
+9 97
+LADDEREND
+SNAKEBEGIN
+30 24
+71 18
+94 13
+49 3
+63 33
+SNAKEEND
+PLAYERBEGIN
+ww 0 116 1 0 0 -1
+dd 0 116 1 0 0 -1
+PLAYEREND

@@ -66,10 +66,11 @@ void startGame() {
       break;
     case 2:
       printf("\n");
-      printf("Banyak player (1 sampai 4): ");
+      printf("Banyak player (2 sampai 4): ");
       int playerss;
       scanf("%d", &playerss);
       printf("\n");
+      break;
     case 3:
       printf("\n");
       printf("bai baii\n");
@@ -173,7 +174,7 @@ void multiplayer(int players, int mode) {
         char ch;
 
         printf("Giliran Player %d (", i + 1);
-        printPlayerIcons(i, colors, 4);
+        printPlayerIcons(i, colors, 4, playerArray[i].isComputer);
         printf("\nTekan spasi untuk mengocok dadu\n");
 
         bool roll = timer(difficulty);
@@ -214,7 +215,7 @@ void multiplayer(int players, int mode) {
           printBlock0(playerArray, players);
           printScore(playerArray, players);
 
-          sixCheck(dice, &i, colors);
+          sixCheck(dice, &i, colors, playerArray[i].isComputer);
           // printf("%d", winnerCount);
         } else {
           printBoardVSPlayer(S, L, playerArray, snakeCount, ladderCount,

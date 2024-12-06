@@ -142,10 +142,10 @@ int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake) {
   }
 }
 
-void sixCheck(int dice, int *i, char colors[][7]) {
+void sixCheck(int dice, int *i, char colors[][7], bool isComputer) {
   if (dice == 6) {
     printf("Karena mendapat angka 6, Player %d (", *i + 1);
-    printPlayerIcons(*i, colors, 4);
+    printPlayerIcons(*i, colors, 4, isComputer);
     printf(") mendapat giliran lagi");
     *i -= 1;
   }
@@ -348,7 +348,7 @@ int modePicker() {
 
 int howManyPlayers(int players) {
   printf("\n");
-  printf("Banyak player (1 sampai 4): ");
+  printf("Banyak player (2 sampai 4): ");
   scanf("%d", &players);
 
   return players;

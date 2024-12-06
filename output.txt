@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 Player ee mendapatkan Score: 113
 Player  mendapatkan Score: 0
 =======
@@ -7,3 +8,7 @@ Player human mendapatkan Score: 91
 Player øô.ý mendapatkan Score: 27955
 Player  mendapatkan Score: -1019217824
 >>>>>>> 974a023ba8c2d0aeae46f1784cb30d17c0e4a64c
+=======
+Player gaga mendapatkan Score: 115
+Player È÷¿;p mendapatkan Score: 271512736
+>>>>>>> 10221b5e4ed66615bb724ea9fb8b6e39ed97753a

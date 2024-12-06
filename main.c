@@ -235,7 +235,13 @@ void multiplayer() {
             i = players;
             isRunning = false;
             break;
-          } else if (ch == ' ') {
+          }else if (ch == 's'){
+            saveGame(playerArray, players, ladderCount, snakeCount, difficulty);
+            i = players;
+            isRunning = false;
+            break;
+          } 
+          else if (ch == ' ') {
             waitInput = false;
           } else if (ch == 'w') {
             playerArray[i].isPlaying == false;
@@ -247,6 +253,7 @@ void multiplayer() {
     }
   }
   system("cls");
+  saveGame(playerArray, players, ladderCount, snakeCount, difficulty);
   checkLose(players, playerArray);
   printRank(playerArray, players);
   writeOutputToFile(playerArray, players);

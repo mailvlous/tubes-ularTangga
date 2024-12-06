@@ -2,3 +2,8 @@ arkan 83
 aang 90
 hamam 102
 namrud 0
+re 0
+de 0
+ww 0
+dd 0
+ee 0

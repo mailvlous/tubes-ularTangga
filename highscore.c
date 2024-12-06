@@ -82,4 +82,54 @@ void saveHighScoreFromPlayer(Player playerArray[], int playerCount) {
     // displayScores(users, count);
 }
 
+void savePlayer(Player *playerArray, int players) {
+  // Open file for writing
+  FILE *file = fopen("saveFile.txt", "w");
+  if (file == NULL) {
+    perror("Error opening file");
+  } else {
+    //
+  for (int i = 0; i < players; i++) {
+    printf("%s", playerArray[i].name);
+    fprintf(file, "%s, %d, %d, %d, %d\n", playerArray[i].name, playerArray[i].position, playerArray[i].score, 
+            playerArray[i].isPlaying, playerArray[i].isComputer);
+  }
+  fprintf(file, "\n");
+  // Close the file
+  fclose(file);
+  }  
+}
+
+void saveBoard(int dificulty, Ladder L, Snake S){
+// Open file for writing
+FILE *file = fopen("saveFile.txt", "w");
+if (file == NULL) {
+    perror("Error opening file");
+} else {
+    fprintf(file, "%d, %d, %d", dificulty, L, S);
+    fprintf(file, "\n\n");
+    fclose(file);
+}
+
+/*void saveTurn(int players){
+FILE *file = fopen("saveFile.txt", "w");
+if (file == NULL) {
+    perror("Error opening file");
+} else {
+    fprintf(file, "%d", players );
+    fclose(file);    
+}
+ */
+}
+void saveGame(Player playerArray[], int players, int ladderCount, int snakeCount, int dificulty){
+FILE *file = fopen("saveFile.txt", "w");
+if (file == NULL){
+perror("Error opening file");
+return;
+}
+savePlayer(&playerArray, players);
+//saveBoard(ladderCount, snakeCount, dificulty);
+fclose(file); 
+}
+
 #endif

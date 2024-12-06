@@ -49,6 +49,8 @@ void instruction(Player *playerArray);
 
 void introScreen();
 
+void infoRule();
+
 
 void introScreen() {
     printf("===========================================\n");
@@ -62,7 +64,8 @@ void introScreen() {
       printf("2. High Score\n");
       printf("3. Exit\n");
       printf("4. Continue Previous Game\n");
-      printf("\nPilih menu (1/2/3/4): ");
+      printf("5. See Rules\n");
+      printf("\nPilih menu (1/2/3/4/5): ");
 }
 
 
@@ -647,7 +650,93 @@ void instruction(Player *playerArray) {
     printf("Player dengan nama %s berada di Posisi: %d\n", (*playerArray).name,  (*playerArray).position);
 }
 
+void infoRule() {
+  /**
+   * Deskripsi :
+   * Menampilkan aturan permainan Ular Tangga
+   * IS:
+   * Layar belum menampilkan apa apa
+   * FS:
+   * Layar menampilkan aturan permainan
+ */
+    printf("\n=== Permainan Ular Tangga ===\n");
+    printf("===========================================\n");
+    printf("|               ATURAN PERMAINAN          |\n");
+    printf("===========================================\n");
+    printf("| 1. Setiap player akan diberi base score |\n");
+    printf("|    116.                                 |\n");
+    printf("| 2. Score player akan terus berkurang 1  |\n");
+    printf("|    setiap giliran.                      |\n");
+    printf("| 3. Setiap player/computer akan mengocok |\n");
+    printf("|    dadu sebelum bergerak.               |\n");
+    printf("| 4. Player akan bergerak hanya jika      |\n");
+    printf("|    player/computer mendapatkan angka 1. |\n");
+    printf("| 5. Setiap player akan mengocok dadu     |\n");
+    printf("|    sebelum bergerak setiap giliran.     |\n");
+    printf("| 6. Pengocokan dadu akan diberi timer    |\n");
+    printf("|    jika Player adalah pemain asli.      |\n");
+    printf("| 7. Jika Player tidak mengocok dadu      |\n");
+    printf("|    hingga timer habis, maka akan        |\n");
+    printf("|    berpindah ke giliran selanjutnya.    |\n");
+    printf("| 8. Score setiap player akan tetap       |\n");
+    printf("|    berkurang jika player tidak mengocok |\n");
+    printf("|    dadu hingga timer habis.             |\n");
+    printf("| 9. Computer tidak akan diberi timer.    |\n");
+    printf("| 10. Player akan bergerak sesuai dengan  |\n");
+    printf("|     angka dadu setelah mengocok.        |\n");
+    printf("| 11. Jika player mendapat angka 6,       |\n");
+    printf("|     player akan mendapatkan giliran     |\n");
+    printf("|     lagi.                               |\n");
+    printf("| 12. Jika player menginjak tangga atau L,|\n");
+    printf("|     maka player akan naik tangga.       |\n");
+    printf("| 13. Jika player menginjak ular, maka    |\n");
+    printf("|     player akan turun ke ekor ular.     |\n");
+    printf("| 14. Jika player menginjak player lain,  |\n");
+    printf("|     maka player yang terinjak akan      |\n");
+    printf("|     kembali ke kotak 0 (hanya di        |\n");
+    printf("|     difficulty hard).                   |\n");
+    printf("| 15. Player yang mencapai kotak 100      |\n");
+    printf("|     akan menang.                        |\n");
+    printf("===========================================\n");
+    printf("===         Permainan Ular Tangga       ===\n");
+    printf("===========================================\n");
+  printf("Tekan [Enter] untuk mulai permainan\n");
+}
 
+void infoMode() {
+  /**
+   * Deskripsi :
+   * Menampilkan informasi mode permainan Ular Tangga
+   * IS:
+   * Layar belum menampilkan apa apa
+   * FS:
+   * Layar menampilkan informasi mode permainan
+ */
+  printf("=== Perbedaan Mode ===\n");
+  printf("1. Mode Normal (Fair) :\n");
+  printf("- Seperti permainan ular tangga pada umumnya.\n");
+  printf("2. Mode Rigged :\n");
+  printf("-");
+}
 
+void infoDifficulty() {
+  /**
+   * Deskripsi :
+   * Menampilkan informasi difficulty permainan Ular Tangga
+   * IS:
+   * Layar belum menampilkan apa apa
+   * FS:
+   * Layar menampilkan informasi difficulty permainan
+ */
+  printf("=== Perbedaan Difficulty ===\n");
+  printf("1. Easy :\n");
+  printf("- Setiap player akan diberi waktu kocok dadu 10 detik.\n");
+  printf("2. Normal :\n");
+  printf("- Setiap player akan diberi waktu kocok dadu 5 detik.\n");
+  printf("3. Hard :\n");
+  printf("- Setiap player akan diberi waktu kocok dadu 3 detik.\n");
+  printf("- Jika player menginjak player lain, maka player yang terinjak akan kembali ke kotak 0.\n");
+  printf("=== Perbedaan Difficulty ===\n");
+}
 
 #endif

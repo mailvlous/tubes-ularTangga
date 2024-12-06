@@ -32,6 +32,8 @@ int howManyPlayers(int players);
 
 void introScreen();
 
+void infoRule();
+
 // void checkWin(Player *player, int players);
 
 // void decideRank(Player *player, int players);
@@ -67,8 +69,9 @@ void startGame() {
           } else if (ch == '4') {
             load();
             waitInput = false;
-          } else {
-            printf("Pilihan menu tidak ada ._.\n");
+          } else if (ch == '5') {
+            infoRule();
+            waitInput = false;
           }
         }
   }
@@ -251,14 +254,14 @@ void game(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCoun
         }
       } else if (playerArray[i].isWin == false) {
         char ch;
-        printBoardVSPlayer(S, L, playerArray, snakeCount, ladderCount, playerCount,
-                           grid);
-                           printBlock0(playerArray, playerCount);
+        printBoardVSPlayer(S, L, playerArray, snakeCount, ladderCount, playerCount, grid);
+        printBlock0(playerArray, playerCount);
         printf("Giliran Player %d ", i + 1 );
         printPlayerIcons(i, colors, 4, playerArray[i].isComputer);
         printf("\nTekan spasi untuk mengocok dadu\n");
 
         bool roll = timer(difficulty, &playerArray[i]);
+        playerArray[i].score = score(&playerArray[i]);
 
         int dice;
         if (roll == true) {
@@ -274,7 +277,7 @@ void game(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCoun
           int scoreTotal;
           system("cls");
           move(dice, &playerArray[i], grid);
-          playerArray[i].score = score(&playerArray[i]);
+          
         } else {
           dice = 0;
         }
@@ -425,5 +428,7 @@ int setDifficulty() {
   }
   return selected;
 }
+
+
 
 #endif

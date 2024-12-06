@@ -13,7 +13,7 @@ void searchPlayer(Player playerArray[], int playerCount, int blockNum,
                   int playerHere[], int *playerHereCount);
 int compareAscending(const void *a, const void *b);
 int compareDescending(const void *a, const void *b);
-void printPlayerIcons(int playerNum, char colors[][7], int colorCount);
+void printPlayerIcons(int playerNum, char colors[][7], int colorCount, bool isComputer);
 void initiateBoard(int snakeCount, int ladderCount, Snake S[], Ladder L[]);
 void initiateLadders(int numLadders, int grid, int occupied[],
                      int *occupiedCount, Ladder arr[]);
@@ -92,26 +92,26 @@ void printBoardVSPlayer(Snake S[], Ladder L[], Player playerArray[],
         printf("  ");
 
         for (int k = 0; k < playerHereCount; k++) {
-          printPlayerIcons(playerHere[k], colors, 4);
+          printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
         }
         printf("  |");
       } else if (playerHereCount == 3) {
         printf("  ");
 
         for (int k = 0; k < playerHereCount; k++) {
-          printPlayerIcons(playerHere[k], colors, 4);
+          printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
         }
         printf("   |");
       } else if (playerHereCount == 2) {
         printf("   ");
         for (int k = 0; k < playerHereCount; k++) {
-          printPlayerIcons(playerHere[k], colors, 4);
+          printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
         }
         printf("   |");
       } else if (playerHereCount == 1) {
         printf("   ");
         for (int k = 0; k < playerHereCount; k++) {
-          printPlayerIcons(playerHere[k], colors, 4);
+          printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
         }
         printf("    |");
       } else {
@@ -169,26 +169,26 @@ void printBlock0(Player playerArray[], int playerCount) {
       printf("  ");
 
       for (int k = 0; k < playerHereCount; k++) {
-        printPlayerIcons(playerHere[k], colors, 4);
+        printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
       }
       printf("  |");
     } else if (playerHereCount == 3) {
       printf("  ");
 
       for (int k = 0; k < playerHereCount; k++) {
-        printPlayerIcons(playerHere[k], colors, 4);
+        printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
       }
       printf("   |");
     } else if (playerHereCount == 2) {
       printf("   ");
       for (int k = 0; k < playerHereCount; k++) {
-        printPlayerIcons(playerHere[k], colors, 4);
+        printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
       }
       printf("   |");
     } else if (playerHereCount == 1) {
       printf("   ");
       for (int k = 0; k < playerHereCount; k++) {
-        printPlayerIcons(playerHere[k], colors, 4);
+        printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
       }
       printf("    |");
     }
@@ -240,26 +240,26 @@ void printBoardVSComputer(Snake S[], Ladder L[], Player playerArray[],
         printf("  ");
 
         for (int k = 0; k < playerHereCount; k++) {
-          printPlayerIcons(playerHere[k], colors, 4);
+          printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
         }
         printf("  |");
       } else if (playerHereCount == 3) {
         printf("  ");
 
         for (int k = 0; k < playerHereCount; k++) {
-          printPlayerIcons(playerHere[k], colors, 4);
+          printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
         }
         printf("   |");
       } else if (playerHereCount == 2) {
         printf("   ");
         for (int k = 0; k < playerHereCount; k++) {
-          printPlayerIcons(playerHere[k], colors, 4);
+          printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
         }
         printf("   |");
       } else if (playerHereCount == 1) {
         printf("   ");
         for (int k = 0; k < playerHereCount; k++) {
-          printPlayerIcons(playerHere[k], colors, 4);
+          printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
         }
         printf("    |");
       } else {
@@ -496,7 +496,7 @@ void initiatePlayers(Player playerArray[], int playerCount) {
 
 void resetColor() { printf("\033[0m"); }
 
-void printPlayerIcons(int playerNum, char colors[][7], int colorCount) {
+void printPlayerIcons(int playerNum, char colors[][7], int colorCount, bool isComputer) {
   /**
    * printPlayerIcons - Menampilkan ikon pemain berdasarkan nomor pemain.
    *
@@ -511,11 +511,18 @@ void printPlayerIcons(int playerNum, char colors[][7], int colorCount) {
 
   for (int i = 0; i < colorCount; i++) {
     if (i == playerNum) {
-      printf("%sP", colors[i]);
-      resetColor();
+      if (isComputer) {
+        printf("%sC", colors[i]);
+        resetColor();
+      } else {
+        printf("%sP", colors[i]);
+        resetColor();
+      }
+      
     }
   }
 }
+
 
 void printPlayers(Player playerArray[], int playerCount, char colors[][7],
                   int colorCount) {
@@ -533,7 +540,7 @@ void printPlayers(Player playerArray[], int playerCount, char colors[][7],
    */
 
   for (int i = 0; i < playerCount; i++) {
-    printPlayerIcons(i, colors, colorCount);
+    printPlayerIcons(i, colors, colorCount, playerArray[i].isComputer);
     printf(": %s\n", playerArray[i].name);
   }
   printf("\n");

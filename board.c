@@ -485,9 +485,9 @@ void initiatePlayers(Player playerArray[], int playerCount) {
    */
 
   for (int i = 0; i < playerCount; i++) {
-    printf("Nama player ke-%d: ", i + 1);
+    printf("Nama player ke-%d (jangan pakai spasi :3): ", i + 1);
     getchar();
-    scanf("%49[^\n]", playerArray[i].name);
+    scanf("%s", playerArray[i].name);
     playerArray[i].position = 0;
     playerArray[i].isComputer = false;
     playerArray[i].isPlaying = true;

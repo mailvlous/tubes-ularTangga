@@ -179,7 +179,7 @@ void multiplayer(int players, int mode) {
         while (waitInput) {
           ch = getch();
           if (ch == 'q') {
-            writeOutputToFile(&playerArray[i], players);
+            writeOutputToFile(&playerArray, players);
             isRunning = false;
             break;
           } else if (ch == ' ') {

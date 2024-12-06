@@ -216,11 +216,11 @@ void writeOutputToFile(Player *playerArray, int players) {
   FILE *file = fopen("output.txt", "w");
   if (file == NULL) {
     perror("Error opening file");
-  }
-
-  // Writing formatted text using fprintf
+  } else {
+    // Writing formatted text using fprintf
   for (int i = 0; i < players; i++) {
-    fprintf(file, "Player %s mendapatkan Score: %d\n", playerArray[i].name,
+    printf("%s", playerArray[i].name);
+    fprintf(file, "%s, %d\n", playerArray[i].name,
             playerArray[i].score);
   }
 
@@ -228,7 +228,10 @@ void writeOutputToFile(Player *playerArray, int players) {
   fclose(file);
 
   printf("Data written to 'output.txt'.\n");
+  }  
 }
+
+
 
 void stepOnPlayer(Player playerArray[], int playerCount, int blockNum,
                   int playerNum) {

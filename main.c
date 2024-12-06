@@ -25,11 +25,15 @@ void writeOutputToFile(Player *playerArray, int players);
 
 int howManyPlayers(int players);
 
-// void checkWin(Player *player, int players);
+void checkWin(Player *player, int players, int *winnerCount);
 
-// void decideRank(Player *player, int players);
+void decideRank(Player *player, int players, int winnerCount);
 
 void printRank(Player *player, int players);
+
+void identifierComputer(Player *playerArray, int players);
+
+void instruction(Player *playerArray);
 
 // void printWinner(int WinnerArray[], int winnerCount);
 
@@ -87,7 +91,7 @@ void multiplayer() {
   Player playerArray[players];
   initiatePlayers(playerArray, players);
   decideComputerOrPlayer(playerArray, players);
-  colorsComputer(playerArray, players);
+  identifierComputer(playerArray, players);
   printPlayers(playerArray, players, colors, 4);
   int difficulty = setDifficulty();
   getLadderSnakeCount(&ladderCount, &snakeCount, difficulty);
@@ -170,11 +174,7 @@ void multiplayer() {
           printScore(playerArray, players);
         }
 
-        printf("\nTekan spasi untuk ke giliran selanjutnya\n");
-        printf("Tekan w untuk udahan sendiri\n");
-        printf("Tekan s untuk keluar dan menyimpan game untuk dimainkan di lain waktu\n");
-        printf("Tekan q untuk menyelesaikan game tanpa menyimpan game\n");
-        printf("Posisi: %d\n", playerArray[i].position);
+        instruction(playerArray);
         // printRank(playerArray, players);
         // bool wawa = true;
         // while (isRunning) {

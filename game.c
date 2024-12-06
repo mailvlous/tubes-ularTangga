@@ -43,7 +43,9 @@ void checkLose(int playerCount, Player playerArray[]);
 
 void decideComputerOrPlayer(Player *player, int players);
 
-void colorsComputer(Player *playerArray, int players);
+void identifierComputer(Player *playerArray, int players);
+
+void instruction(Player *playerArray);
 
 
 
@@ -286,6 +288,7 @@ int score(Player *player) {
 // }
 
 void printScore(Player *playerArray, int players) {
+  printf("\n ------- Skor Sementara ------\n");
   for (int i = 0; i < players; i++) {
     printf("Player %s mendapatkan Score: %d\n", playerArray[i].name,
            playerArray[i].score);
@@ -301,8 +304,13 @@ void writeOutputToFile(Player *playerArray, int players) {
     // Writing formatted text using fprintf
   for (int i = 0; i < players; i++) {
     printf("%s", playerArray[i].name);
-    fprintf(file, "%s, %d\n", playerArray[i].name,
-            playerArray[i].score);
+    if (playerArray[i].score <= 100) {
+      fprintf(file, "%s, %d\n", playerArray[i].name,
+        playerArray[i].score);
+    } else if (playerArray[i].score > 100) {
+      playerArray[i].score = playerArray[i].score - 16;
+    }
+
   }
 
   // Close the file
@@ -382,14 +390,11 @@ bool timer(int difficulty, Player *player) {
     seconds--;
     return true;
   }
-
-
-
   printf("\rTime's up!\n");
   return false;
 }
 
-void colorsComputer(Player *playerArray, int players) {
+void identifierComputer(Player *playerArray, int players) {
     for (int i = 0; i < players; i++) {
         if (playerArray[i].isComputer ==  true) {
             strcpy(playerArray[i].name, "(Computer)");
@@ -441,6 +446,16 @@ void printWinner(int WinnerArray[], int winnerCount) {
   for (int i = 0; i<winnerCount; i++) {
     printf("%d",WinnerArray[i]);
   }
+}
+
+void instruction(Player *playerArray) {
+    printf("=== Permainan Ular Tangga ===\n");
+    printf("Instruksi:\n");
+    printf("- Tekan [Spasi] untuk giliran selanjutnya (lempar dadu).\n");
+    printf("- Tekan [W] untuk menyerah dan keluar tanpa menyimpan.\n");
+    printf("- Tekan [S] untuk keluar dan menyimpan permainan.\n");
+    printf("- Tekan [Q] untuk keluar dan menyelesaikan permainan tanpa menyimpan.\n");
+    printf("Player dengan nama %s berada di Posisi: %d\n", (*playerArray).name,  (*playerArray).position);
 }
 
 

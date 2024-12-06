@@ -2,3 +2,4 @@ arkan 86
 aang 90
 hamam 102
 namrud 0
+lulu 0

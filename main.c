@@ -125,10 +125,13 @@ void multiplayer() {
         printf("Giliran Player %d (", i + 1);
         printPlayerIcons(i, colors, 4, playerArray[i].isComputer);
         printf(")\nTekan spasi untuk mengocok dadu\n");
-
-        bool roll = timer(difficulty);
-
-
+        bool roll;
+        if (playerArray[i].isComputer == false) {
+          roll = timer(difficulty);
+        } else {
+          roll = true;
+        }
+        
         int dice;
         if (roll == true) {
           if (mode == 1) {
@@ -137,7 +140,7 @@ void multiplayer() {
             int nearestLadder =
                 checkNearestLadder(L, ladderCount, playerArray[i]);
             int nearestSnake = checkNearestSnake(S, snakeCount, playerArray[i]);
-            dice = rollDiceRigged(difficulty, nearestLadder, nearestSnake, playerArray[i].position);
+            dice = rollDiceRigged(difficulty, nearestLadder, nearestSnake, playerArray[i]);
           }
 
           int scoreTotal;

@@ -18,7 +18,7 @@ void printScore(Player *player, int players);
 int scoreTotal(Player *player, int position);
 void setPosition(int n, Player *player);
 int rollDice(int difficulty);
-int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake, int position);
+int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake, Player player);
 bool timer();
 int checkNearestLadder(Ladder L[], int ladderCount, Player player);
 
@@ -121,43 +121,80 @@ bool isComputerOrPlayer(Player *player, int players) {
 //   if (())
 // }
 
-int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake, int position) {
+int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake, Player player) {
   int min = 1;
   int max = 6;
   int result = rand() % (max - min + 1) + min;
-  if (position == 0) {
-    if (difficulty == 1) {
-        int choose[2] = {result, 1};
-        int chosen = rand() % (2);
-        return (choose[chosen]);
-    } else if ((difficulty == 2) || (difficulty == 3)) {
-      return (result);
+  if (player.isComputer == false) {
+      if (player.position == 0) {
+      if (difficulty == 1) {
+          int choose[2] = {result, 1};
+          int chosen = rand() % (2);
+          return (choose[chosen]);
+      } else if ((difficulty == 2) || (difficulty == 3)) {
+        return (result);
+      } else {
+        return -1; // Invalid difficulty level.
+      }
     } else {
-      return -1; // Invalid difficulty level.
+      if (difficulty == 1) {
+        if (nearestLadder != -1) {
+          int choose[2] = {result, nearestLadder};
+          int chosen = rand() % (2);
+          return (choose[chosen]);
+        } else {
+          return (result);
+        }
+      } else if (difficulty == 2) {
+        return (result);
+      } else if (difficulty == 3) {
+        if (nearestSnake != -1) {
+          int choose[2] = {result, nearestSnake};
+          int chosen = rand() % (2);
+          return (choose[chosen]);
+        } else {
+          return (result);
+        }
+      } else {
+        return -1; // Invalid difficulty level.
+      }
     }
   } else {
-    if (difficulty == 1) {
-      if (nearestLadder != -1) {
-        int choose[2] = {result, nearestLadder};
-        int chosen = rand() % (2);
-        return (choose[chosen]);
-      } else {
+    if (player.position == 0) {
+      if ((difficulty == 2) || (difficulty == 3)) {
+          int choose[2] = {result, 1};
+          int chosen = rand() % (2);
+          return (choose[chosen]);
+      } else if (difficulty == 1) {
         return (result);
-      }
-    } else if (difficulty == 2) {
-      return (result);
-    } else if (difficulty == 3) {
-      if (nearestSnake != -1) {
-        int choose[2] = {result, nearestSnake};
-        int chosen = rand() % (2);
-        return (choose[chosen]);
       } else {
-        return (result);
+        return -1; // Invalid difficulty level.
       }
     } else {
-      return -1; // Invalid difficulty level.
+      if (difficulty == 1) {
+        if (nearestSnake != -1) {
+          int choose[2] = {result, nearestSnake};
+          int chosen = rand() % (2);
+          return (choose[chosen]);
+        } else {
+          return (result);
+        }
+      } else if (difficulty == 2) {
+        return (result);
+      } else if (difficulty == 3) {
+        if (nearestLadder != -1) {
+          int choose[2] = {result, nearestLadder};
+          int chosen = rand() % (2);
+          return (choose[chosen]);
+        } else {
+          return (result);
+        }
+      } else {
+        return -1; // Invalid difficulty level.
+      }
     }
   }
+  
   
 }
 

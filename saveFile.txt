@@ -1,0 +1,26 @@
+playerCount 2
+mode 2
+currentTurn 0
+ladderCount 5
+snakeCount 5
+winnerCount 0
+difficulty 2
+grid 10
+LADDERBEGIN
+27 57
+7 33
+51 82
+65 90
+38 88
+LADDEREND
+SNAKEBEGIN
+49 16
+74 54
+61 3
+85 76
+97 32
+SNAKEEND
+PLAYERBEGIN
+buru 1 115 1 1 0 -1
+btuyhuhuhu 0 115 1 0 0 -1
+PLAYEREND

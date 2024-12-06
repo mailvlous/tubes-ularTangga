@@ -18,8 +18,8 @@ void printScore(Player *player, int players);
 int scoreTotal(Player *player, int position);
 void setPosition(int n, Player *player);
 int rollDice(int difficulty);
-int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake);
-bool timer(int difficulty, Player *player);
+int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake, Player player);
+bool timer();
 int checkNearestLadder(Ladder L[], int ladderCount, Player player);
 
 void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,
@@ -27,17 +27,19 @@ void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,
 int checkNearestSnake(Snake S[], int snakeCount, Player player);
 
 void writeOutputToFile(Player *playerArray, int players);
+int move0(int n);
 
 int modePicker();
 
 int howManyPlayers(int players);
 
-void checkWin(Player *player, int players);
+void checkWin(Player *player, int players, int *winnerCount);
 
-void decideRank(Player *player, int players);
+void decideRank(Player *player, int players, int winnerCount);
 
 void printRank(Player *player, int players);
 
+void checkLose(int playerCount, Player playerArray[]);
 
 void decideComputerOrPlayer(Player *player, int players);
 
@@ -60,45 +62,50 @@ int rollDice(int difficulty) {
   return (rand() % (max - min + 1) + min);
 }
 
-void checkWin(Player *player, int players) {
-  for (int i = 0; i < players; i++) {
-    if ((*player).position == 100) {
-      (*player).isPlaying = false;
-      (*player).isWin = true;
-    } else {
-      (*player).isWin = false;
-  }
+void checkWin(Player *player, int players, int *winnerCount) {
+  if ((*player).position == 100) {
+    (*player).isWin = true;
+    *winnerCount += 1;
+  } else {
+    (*player).isWin = false;
   }
 }
 
-void decideRank(Player *player, int players) {
-  int n = 3;
-  for (int i = 0; i < players; i++) {
-    if ((*player).isWin == true) {
-      (*player).rankPlayer = 4 - n;
-      n--;
+void checkLose(int playerCount, Player playerArray[]) {
+  for (int i = 0; i < playerCount; i++) {
+    if (playerArray[i].isWin == false) {
+      playerArray[i].score = 0;
+      playerArray[i].rankPlayer = -1;
     }
   }
 }
 
-void printRank(Player *player, int players) {
+void decideRank(Player *player, int players, int winnerCount) {
+  // int n = 3;
+  // for (int i = 0; i < players; i++) {
+  //   if ((*player).isWin == true) {
+  //     (*player).rankPlayer = 4 - n;
+  //     n--;
+  //   }
+  // }
+  (*player).rankPlayer = winnerCount;
+}
+
+void printRank(Player playerArray[], int players) {
   for (int i = 0; i < players; i++) {
-    if ((*player).isWin == true && (*player).rankPlayer == 1) {
-      printf("%s Peringkat ke - %d dengan Skor : %d \n", player[i].name, player[i].rankPlayer, player[i].score);
-    } else if ((*player).isWin == true && (*player).rankPlayer == 2) {
-      printf("%s Peringkat ke - %d dengan Skor : %d \n", player[i].name, player[i].rankPlayer, player[i].score);
-    } else if ((*player).isWin == true && (*player).rankPlayer == 3) {
-      printf("%s Peringkat ke - %d dengan Skor : %d \n", player[i].name, player[i].rankPlayer, player[i].score);
-    } else if ((*player).isWin == true && (*player).rankPlayer == 4) {
-      printf("%s Peringkat ke - %d dengan Skor : %d \n", player[i].name, player[i].rankPlayer, player[i].score);
+    if (playerArray[i].isWin == true) {
+      printf("%s Peringkat ke - %d dengan Skor : %d \n", playerArray[i].name, playerArray[i].rankPlayer, playerArray[i].score);
+    } else {
+      printf("%s kalah, dengan skor %d \n", playerArray[i].name, playerArray[i].score);
     }
   }
 }
 
 void decideComputerOrPlayer(Player *player, int players) {
+  printf("\n");
   int input;
   for (int i = 0; i < players; i++) {
-    printf("Tentukan player dengan nama %s adalah Player asli atau Computer \n Tekan 1 untuk Player dan 2 untuk Computer : ", player[i].name);
+    printf("Tentukan player dengan nama %s adalah Manusia atau Computer\nTekan 1 untuk Manusia dan 2 untuk Computer: ", player[i].name);
     scanf("%d", &input);
     if (input == 1) {
       player[i].isComputer = false;
@@ -116,37 +123,87 @@ bool isComputerOrPlayer(Player *player, int players) {
 //   if (())
 // }
 
-int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake) {
+int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake, Player player) {
   int min = 1;
   int max = 6;
   int result = rand() % (max - min + 1) + min;
-  if (difficulty == 1) {
-    if (nearestLadder != -1) {
-      int choose[2] = {result, nearestLadder};
-      int chosen = rand() % (2);
-      return (choose[chosen]);
+  if (player.isComputer == false) {
+      if (player.position == 0) {
+      if (difficulty == 1) {
+          int choose[2] = {result, 1};
+          int chosen = rand() % (2);
+          return (choose[chosen]);
+      } else if ((difficulty == 2) || (difficulty == 3)) {
+        return (result);
+      } else {
+        return -1; // Invalid difficulty level.
+      }
     } else {
-      return (result);
-    }
-  } else if (difficulty == 2) {
-    return (result);
-  } else if (difficulty == 3) {
-    if (nearestSnake != -1) {
-      int choose[2] = {result, nearestSnake};
-      int chosen = rand() % (2);
-      return (choose[chosen]);
-    } else {
-      return (result);
+      if (difficulty == 1) {
+        if (nearestLadder != -1) {
+          int choose[2] = {result, nearestLadder};
+          int chosen = rand() % (2);
+          return (choose[chosen]);
+        } else {
+          return (result);
+        }
+      } else if (difficulty == 2) {
+        return (result);
+      } else if (difficulty == 3) {
+        if (nearestSnake != -1) {
+          int choose[2] = {result, nearestSnake};
+          int chosen = rand() % (2);
+          return (choose[chosen]);
+        } else {
+          return (result);
+        }
+      } else {
+        return -1; // Invalid difficulty level.
+      }
     }
   } else {
-    return 0; // Invalid difficulty level.
+    if (player.position == 0) {
+      if ((difficulty == 2) || (difficulty == 3)) {
+          int choose[2] = {result, 1};
+          int chosen = rand() % (2);
+          return (choose[chosen]);
+      } else if (difficulty == 1) {
+        return (result);
+      } else {
+        return -1; // Invalid difficulty level.
+      }
+    } else {
+      if (difficulty == 1) {
+        if (nearestSnake != -1) {
+          int choose[2] = {result, nearestSnake};
+          int chosen = rand() % (2);
+          return (choose[chosen]);
+        } else {
+          return (result);
+        }
+      } else if (difficulty == 2) {
+        return (result);
+      } else if (difficulty == 3) {
+        if (nearestLadder != -1) {
+          int choose[2] = {result, nearestLadder};
+          int chosen = rand() % (2);
+          return (choose[chosen]);
+        } else {
+          return (result);
+        }
+      } else {
+        return -1; // Invalid difficulty level.
+      }
+    }
   }
+  
+  
 }
 
-void sixCheck(int dice, int *i, char colors[][7]) {
+void sixCheck(int dice, int *i, char colors[][7], bool isComputer) {
   if (dice == 6) {
     printf("Karena mendapat angka 6, Player %d (", *i + 1);
-    printPlayerIcons(*i, colors, 4);
+    printPlayerIcons(*i, colors, 4, isComputer);
     printf(") mendapat giliran lagi");
     *i -= 1;
   }
@@ -175,13 +232,35 @@ int checkNearestSnake(Snake S[], int snakeCount, Player player) {
 }
 
 void move(int n, Player *player, int grid) {
-  int max = grid * grid;
+  if ((*player).position == 0){
+    int check = move0(n);
+    if (check == true){
+      (*player).position += 1;
+      printf("Player %s moved %d steps, now on block %d\n",
+             (*player).name, n, (*player).position);
+      printf("yay, anda dapat angka 1\n");
+    } else {
+        (*player).position += 0;
+      printf("Player %s moved %d steps, now on block %d\n",
+             (*player).name, n, (*player).position);
+      printf("aww, anda tidak dapat angka 1\n");       
+    }
+  } else if ((*player).position != 0){
+int max = grid * grid;
   (*player).position += n;
   if ((*player).position > max) {
     (*player).position = max - (*player).position + max;
   }
-  printf("Player %s moved %d steps, now on block %d\n ", (*player).name, n,
-         (*player).position);
+  printf("Player %s moved %d steps, now on block %d\n",
+             (*player).name, n, (*player).position);
+  }
+}
+
+int move0(int n){
+  if (n == 1){
+    return true;
+  }
+  return false;
 }
 
 void setScores(Player *players, int size, int newScore) {
@@ -218,11 +297,11 @@ void writeOutputToFile(Player *playerArray, int players) {
   FILE *file = fopen("output.txt", "w");
   if (file == NULL) {
     perror("Error opening file");
-  }
-
-  // Writing formatted text using fprintf
+  } else {
+    // Writing formatted text using fprintf
   for (int i = 0; i < players; i++) {
-    fprintf(file, "Player %s mendapatkan Score: %d\n", playerArray[i].name,
+    printf("%s", playerArray[i].name);
+    fprintf(file, "%s, %d\n", playerArray[i].name,
             playerArray[i].score);
   }
 
@@ -230,7 +309,10 @@ void writeOutputToFile(Player *playerArray, int players) {
   fclose(file);
 
   printf("Data written to 'output.txt'.\n");
+  }  
 }
+
+
 
 void stepOnPlayer(Player playerArray[], int playerCount, int blockNum,
                   int playerNum) {
@@ -349,7 +431,7 @@ int modePicker() {
 
 int howManyPlayers(int players) {
   printf("\n");
-  printf("Banyak player (1 sampai 4): ");
+  printf("Banyak player (2 sampai 4): ");
   scanf("%d", &players);
 
   return players;

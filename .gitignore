@@ -1,3 +1,6 @@
 main.exe
 tempCodeRunnerFile.c
 .vscode/
+build/Debug
+main.exe
+output.txt

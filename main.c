@@ -1,14 +1,15 @@
 #include "board.c"
 #include "game.c"
 #include "types.h"
+#include "highscore.c"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 // #include <curses.h>
 
-void multiplayer(int players, int mode);
+void multiplayer();
+void printAllHighScore();
 int modePicker();
-void multiplayer(int players, int mode);
 int setDifficulty();
 void startGame();
 
@@ -24,13 +25,11 @@ void writeOutputToFile(Player *playerArray, int players);
 
 int howManyPlayers(int players);
 
-void checkWin(Player *player, int players);
+// void checkWin(Player *player, int players);
 
-void decideRank(Player *player, int players);
+// void decideRank(Player *player, int players);
 
 void printRank(Player *player, int players);
-
-void colorsComputer(Player *playerArray, int players);
 
 // void printWinner(int WinnerArray[], int winnerCount);
 
@@ -41,46 +40,47 @@ int main() {
 
 
 void startGame() {
-  system("cls");
+  
+  bool isRunning = true;
+  while (isRunning) {
+    system("cls");
   printf("---------------------\n");
   printf("Snakes and Ladders :D\n");
   printf("---------------------\n");
   printf("\n");
-  bool isRunning = true;
-  while (isRunning) {
-    printf("wsaws");
-    int mode = modePicker();
-    // int menuPicked;
-
-    // scanf("%d", &menuPicked);
-    // getchar();
-    switch (mode) {
-    case 1: ;
-      int players;
-      players = howManyPlayers(players);
-      multiplayer(players, mode);
+    printf("Menu:\n");
+    printf("1. New Game\n");
+    printf("2. High Score\n");
+    printf("3. Exit\n");
+    printf("4. Continue Previous Game\n");
+    printf("\nPilih menu (1/2/3/4): ");
+    int menuPicked;
+    scanf("%d", &menuPicked);
+    getchar();
+    
+    switch (menuPicked) {
+    case 1:
+      multiplayer();
       break;
     case 2:
-      printf("\n");
-      printf("Banyak player (1 sampai 4): ");
-      int playerss;
-      scanf("%d", &playerss);
-      printf("\n");
+    printAllHighScore();
+      break;
     case 3:
-      printf("\n");
-      printf("bai baii\n");
-      printf("\n");
+      printf("\nTHANKS FOR PLAYING :3\n");
       isRunning = false;
       break;
     default:
       printf("\n");
-      printf("Pilihan menu tidak ada\n");
+      printf("Pilihan menu tidak ada ._.\n");
       printf("\n");
     }
   }
 }
 
-void multiplayer(int players, int mode) {
+void multiplayer() {
+  int players;
+  players = howManyPlayers(players);
+  int mode = modePicker();
   // printf("Ceritanya anda bermain nichhh dengan %d player", players);
   char colors[4][7] = {"\033[31m", "\033[34m", "\033[32m", "\033[33m"};
   int ladderCount, snakeCount;
@@ -96,64 +96,61 @@ void multiplayer(int players, int mode) {
   int minus;
   setScores(playerArray, players, 116);
   int winnerArray[players-1];
-
+  int grid = 10;
   int winnerCount = 0;
   initiateBoard(snakeCount, ladderCount, S, L);
   bool isRunning = true;
-  int grid = 10;
+  
   while (isRunning) {
     for (int i = 0; i < players; i++) {
       system("cls");
-      if (winnerCount == players) {
-        printf("GAME SELESAIIII");
+      if (winnerCount == players-1) {
+        printf("\nKarena sisa satu orang, permainan selesai :)\n");
+        i = players;
         isRunning = false;
-        break;
-      } else if (playerArray[i].isPlaying == true) {
-
-        printf("Keterangan: L = Tangga, S = Ular");
-        printf("\n");
+        printf("\nTekan spasi untuk melanjutkan\n");
+        bool waitInput = true;
+        while (waitInput) {
+          char ch = getch();
+          if (ch == ' ') {
+            waitInput = false;
+          } else {
+            printf("Input tidak valid\n");
+          }
+        }
+      } else if (playerArray[i].isWin == false) {
+        char ch;
         printBoardVSPlayer(S, L, playerArray, snakeCount, ladderCount, players,
                            grid);
-        printBlock0(playerArray, players);
-
-        char ch;
-
+                           printBlock0(playerArray, players);
         printf("Giliran Player %d (", i + 1);
-        printPlayerIcons(i, colors, 4);
+        printPlayerIcons(i, colors, 4, playerArray[i].isComputer);
         printf("\nTekan spasi untuk mengocok dadu\n");
-        colorsComputer(playerArray, players);
 
-        bool roll = timer(difficulty, playerArray);
+        bool roll = timer(difficulty, &playerArray[i]);
 
         int dice;
         if (roll == true) {
-
           if (mode == 1) {
             dice = rollDice(difficulty);
           } else {
             int nearestLadder =
                 checkNearestLadder(L, ladderCount, playerArray[i]);
             int nearestSnake = checkNearestSnake(S, snakeCount, playerArray[i]);
-            dice = rollDiceRigged(difficulty, nearestLadder, nearestSnake);
+            dice = rollDiceRigged(difficulty, nearestLadder, nearestSnake, playerArray[i]);
           }
 
           int scoreTotal;
           system("cls");
           move(dice, &playerArray[i], grid);
           playerArray[i].score = score(&playerArray[i]);
-          printPlayerIcons(i, colors, 4);
-          colorsComputer(playerArray, players);
         } else {
           dice = 0;
         }
 
-        bool isWin;
+        checkWin(&playerArray[i], players, &winnerCount);
 
-        checkWin(&playerArray[i], players);
-        decideRank(&playerArray[i], players);
-        
-
-        if (!isWin) {
+        if (playerArray[i].isWin == false) {
           checkLadderSnake(&playerArray[i], L, S, ladderCount, snakeCount);
           if (difficulty == 3) {
             stepOnPlayer(playerArray, players, playerArray[i].position, i);
@@ -163,9 +160,10 @@ void multiplayer(int players, int mode) {
           printBlock0(playerArray, players);
           printScore(playerArray, players);
 
-          sixCheck(dice, &i, colors);
+          sixCheck(dice, &i, colors, playerArray[i].isComputer);
           // printf("%d", winnerCount);
         } else {
+          decideRank(&(playerArray[i]), players, winnerCount);
           printBoardVSPlayer(S, L, playerArray, snakeCount, ladderCount,
                              players, grid);
           printBlock0(playerArray, players);
@@ -173,10 +171,11 @@ void multiplayer(int players, int mode) {
         }
 
         printf("\nTekan spasi untuk ke giliran selanjutnya\n");
-        printf("\nTekan q untuk keluar, kembali ke menu awal, dan mencetak "
-               "skor\n");
+        printf("Tekan w untuk udahan sendiri\n");
+        printf("Tekan s untuk keluar dan menyimpan game untuk dimainkan di lain waktu\n");
+        printf("Tekan q untuk menyelesaikan game tanpa menyimpan game\n");
         printf("Posisi: %d\n", playerArray[i].position);
-        printRank(&playerArray[i], players);
+        // printRank(playerArray, players);
         // bool wawa = true;
         // while (isRunning) {
         // printf("%d", i);
@@ -184,16 +183,54 @@ void multiplayer(int players, int mode) {
         while (waitInput) {
           ch = getch();
           if (ch == 'q') {
-            writeOutputToFile(&playerArray[i], players);
+            i = players;
             isRunning = false;
             break;
           } else if (ch == ' ') {
             waitInput = false;
+          } else if (ch == 'w') {
+            playerArray[i].isPlaying == false;
           } else {
             printf("Input tidak valid\n");
           }
         }
       }
+    }
+  }
+  system("cls");
+  checkLose(players, playerArray);
+  printRank(playerArray, players);
+  writeOutputToFile(playerArray, players);
+  saveHighScoreFromPlayer(playerArray, players);
+  printf("GAME SELESAIIII");
+  printf("\nTekan q untuk kembali ke menu awal\n");
+  bool waitInput = true;
+  while (waitInput) {
+    char ch = getch();
+    if (ch == 'q') {
+      waitInput = false;
+    } else {
+      printf("Input tidak valid\n");
+    }
+  }
+}
+
+// void gameLoop(int playerCount, int mode, int currentTurn, )
+
+void printAllHighScore() {
+  system("cls");
+  User users[100];
+    int count = 0;
+    loadScores(users, &count);
+    displayScores(users, count);
+    printf("\nTekan q untuk kembali ke menu awal\n");
+  bool waitInput = true;
+  while (waitInput) {
+    char ch = getch();
+    if (ch == 'q') {
+      waitInput = false;
+    } else {
+      printf("Input tidak valid\n");
     }
   }
 }

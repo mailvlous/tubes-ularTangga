@@ -46,14 +46,20 @@ void startGame() {
   printf("\n");
   bool isRunning = true;
   while (isRunning) {
+    printf("Menu:\n");
+    printf("1. Main multiplayer\n");
+    printf("2. VS Computer\n");
+    printf("3. Exit\n");
+    printf("Pilih menu (1/2): ");
+    //int menuPicked;
     printf("wsaws");
+    //scanf("%d", &menuPicked);
+    //getchar();
     int mode = modePicker();
-    // int menuPicked;
-
-    // scanf("%d", &menuPicked);
-    // getchar();
     switch (mode) {
-    case 1: ;
+    case 1:
+      printf("\n");
+      printf("Banyak player (1 sampai 4): ");
       int players;
       players = howManyPlayers(players);
       multiplayer(players, mode);
@@ -108,6 +114,57 @@ void multiplayer(int players, int mode) {
         break;
       } else if (playerArray[i].isPlaying == true) {
 
+      char ch;
+
+      printf("Giliran Player %d (", i + 1);
+      printPlayerIcons(i, colors, 4);
+      printf(")\nTekan spasi untuk mengocok dadu\n");
+
+      
+      bool roll = timer(difficulty);
+      
+      // while (isRunning) { 
+      //   ch = getch(); 
+      //   if (ch == ' ') {
+      //     // playerArray[i].score = score(&playerArray[i], minus, baseScore); // Kurangi skor
+      //     // minus++; // Tambah nilai pengurangan
+      //     // printf("Skor Pemain %d sekarang: %d\n", i + 1, &playerArray[i].score);
+      //     break; // Keluar dari loop untuk giliran pemain
+      //   }
+      // }
+      int dice;
+
+      if (roll == true) {
+  
+      if (mode == 1) {
+        dice = rollDice(difficulty);
+      } else {
+        int nearestLadder = checkNearestLadder(L, ladderCount, playerArray[i]);
+        int nearestSnake = checkNearestSnake(S, snakeCount, playerArray[i]);
+        dice = rollDiceRigged(difficulty, nearestLadder, nearestSnake);
+      }
+      
+      int scoreTotal;
+      system("cls");
+      move(dice, &playerArray[i], grid);
+      playerArray[i].score = score(&playerArray[i]);
+      } else {
+        dice = 0;
+      }
+      
+      
+      // // playerArray[i].score = 116;
+      // minus = 1;
+      // playerArray[i].score = score(&playerArray[i], minus, baseScore);
+      // minus++;
+      // printf("%d", i);
+      bool isWin;
+      checkWin(&playerArray[i], winnerArray, &winnerCount, i, &isWin);
+      if (!isWin) {
+          checkLadderSnake(&playerArray[i], L, S, ladderCount, snakeCount);
+        if (difficulty == 3) {
+          stepOnPlayer(playerArray,players,playerArray[i].position,i);
+        }
         printf("Keterangan: L = Tangga, S = Ular");
         printf("\n");
         printBoardVSPlayer(S, L, playerArray, snakeCount, ladderCount, players,

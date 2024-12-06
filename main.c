@@ -54,7 +54,6 @@ void startGame() {
     printf("4. Continue Previous Game\n");
     printf("\nPilih menu (1/2/3/4): ");
     int menuPicked;
-    // printf("wsaws");
     scanf("%d", &menuPicked);
     getchar();
     
@@ -235,9 +234,11 @@ void multiplayer() {
           if (ch == 'q') {
             i = players;
             isRunning = false;
-            waitInput = false;
+            break;
           } else if (ch == ' ') {
             waitInput = false;
+          } else if (ch == 'w') {
+            playerArray[i].isPlaying == false;
           } else {
             printf("Input tidak valid\n");
           }

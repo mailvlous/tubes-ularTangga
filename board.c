@@ -524,6 +524,7 @@ void printPlayerIcons(int playerNum, char colors[][7], int colorCount, bool isCo
 }
 
 
+
 void printPlayers(Player playerArray[], int playerCount, char colors[][7],
                   int colorCount) {
   /**

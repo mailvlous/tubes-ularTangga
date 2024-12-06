@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "d:/School Stuff/DDP/tubes-ularTangga",
-      "program": "d:/School Stuff/DDP/tubes-ularTangga/build/Debug/outDebug",
+      "cwd": "e:/tubes-ularTangga",
+      "program": "e:/tubes-ularTangga/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

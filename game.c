@@ -73,7 +73,6 @@ void checkLose(int playerCount, Player playerArray[]) {
   for (int i = 0; i < playerCount; i++) {
     if (playerArray[i].isWin == false) {
       playerArray[i].score = 0;
-      playerArray[i].rankPlayer = -1;
     }
   }
 }
@@ -409,6 +408,7 @@ int howManyPlayers(int players) {
   printf("\n");
   printf("Banyak player (2 sampai 4): ");
   scanf("%d", &players);
+  printf("\n");
 
   return players;
 }

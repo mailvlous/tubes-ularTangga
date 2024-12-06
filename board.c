@@ -491,6 +491,8 @@ void initiatePlayers(Player playerArray[], int playerCount) {
     playerArray[i].position = 0;
     playerArray[i].isComputer = false;
     playerArray[i].isPlaying = true;
+    playerArray[i].isWin = false;
+    
   }
 }
 

@@ -1,2 +1,2 @@
-arkan, 60
-lulu, 0
+toto, 0
+tata, 0

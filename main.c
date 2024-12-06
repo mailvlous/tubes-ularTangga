@@ -21,11 +21,21 @@ int score(Player *player);
 
 void printScore(Player *player, int players);
 
-bool timer(int difficulty);
+bool timer(int difficulty, Player *player);
 
 void writeOutputToFile(Player *playerArray, int players);
 
 int howManyPlayers(int players);
+
+void introScreen();
+
+// void checkWin(Player *player, int players);
+
+// void decideRank(Player *player, int players);
+
+// void printRank(Player *player, int players);
+
+// void printWinner(int WinnerArray[], int winnerCount);
 
 int main() {
   startGame();
@@ -38,23 +48,14 @@ void startGame() {
   bool isRunning = true;
   while (isRunning) {
     system("cls");
-  printf("---------------------\n");
-  printf("Snakes and Ladders :D\n");
-  printf("---------------------\n");
-  printf("\n");
-    printf("Menu:\n");
-    printf("1. New Game\n");
-    printf("2. High Score\n");
-    printf("3. Exit\n");
-    printf("4. Continue Previous Game\n");
-    printf("\nPilih menu (1/2/3/4): ");
+    introScreen();
     int menuPicked;
     scanf("%d", &menuPicked);
     getchar();
     
     switch (menuPicked) {
     case 1:
-      multiplayer();
+    multiplayer();
       break;
     case 2:
     printAllHighScore();
@@ -82,7 +83,7 @@ void multiplayer() {
   Player playerArray[players];
   initiatePlayers(playerArray, players);
   decideComputerOrPlayer(playerArray, players);
-  printPlayers(playerArray, players, colors, colorCount);
+  printPlayers(playerArray, players, colors, 4);
   int difficulty = setDifficulty();
   getLadderSnakeCount(&ladderCount, &snakeCount, difficulty);
   Snake S[snakeCount];
@@ -250,16 +251,12 @@ void game(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCoun
         printBoardVSPlayer(S, L, playerArray, snakeCount, ladderCount, playerCount,
                            grid);
                            printBlock0(playerArray, playerCount);
-        printf("Giliran Player %d (", i + 1);
+        printf("Giliran Player %d ", i + 1 );
         printPlayerIcons(i, colors, 4, playerArray[i].isComputer);
-        printf(")\nTekan spasi untuk mengocok dadu\n");
-        bool roll;
-        if (playerArray[i].isComputer == false) {
-          roll = timer(difficulty);
-        } else {
-          roll = true;
-        }
-        
+        printf("\nTekan spasi untuk mengocok dadu\n");
+
+        bool roll = timer(difficulty, &playerArray[i]);
+
         int dice;
         if (roll == true) {
           if (mode == 1) {
@@ -274,7 +271,7 @@ void game(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCoun
           int scoreTotal;
           system("cls");
           move(dice, &playerArray[i], grid);
-          playerArray[i].score -= 1;
+          playerArray[i].score = score(&playerArray[i]);
         } else {
           dice = 0;
         }
@@ -301,11 +298,7 @@ void game(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCoun
           printScore(playerArray, playerCount);
         }
 
-        printf("\nTekan spasi untuk ke giliran selanjutnya\n");
-        printf("Tekan w untuk udahan sendiri\n");
-        printf("Tekan s untuk keluar dan menyimpan game untuk dimainkan di lain waktu\n");
-        printf("Tekan q untuk menyelesaikan game tanpa menyimpan game\n");
-        printf("Posisi: %d\n", playerArray[i].position);
+        instruction(playerArray);
         // printRank(playerArray, players);
         // bool wawa = true;
         // while (isRunning) {
@@ -320,6 +313,7 @@ void game(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCoun
             break;
           } else if (ch == ' ') {
             waitInput = false;
+            break;
           } else if (ch == 'w') {
             playerArray[i].isPlaying == false;
           } else if (ch == 's') {

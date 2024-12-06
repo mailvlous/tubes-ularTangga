@@ -51,7 +51,6 @@ void startGame() {
     printf("3. Exit\n");
     printf("Pilih menu (1/2): ");
     int menuPicked;
-    printf("wsaws");
     scanf("%d", &menuPicked);
     getchar();
     
@@ -235,7 +234,11 @@ void multiplayer() {
             writeOutputToFile(playerArray, players);
             isRunning = false;
             break;
-          } else if (ch == ' ') {
+          } else if (ch == 'w'){
+            isRunning = false;
+            break;
+          } 
+          else if (ch == ' ') {
             waitInput = false;
           } else {
             printf("Input tidak valid\n");

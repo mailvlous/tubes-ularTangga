@@ -61,13 +61,11 @@ int rollDice(int difficulty) {
 }
 
 void checkWin(Player *player, int players, int *winnerCount) {
-  for (int i = 0; i < players; i++) {
-    if ((*player).position == 100) {
-      (*player).isWin = true;
-      *winnerCount += 1;
-    } else {
-      (*player).isWin = false;
-  }
+  if ((*player).position == 100) {
+    (*player).isWin = true;
+    *winnerCount += 1;
+  } else {
+    (*player).isWin = false;
   }
 }
 
@@ -88,7 +86,6 @@ void decideRank(Player *player, int players, int winnerCount) {
   //     n--;
   //   }
   // }
-  printf("%d", winnerCount);
   (*player).rankPlayer = winnerCount;
 }
 

@@ -8,6 +8,7 @@
 // #include <curses.h>
 
 void multiplayer();
+void printAllHighScore();
 int modePicker();
 int setDifficulty();
 void startGame();
@@ -62,6 +63,7 @@ void startGame() {
       multiplayer();
       break;
     case 2:
+    printAllHighScore();
       break;
     case 3:
       printf("\nTHANKS FOR PLAYING :3\n");
@@ -102,8 +104,19 @@ void multiplayer() {
     for (int i = 0; i < players; i++) {
       system("cls");
       if (winnerCount == players-1) {
+        printf("\nKarena sisa satu orang, permainan selesai :)\n");
         i = players;
         isRunning = false;
+        printf("\nTekan spasi untuk melanjutkan\n");
+        bool waitInput = true;
+        while (waitInput) {
+          char ch = getch();
+          if (ch == ' ') {
+            waitInput = false;
+          } else {
+            printf("Input tidak valid\n");
+          }
+        }
       } else if (playerArray[i].isWin == false) {
         char ch;
         printBoardVSPlayer(S, L, playerArray, snakeCount, ladderCount, players,
@@ -135,13 +148,9 @@ void multiplayer() {
           dice = 0;
         }
 
-        bool isWin;
-
         checkWin(&playerArray[i], players, &winnerCount);
-        
-        
 
-        if (!isWin) {
+        if (playerArray[i].isWin == false) {
           checkLadderSnake(&playerArray[i], L, S, ladderCount, snakeCount);
           if (difficulty == 3) {
             stepOnPlayer(playerArray, players, playerArray[i].position, i);
@@ -206,7 +215,25 @@ void multiplayer() {
   }
 }
 
-// void gameLoop(int playerCount, int mode, )
+// void gameLoop(int playerCount, int mode, int currentTurn, )
+
+void printAllHighScore() {
+  system("cls");
+  User users[100];
+    int count = 0;
+    loadScores(users, &count);
+    displayScores(users, count);
+    printf("\nTekan q untuk kembali ke menu awal\n");
+  bool waitInput = true;
+  while (waitInput) {
+    char ch = getch();
+    if (ch == 'q') {
+      waitInput = false;
+    } else {
+      printf("Input tidak valid\n");
+    }
+  }
+}
 
 // void computer(int computer, int player){
 //     // printf("Ceritanya anda bermain nichhh dengan %d player", players);

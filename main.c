@@ -1,6 +1,7 @@
 #include "board.c"
 #include "game.c"
 #include "types.h"
+#include "highscore.c"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,11 +24,11 @@ void writeOutputToFile(Player *playerArray, int players);
 
 int howManyPlayers(int players);
 
-void checkWin(Player *player, int players);
+// void checkWin(Player *player, int players);
 
-void decideRank(Player *player, int players);
+// void decideRank(Player *player, int players);
 
-void printRank(Player *player, int players);
+// void printRank(Player *player, int players);
 
 // void printWinner(int WinnerArray[], int winnerCount);
 
@@ -38,20 +39,22 @@ int main() {
 
 
 void startGame() {
-  system("cls");
+  
+  bool isRunning = true;
+  while (isRunning) {
+    system("cls");
   printf("---------------------\n");
   printf("Snakes and Ladders :D\n");
   printf("---------------------\n");
   printf("\n");
-  bool isRunning = true;
-  while (isRunning) {
     printf("Menu:\n");
-    printf("1. Main multiplayer\n");
+    printf("1. New Game\n");
     printf("2. High Score\n");
     printf("3. Exit\n");
-    printf("Pilih menu (1/2): ");
+    printf("4. Continue Previous Game\n");
+    printf("\nPilih menu (1/2/3/4): ");
     int menuPicked;
-    printf("wsaws");
+    // printf("wsaws");
     scanf("%d", &menuPicked);
     getchar();
     
@@ -100,12 +103,8 @@ void multiplayer() {
     for (int i = 0; i < players; i++) {
       system("cls");
       if (winnerCount == players-1) {
-        checkLose(players, playerArray);
-        printRank(&playerArray[i], players);
-        writeOutputToFile(playerArray, players);
-        printf("GAME SELESAIIII");
+        i = players;
         isRunning = false;
-        break;
       } else if (playerArray[i].isWin == false) {
 
       // char ch;
@@ -175,30 +174,30 @@ void multiplayer() {
 
         bool roll = timer(difficulty);
 
+
         int dice;
         if (roll == true) {
-
           if (mode == 1) {
             dice = rollDice(difficulty);
           } else {
             int nearestLadder =
                 checkNearestLadder(L, ladderCount, playerArray[i]);
             int nearestSnake = checkNearestSnake(S, snakeCount, playerArray[i]);
-            dice = rollDiceRigged(difficulty, nearestLadder, nearestSnake);
+            dice = rollDiceRigged(difficulty, nearestLadder, nearestSnake, playerArray[i].position);
           }
 
           int scoreTotal;
           system("cls");
           move(dice, &playerArray[i], grid);
-          playerArray[i].score = score(&playerArray[i]);
+          playerArray[i].score -= 1;
         } else {
           dice = 0;
         }
 
         bool isWin;
 
-        checkWin(&playerArray[i], players);
-        decideRank(&playerArray[i], players);
+        checkWin(&playerArray[i], players, &winnerCount);
+        
         
 
         if (!isWin) {
@@ -214,6 +213,7 @@ void multiplayer() {
           sixCheck(dice, &i, colors, playerArray[i].isComputer);
           // printf("%d", winnerCount);
         } else {
+          decideRank(&(playerArray[i]), players, winnerCount);
           printBoardVSPlayer(S, L, playerArray, snakeCount, ladderCount,
                              players, grid);
           printBlock0(playerArray, players);
@@ -221,10 +221,11 @@ void multiplayer() {
         }
 
         printf("\nTekan spasi untuk ke giliran selanjutnya\n");
-        printf("\nTekan w untuk udahan sendiri\n");
-        printf("\nTekan q untuk keluar dan menyimpan game untuk dimainkan di lain waktu\n");
+        printf("Tekan w untuk udahan sendiri\n");
+        printf("Tekan s untuk keluar dan menyimpan game untuk dimainkan di lain waktu\n");
+        printf("Tekan q untuk menyelesaikan game tanpa menyimpan game\n");
         printf("Posisi: %d\n", playerArray[i].position);
-        printRank(&playerArray[i], players);
+        // printRank(playerArray, players);
         // bool wawa = true;
         // while (isRunning) {
         // printf("%d", i);
@@ -232,9 +233,9 @@ void multiplayer() {
         while (waitInput) {
           ch = getch();
           if (ch == 'q') {
-            writeOutputToFile(playerArray, players);
+            i = players;
             isRunning = false;
-            break;
+            waitInput = false;
           } else if (ch == ' ') {
             waitInput = false;
           } else {
@@ -244,6 +245,22 @@ void multiplayer() {
       }
     }
   }
+  system("cls");
+  checkLose(players, playerArray);
+  printRank(playerArray, players);
+  writeOutputToFile(playerArray, players);
+  saveHighScoreFromPlayer(playerArray, players);
+  printf("GAME SELESAIIII");
+   printf("\nTekan q untuk kembali ke menu awal\n");
+   bool waitInput = true;
+        while (waitInput) {
+          char ch = getch();
+          if (ch == 'q') {
+            waitInput = false;
+          } else {
+            printf("Input tidak valid\n");
+          }
+        }
 }
 
 // void gameLoop(int playerCount, int mode, )

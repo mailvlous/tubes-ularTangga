@@ -18,7 +18,7 @@ void printScore(Player *player, int players);
 int scoreTotal(Player *player, int position);
 void setPosition(int n, Player *player);
 int rollDice(int difficulty);
-int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake);
+int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake, int position);
 bool timer();
 int checkNearestLadder(Ladder L[], int ladderCount, Player player);
 
@@ -33,9 +33,9 @@ int modePicker();
 
 int howManyPlayers(int players);
 
-void checkWin(Player *player, int players);
+void checkWin(Player *player, int players, int *winnerCount);
 
-void decideRank(Player *player, int players);
+void decideRank(Player *player, int players, int winnerCount);
 
 void printRank(Player *player, int players);
 
@@ -60,10 +60,11 @@ int rollDice(int difficulty) {
   return (rand() % (max - min + 1) + min);
 }
 
-void checkWin(Player *player, int players) {
+void checkWin(Player *player, int players, int *winnerCount) {
   for (int i = 0; i < players; i++) {
     if ((*player).position == 100) {
       (*player).isWin = true;
+      *winnerCount += 1;
     } else {
       (*player).isWin = false;
   }
@@ -73,39 +74,39 @@ void checkWin(Player *player, int players) {
 void checkLose(int playerCount, Player playerArray[]) {
   for (int i = 0; i < playerCount; i++) {
     if (playerArray[i].isWin == false) {
-      playerArray[i].score -= 50;
+      playerArray[i].score = 0;
+      playerArray[i].rankPlayer = -1;
     }
   }
 }
 
-void decideRank(Player *player, int players) {
-  int n = 3;
-  for (int i = 0; i < players; i++) {
-    if ((*player).isWin == true) {
-      (*player).rankPlayer = 4 - n;
-      n--;
-    }
-  }
+void decideRank(Player *player, int players, int winnerCount) {
+  // int n = 3;
+  // for (int i = 0; i < players; i++) {
+  //   if ((*player).isWin == true) {
+  //     (*player).rankPlayer = 4 - n;
+  //     n--;
+  //   }
+  // }
+  printf("%d", winnerCount);
+  (*player).rankPlayer = winnerCount;
 }
 
-void printRank(Player *player, int players) {
+void printRank(Player playerArray[], int players) {
   for (int i = 0; i < players; i++) {
-    if ((*player).isWin == true && (*player).rankPlayer == 1) {
-      printf("%s Peringkat ke - %d dengan Skor : %d \n", player[i].name, player[i].rankPlayer, player[i].score);
-    } else if ((*player).isWin == true && (*player).rankPlayer == 2) {
-      printf("%s Peringkat ke - %d dengan Skor : %d \n", player[i].name, player[i].rankPlayer, player[i].score);
-    } else if ((*player).isWin == true && (*player).rankPlayer == 3) {
-      printf("%s Peringkat ke - %d dengan Skor : %d \n", player[i].name, player[i].rankPlayer, player[i].score);
-    } else if ((*player).isWin == true && (*player).rankPlayer == 4) {
-      printf("%s Peringkat ke - %d dengan Skor : %d \n", player[i].name, player[i].rankPlayer, player[i].score);
+    if (playerArray[i].isWin == true) {
+      printf("%s Peringkat ke - %d dengan Skor : %d \n", playerArray[i].name, playerArray[i].rankPlayer, playerArray[i].score);
+    } else {
+      printf("%s kalah, dengan skor %d \n", playerArray[i].name, playerArray[i].score);
     }
   }
 }
 
 void decideComputerOrPlayer(Player *player, int players) {
+  printf("\n");
   int input;
   for (int i = 0; i < players; i++) {
-    printf("Tentukan player dengan nama %s adalah Player asli atau Computer \n Tekan 1 untuk Player dan 2 untuk Computer : ", player[i].name);
+    printf("Tentukan player dengan nama %s adalah Manusia atau Computer\nTekan 1 untuk Manusia dan 2 untuk Computer: ", player[i].name);
     scanf("%d", &input);
     if (input == 1) {
       player[i].isComputer = false;
@@ -123,31 +124,44 @@ bool isComputerOrPlayer(Player *player, int players) {
 //   if (())
 // }
 
-int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake) {
+int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake, int position) {
   int min = 1;
   int max = 6;
   int result = rand() % (max - min + 1) + min;
-  if (difficulty == 1) {
-    if (nearestLadder != -1) {
-      int choose[2] = {result, nearestLadder};
-      int chosen = rand() % (2);
-      return (choose[chosen]);
-    } else {
+  if (position == 0) {
+    if (difficulty == 1) {
+        int choose[2] = {result, 1};
+        int chosen = rand() % (2);
+        return (choose[chosen]);
+    } else if ((difficulty == 2) || (difficulty == 3)) {
       return (result);
-    }
-  } else if (difficulty == 2) {
-    return (result);
-  } else if (difficulty == 3) {
-    if (nearestSnake != -1) {
-      int choose[2] = {result, nearestSnake};
-      int chosen = rand() % (2);
-      return (choose[chosen]);
     } else {
-      return (result);
+      return -1; // Invalid difficulty level.
     }
   } else {
-    return 0; // Invalid difficulty level.
+    if (difficulty == 1) {
+      if (nearestLadder != -1) {
+        int choose[2] = {result, nearestLadder};
+        int chosen = rand() % (2);
+        return (choose[chosen]);
+      } else {
+        return (result);
+      }
+    } else if (difficulty == 2) {
+      return (result);
+    } else if (difficulty == 3) {
+      if (nearestSnake != -1) {
+        int choose[2] = {result, nearestSnake};
+        int chosen = rand() % (2);
+        return (choose[chosen]);
+      } else {
+        return (result);
+      }
+    } else {
+      return -1; // Invalid difficulty level.
+    }
   }
+  
 }
 
 void sixCheck(int dice, int *i, char colors[][7], bool isComputer) {
@@ -186,12 +200,12 @@ void move(int n, Player *player, int grid) {
     int check = move0(n);
     if (check == true){
       (*player).position += 1;
-      printf("Player %s moved %d steps, now on block %d\n ",
+      printf("Player %s moved %d steps, now on block %d\n",
              (*player).name, n, (*player).position);
       printf("yay, anda dapat angka 1\n");
     } else {
         (*player).position += 0;
-      printf("Player %s moved %d steps, now on block %d\n ",
+      printf("Player %s moved %d steps, now on block %d\n",
              (*player).name, n, (*player).position);
       printf("aww, anda tidak dapat angka 1\n");       
     }
@@ -201,7 +215,7 @@ int max = grid * grid;
   if ((*player).position > max) {
     (*player).position = max - (*player).position + max;
   }
-  printf("Player %s moved %d steps, now on block %d\n ",
+  printf("Player %s moved %d steps, now on block %d\n",
              (*player).name, n, (*player).position);
   }
 }

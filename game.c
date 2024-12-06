@@ -43,24 +43,54 @@ void checkLose(int playerCount, Player playerArray[]);
 
 void decideComputerOrPlayer(Player *player, int players);
 
+void identifierComputer(Player *playerArray, int players);
+
+void instruction(Player *playerArray);
+
+void introScreen();
+
+
+void introScreen() {
+    printf("===========================================\n");
+    printf("     WELCOME TO SNAKES AND LADDERS!        \n");
+    printf("===========================================\n");
+
+
+      printf("\n");
+      printf("Menu:\n");
+      printf("1. New Game\n");
+      printf("2. High Score\n");
+      printf("3. Exit\n");
+      printf("4. Continue Previous Game\n");
+      printf("\nPilih menu (1/2/3/4): ");
+}
+
 
 
 int rollDice(int difficulty) {
+  /**
+   * Deskripsi :
+   *  Mengocok dadu untuk menentukan langkah player
+   * IS:
+   * Dadu masih belum ada
+   * FS:
+   * Dadu telah dikocok berdasarkan difficulty
+ */
   int min = 1;
   int max = 6;
-
-  // if (difficulty == 1) {
-  //   return (rand() % (6 - 4 + 1) + min);
-  // } else if (difficulty == 2) {
-  //   return (rand() % (max - min + 1) + min);
-  // } else if (difficulty == 3) {
-  //   return (rand() % (3 - 1 + 1) + min);
-  // }
-
   return (rand() % (max - min + 1) + min);
 }
 
 void checkWin(Player *player, int players, int *winnerCount) {
+    /**
+   * Deskripsi :
+   *  Menentukan apakah Player mememenangkan permainan atau tidak. Jika player berada pada posisi 100
+   *  Player memenangkan permainan
+   * IS:
+   * Nilai subvar isWin dari player masih belum ditentukan
+   * FS:
+   * Nilai subvar isWin dari player telah ditentukan
+ */
   if ((*player).position == 100) {
     (*player).isWin = true;
     *winnerCount += 1;
@@ -70,6 +100,14 @@ void checkWin(Player *player, int players, int *winnerCount) {
 }
 
 void checkLose(int playerCount, Player playerArray[]) {
+    /**
+   * Deskripsi :
+   *  Mengecek apakah Player kalah dalam permainan atau tidak
+   * IS:
+   * Score pemain masih belum berubah
+   * FS:
+   * Score pemain berubah jika isWin bernilai false
+ */
   for (int i = 0; i < playerCount; i++) {
     if (playerArray[i].isWin == false) {
       playerArray[i].score = 0;
@@ -78,17 +116,27 @@ void checkLose(int playerCount, Player playerArray[]) {
 }
 
 void decideRank(Player *player, int players, int winnerCount) {
-  // int n = 3;
-  // for (int i = 0; i < players; i++) {
-  //   if ((*player).isWin == true) {
-  //     (*player).rankPlayer = 4 - n;
-  //     n--;
-  //   }
-  // }
+    /**
+   * Deskripsi :
+   *  Menentukan peringkat player
+   * IS:
+   * Rank seluruh pemain masih belum terisi
+   * FS:
+   * Rank pemain menjadi 0
+   *  
+ */
   (*player).rankPlayer = winnerCount;
 }
 
 void printRank(Player playerArray[], int players) {
+  /**
+   * Deskripsi :
+   *  Menampilkan peringkat seluruh Player
+   * IS:
+   * Layar belum menampilkan apa apa
+   * FS:
+   * Layar menampilkan peringkat seluruh Player
+ */
   for (int i = 0; i < players; i++) {
     if (playerArray[i].isWin == true) {
       printf("%s Peringkat ke - %d dengan Skor : %d \n", playerArray[i].name, playerArray[i].rankPlayer, playerArray[i].score);
@@ -99,6 +147,14 @@ void printRank(Player playerArray[], int players) {
 }
 
 void decideComputerOrPlayer(Player *player, int players) {
+    /**
+   * Deskripsi :
+   *  User menentukan suatu player manusia atau computer
+   * IS:
+   * Subvar isComputer masih belum terisi
+   * FS:
+   * Subvar isComputer telah terisi apakah Player manusia atau computer
+ */
   printf("\n");
   int input;
   for (int i = 0; i < players; i++) {
@@ -116,11 +172,16 @@ bool isComputerOrPlayer(Player *player, int players) {
 
 }
 
-// printWinner(Player *playerArray, int players, int WinnerArray[], int winnerCount) {
-//   if (())
-// }
 
 int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake, Player player) {
+    /**
+   * Deskripsi :
+   *  Mengocok dadu untuk menentukan langkah player
+   * IS:
+   * 
+   * FS:
+   *  
+ */
   int min = 1;
   int max = 6;
   int result = rand() % (max - min + 1) + min;
@@ -198,6 +259,14 @@ int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake, Player p
 }
 
 void sixCheck(int dice, int *i, char colors[][7], bool isComputer) {
+    /**
+   * Deskripsi :
+   *  Mengecek apakah Player mendapatkan angka pada pengocokan dadu
+   * IS:
+   * Layar tidak menampilkan apa apa
+   * FS:
+   * Layer menampilkan Player mendapatkan angka 6, dan akan mendapatkan giliran lagi
+ */
   if (dice == 6) {
     printf("Karena mendapat angka 6, Player %d (", *i + 1);
     printPlayerIcons(*i, colors, 4, isComputer);
@@ -207,6 +276,14 @@ void sixCheck(int dice, int *i, char colors[][7], bool isComputer) {
 }
 
 int checkNearestLadder(Ladder L[], int ladderCount, Player player) {
+    /**
+   * Deskripsi :
+   *  
+   * IS:
+   * 
+   * FS:
+   *  
+ */
   for (int i = player.position + 1; i <= player.position + 6; i++) {
     for (int j = 0; j < ladderCount; j++) {
       if (i == L[i][0]) {
@@ -218,6 +295,14 @@ int checkNearestLadder(Ladder L[], int ladderCount, Player player) {
 }
 
 int checkNearestSnake(Snake S[], int snakeCount, Player player) {
+    /**
+   * Deskripsi :
+   *  Mengocok dadu untuk menentukan langkah player
+   * IS:
+   * 
+   * FS:
+   *  
+ */
   for (int i = player.position + 1; i <= player.position + 6; i++) {
     for (int j = 0; j < snakeCount; j++) {
       if (i == S[i][0]) {
@@ -229,6 +314,18 @@ int checkNearestSnake(Snake S[], int snakeCount, Player player) {
 }
 
 void move(int n, Player *player, int grid) {
+    /**
+   * Deskripsi :
+   * Procedure untuk player berpindah ke kotak selanjutnya berdasarkan n diambil dari pengocokan dadu.
+   * Player wajib mendapatkan nilai n=1 untuk mulai bergerak dari papan
+   * IS:
+   * Layar tidak menampilkan apa apa, posisi player masih belum berubah, score masih belum berubah
+   * , position masih belum berubah.
+   * FS:
+   * Layar menampilkan Player berpindah ke kotak selanjutnya berdasarkan n, posisi player berubah, score berubah
+   * dan position berubah
+   *  
+ */
   if ((*player).position == 0){
     int check = move0(n);
     if (check == true){
@@ -261,28 +358,43 @@ int move0(int n){
 }
 
 void setScores(Player *players, int size, int newScore) {
+      /**
+   * Deskripsi :
+   *  Procedure mengubah seluruh nilai subvar score menjadi 
+   * IS:
+   * Subvar score pada struct Player masih belum terisi
+   * FS:
+   * Subvar score pada struct Player telah terisi senilai newScore
+ */
   for (int i = 0; i < size; i++) {
     players[i].score = newScore;
   }
 }
 
 int score(Player *player) {
-
+      /**
+   * Deskripsi :
+   *  Fungsi player mengembalikan skor player dengan kalkulasi score - 1
+   * IS:
+   * Score player masih belum berubah
+   * FS:
+   * Score Player telah berubah, berkurang 1
+ */
   return (*player).score - ((*player).position * 0.01);
-  // (*player).score -= ((*player).position); // Kurangi skor pemain
-  // return (*player).score;
-  // for (int i = 0; i < 100; i++) {
-  //   (*player).score = baseScore - minus;
-  //   score = (*player).score;
-  //   return score;
-  // }
 }
 
-// int scoreTotal(Player *player, int position) {
-//   return (*player).score - (*player).position;
-// }
 
 void printScore(Player *playerArray, int players) {
+      /**
+   * Deskripsi :
+   * Procedure menampilkan seluruh score setiap player
+   * IS:
+   * Layar belum menampilkan apa apa
+   * FS:
+   * Layar menampilkan score seluruh player
+   *  
+ */
+  printf("\n ------- Skor Sementara ------\n");
   for (int i = 0; i < players; i++) {
     printf("Player %s mendapatkan Score: %d\n", playerArray[i].name,
            playerArray[i].score);
@@ -290,6 +402,14 @@ void printScore(Player *playerArray, int players) {
 }
 
 void writeOutputToFile(Player *playerArray, int players) {
+      /**
+   * Deskripsi :
+   *  Menulis output dari data nama player, rank, dan score ke file output.txt 
+   * IS:
+   * File output.txt belum menampilkan apa apa 
+   * FS:
+   * File output.txt menampilkan nama player, rank, dan score
+ */
   // Open file for writing
   FILE *file = fopen("output.txt", "w");
   if (file == NULL) {
@@ -298,14 +418,19 @@ void writeOutputToFile(Player *playerArray, int players) {
     // Writing formatted text using fprintf
   for (int i = 0; i < players; i++) {
     printf("%s", playerArray[i].name);
-    fprintf(file, "%s, %d\n", playerArray[i].name,
-            playerArray[i].score);
+    if (playerArray[i].score <= 100) {
+      fprintf(file, "%s, %d\n", playerArray[i].name,
+        playerArray[i].score);
+    } else if (playerArray[i].score > 100) {
+      playerArray[i].score = playerArray[i].score - 16;
+    }
+
   }
 
   // Close the file
   fclose(file);
 
-  printf("Data written to 'output.txt'.\n");
+  printf("Data disimpan di 'output.txt'.\n");
   }  
 }
 
@@ -313,6 +438,14 @@ void writeOutputToFile(Player *playerArray, int players) {
 
 void stepOnPlayer(Player playerArray[], int playerCount, int blockNum,
                   int playerNum) {
+/**
+   * Deskripsi :
+   *  Mengocok dadu untuk menentukan langkah player
+   * IS:
+   * 
+   * FS:
+   *  
+ */
   int playerHere[playerCount];
   int playerHereCount = 0;
   if (blockNum != 0) {
@@ -334,10 +467,28 @@ void stepOnPlayer(Player playerArray[], int playerCount, int blockNum,
 
 
 void setPosition(int n, Player *player) {
+      /**
+   * Deskripsi :
+   * Menentukan posisi player berdasarkan n
+   * IS:
+   * Nilai subvar position masih belum berubah
+   * FS:
+   * Nilai subvar position telah berubah sesuai n
+ */
    (*player).position = n; 
 }
 
-bool timer(int difficulty) {
+bool timer(int difficulty, Player *player) {
+  /**
+   * Deskripsi :
+   *  Fungsi ini mengembalikan nilai boolean true/false.
+   *  Fungsi ini digunakan untuk menampilkan timer pada permainan
+   * IS:
+   *  Layar belum menampilkan apa apa
+   * FS:
+   *  Layar menampilkan waktu hitung mundur dalam permainan, jika tombol spasi ditekan maka waktu akan berhenti
+   *  dan mengembalikan nila boolean true
+ */
   int seconds;
   if (difficulty == 1) {
     seconds = 10;
@@ -347,9 +498,10 @@ bool timer(int difficulty) {
     seconds = 3;
   }
   char ch;
-  printf("Seconds: ");
+  printf("Timer: ");
 
-  while (seconds > 0) {
+  if ((*player).isComputer == false ) {
+    while (seconds > 0) {
     if (_kbhit()) {    // Periksa apakah ada input dari keyboard
       ch = _getch();   // Ambil input dari keyboard
       if (ch == ' ') { // Jika tombol spasi ditekan
@@ -367,13 +519,47 @@ bool timer(int difficulty) {
     }
     seconds--;
   }
-
+  } else {
+    int seconds = 1;
+    int s = seconds % 60;
+    printf(" %d ", s);
+    fflush(stdout);
+    clock_t stop = clock() + CLOCKS_PER_SEC;
+    while (clock() < stop) {
+    }
+    seconds--;
+    return true;
+  }
   printf("\rTime's up!\n");
   return false;
 }
 
+void identifierComputer(Player *playerArray, int players) {
+    /**
+   * Deskripsi :
+   *  Memeriksa apakah Player adalah manusia atau computer, jika computer maka diubah menjadi (Computer)
+   * IS:
+   * Layar belum menampilkan apa apa
+   * FS:
+   * Layar menampilkan tambahan (Computer) pada player computer
+ */
+    for (int i = 0; i < players; i++) {
+        if (playerArray[i].isComputer ==  true) {
+            strcpy(playerArray[i].name, "(Computer)");
+        }
+    }
+}
+
 void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,
                       int snakeCount) {
+  /**
+   * Deskripsi :
+   *  Mengocok dadu untuk menentukan langkah player
+   * IS:
+   * 
+   * FS:
+   *  
+ */
   for (int i = 0; i < ladderCount; i++) {
     if ((*player).position == L[i][0]) {
       setPosition(L[i][1], player);
@@ -393,6 +579,14 @@ void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,
 }
 
 int modePicker() {
+  /**
+   * Deskripsi :
+   * Function ini mengembalikan integer untuk menentukan mode permainan
+   * IS:
+   * Nilai integer mode masih belum ditentukan
+   * FS:
+   * Nilai integer mode telah ditentukan
+ */
   printf("Mode:\n");
   printf("1. Normal (Fair)\n");
   printf("2. Rigged\n");
@@ -405,6 +599,14 @@ int modePicker() {
 }
 
 int howManyPlayers(int players) {
+  /**
+   * Deskripsi :
+   * Menentukan seberapa banyak player yang akan bermain
+   * IS:
+   * Berapa banyak player belum ditentukan
+   * FS:
+   * Berapa banyak player telah ditentukan
+ */
   printf("\n");
   printf("Banyak player (2 sampai 4): ");
   scanf("%d", &players);
@@ -414,10 +616,38 @@ int howManyPlayers(int players) {
 }
 
 void printWinner(int WinnerArray[], int winnerCount) {
+  /**
+   * Deskripsi :
+   * Menampilkan Player yang telah jadi pemenang
+   * IS:
+   * Layar belum menampilkan apa apa
+   * FS:
+   * Layar menampilkan Player yang telah jadi pemenang
+ */
   for (int i = 0; i<winnerCount; i++) {
     printf("%d",WinnerArray[i]);
   }
 }
+
+void instruction(Player *playerArray) {
+  /**
+   * Deskripsi :
+   * Memberi instruksi kepada User agar lebih mudah menjalankan permainan
+   * IS:
+   * Layar belum menampilkan apa apa
+   * FS:
+   * Layar menampilkan intruksi
+ */
+    printf("=== Permainan Ular Tangga ===\n");
+    printf("Instruksi:\n");
+    printf("- Tekan [Spasi] untuk giliran selanjutnya (lempar dadu).\n");
+    printf("- Tekan [W] untuk menyerah dan keluar tanpa menyimpan.\n");
+    printf("- Tekan [S] untuk keluar dan menyimpan permainan.\n");
+    printf("- Tekan [Q] untuk keluar dan menyelesaikan permainan tanpa menyimpan.\n");
+    printf("Player dengan nama %s berada di Posisi: %d\n", (*playerArray).name,  (*playerArray).position);
+}
+
+
 
 
 #endif

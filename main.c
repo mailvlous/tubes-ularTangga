@@ -1,3 +1,6 @@
+#ifndef main_c
+#define main_c
+
 #include "board.c"
 #include "game.c"
 #include "types.h"
@@ -34,7 +37,6 @@ int main() {
 
 
 void startGame() {
-  
   bool isRunning = true;
   while (isRunning) {
     system("cls");
@@ -48,30 +50,54 @@ void startGame() {
     printf("3. Exit\n");
     printf("4. Continue Previous Game\n");
     printf("\nPilih menu (1/2/3/4): ");
-    int menuPicked;
-    scanf("%d", &menuPicked);
-    getchar();
+    bool waitInput = true;
+    while (waitInput) {
+          char ch = getch();
+          if (ch == '1') {
+            multiplayer();
+            waitInput = false;
+          } else if (ch == '2') {
+            printAllHighScore();
+            waitInput = false;
+          } else if (ch == '3') {
+            printf("\nTHANKS FOR PLAYING :3\n");
+            isRunning = false;
+            waitInput = false;
+          } else if (ch == '4') {
+            load();
+            waitInput = false;
+          } else {
+            printf("Input tidak valid\n");
+          }
+        }
+    // int menuPicked;
+    // scanf("%d", &menuPicked);
+    // getchar();
     
-    switch (menuPicked) {
-    case 1:
-      multiplayer();
-      break;
-    case 2:
-    printAllHighScore();
-      break;
-    case 3:
-      printf("\nTHANKS FOR PLAYING :3\n");
-      isRunning = false;
-      break;
-    default:
-      printf("\n");
-      printf("Pilihan menu tidak ada ._.\n");
-      printf("\n");
-    }
+    // switch (menuPicked) {
+    // case 1:
+    //   multiplayer();
+    //   break;
+    // case 2:
+    //   printAllHighScore();
+    //   break;
+    // case 3:
+      // printf("\nTHANKS FOR PLAYING :3\n");
+      // isRunning = false;
+      // break;
+    // case 4:
+    //   load();
+    //   break;
+    // default:
+    //   printf("\n");
+    //   printf("Pilihan menu tidak ada ._.\n");
+    //   printf("\n");
+    // }
   }
 }
 
 void multiplayer() {
+  system("cls");
   int players;
   players = howManyPlayers(players);
   int mode = modePicker();
@@ -224,7 +250,7 @@ void game(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCoun
   while (isRunning) {
     for (int j = currentTurn; j < currentTurn + playerCount; j++) {
         int i;
-        if (j > playerCount) {
+        if (j >= playerCount) {
             i = j - playerCount;
         } else {
             i = j;
@@ -329,7 +355,7 @@ void game(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCoun
               } else {
                 nextTurn = i+1;
               }
-            save(playerCount, mode, nextTurn, L, ladderCount, S, snakeCount, playerArray, *winnerCount, difficulty, colors, grid, colorCount);
+            save(playerCount, mode, nextTurn, L, ladderCount, S, snakeCount, playerArray, *winnerCount, difficulty, grid, colorCount);
             j = currentTurn + playerCount;
             isRunning = false;
             break;
@@ -428,3 +454,5 @@ int setDifficulty() {
   }
   return selected;
 }
+
+#endif

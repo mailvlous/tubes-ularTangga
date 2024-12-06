@@ -7,7 +7,8 @@ rafa 100
 AAAAAA 0
 baba 0
 bubu 0
-rara 0
+rara 87
 rere 0
 toto 0
 tata 0
+rata 0

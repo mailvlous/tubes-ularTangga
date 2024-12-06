@@ -2,6 +2,7 @@
 #include "game.c"
 #include "types.h"
 #include "highscore.c"
+#include "saveFile.c"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,7 +13,7 @@ void printAllHighScore();
 int modePicker();
 int setDifficulty();
 void startGame();
-void game(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCount, Snake S[], int snakeCount, Player playerArray[], int *winnerCount, int difficulty, char colors[][7], int grid);
+void game(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCount, Snake S[], int snakeCount, Player playerArray[], int *winnerCount, int difficulty, char colors[][7], int grid, int colorCount);
 
 void setScores(Player *players, int size, int newScore);
 
@@ -25,14 +26,6 @@ bool timer(int difficulty);
 void writeOutputToFile(Player *playerArray, int players);
 
 int howManyPlayers(int players);
-
-// void checkWin(Player *player, int players);
-
-// void decideRank(Player *player, int players);
-
-// void printRank(Player *player, int players);
-
-// void printWinner(int WinnerArray[], int winnerCount);
 
 int main() {
   startGame();
@@ -84,11 +77,12 @@ void multiplayer() {
   int mode = modePicker();
   // printf("Ceritanya anda bermain nichhh dengan %d player", players);
   char colors[4][7] = {"\033[31m", "\033[34m", "\033[32m", "\033[33m"};
+  int colorCount = 4;
   int ladderCount, snakeCount;
   Player playerArray[players];
   initiatePlayers(playerArray, players);
   decideComputerOrPlayer(playerArray, players);
-  printPlayers(playerArray, players, colors, 4);
+  printPlayers(playerArray, players, colors, colorCount);
   int difficulty = setDifficulty();
   getLadderSnakeCount(&ladderCount, &snakeCount, difficulty);
   Snake S[snakeCount];
@@ -101,7 +95,7 @@ void multiplayer() {
   initiateBoard(snakeCount, ladderCount, S, L);
   int currentTurn = 0;
   bool isFinished = false;
-  game(players, mode, currentTurn, L, ladderCount, S, snakeCount, playerArray, &winnerCount, difficulty, colors, grid);
+  game(players, mode, currentTurn, L, ladderCount, S, snakeCount, playerArray, &winnerCount, difficulty, colors, grid, colorCount);
   
   // while (isRunning) {
   //   for (int i = 0; i < players; i++) {
@@ -224,7 +218,7 @@ void multiplayer() {
   // }
 }
 
-void game(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCount, Snake S[], int snakeCount, Player playerArray[], int *winnerCount, int difficulty, char colors[][7], int grid) {
+void game(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCount, Snake S[], int snakeCount, Player playerArray[], int *winnerCount, int difficulty, char colors[][7], int grid, int colorCount) {
   bool isFinished = false;
   bool isRunning = true;
   while (isRunning) {
@@ -328,6 +322,17 @@ void game(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCoun
             waitInput = false;
           } else if (ch == 'w') {
             playerArray[i].isPlaying == false;
+          } else if (ch == 's') {
+            int nextTurn;
+              if (i+1 >= playerCount) {
+                nextTurn = i+1 - playerCount;
+              } else {
+                nextTurn = i+1;
+              }
+            save(playerCount, mode, nextTurn, L, ladderCount, S, snakeCount, playerArray, *winnerCount, difficulty, colors, grid, colorCount);
+            j = currentTurn + playerCount;
+            isRunning = false;
+            break;
           } else {
             printf("Input tidak valid\n");
           }

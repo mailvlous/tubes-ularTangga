@@ -34,6 +34,8 @@ void introScreen();
 
 void infoRule();
 
+void infoDifficulty();
+
 // void checkWin(Player *player, int players);
 
 // void decideRank(Player *player, int players);
@@ -81,6 +83,7 @@ void multiplayer() {
   system("cls");
   int players;
   players = howManyPlayers(players);
+  infoMode();
   int mode = modePicker();
   // printf("Ceritanya anda bermain nichhh dengan %d player", players);
   char colors[4][7] = {"\033[31m", "\033[34m", "\033[32m", "\033[33m"};
@@ -90,6 +93,7 @@ void multiplayer() {
   initiatePlayers(playerArray, players);
   decideComputerOrPlayer(playerArray, players);
   printPlayers(playerArray, players, colors, 4);
+  infoDifficulty();
   int difficulty = setDifficulty();
   getLadderSnakeCount(&ladderCount, &snakeCount, difficulty);
   Snake S[snakeCount];

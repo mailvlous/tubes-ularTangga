@@ -51,8 +51,21 @@ void introScreen();
 
 void infoRule();
 
+void infoDifficulty();
+
+void infoMode();
+
 
 void introScreen() {
+    /**
+   * Deskripsi :
+   *  Menampilkan tampilan awal permainan
+   * IS:
+   * Layar belum menampilkan apa apa
+   * FS:
+   * Layar menampilkan tampilan awal permainan
+ */
+
     printf("===========================================\n");
     printf("     WELCOME TO SNAKES AND LADDERS!        \n");
     printf("===========================================\n");
@@ -584,7 +597,7 @@ void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,
 int modePicker() {
   /**
    * Deskripsi :
-   * Function ini mengembalikan integer untuk menentukan mode permainan
+   * Function ini menerima input dari user untuk memilih mode permainan
    * IS:
    * Nilai integer mode masih belum ditentukan
    * FS:
@@ -604,7 +617,7 @@ int modePicker() {
 int howManyPlayers(int players) {
   /**
    * Deskripsi :
-   * Menentukan seberapa banyak player yang akan bermain
+   * Menentukan seberapa banyak player yang akan bermain, sesuai input user
    * IS:
    * Berapa banyak player belum ditentukan
    * FS:
@@ -712,11 +725,25 @@ void infoMode() {
    * FS:
    * Layar menampilkan informasi mode permainan
  */
-  printf("=== Perbedaan Mode ===\n");
-  printf("1. Mode Normal (Fair) :\n");
-  printf("- Seperti permainan ular tangga pada umumnya.\n");
-  printf("2. Mode Rigged :\n");
-  printf("-");
+    printf("===========================================\n");
+    printf("|             PERBEDAAN MODE              |\n");
+    printf("===========================================\n");
+    printf("| 1. Mode Normal (Fair) :                 |\n");
+    printf("|    - Seperti permainan ular tangga      |\n");
+    printf("|      pada umumnya.                      |\n");
+    printf("|                                         |\n");
+    printf("| 2. Mode Rigged :                        |\n");
+    printf("|    - Player memiliki chance 50/50 jika  |\n");
+    printf("|      mendekati tangga di mode easy.     |\n");
+    printf("|    - Player memiliki chance 50/50 jika  |\n");
+    printf("|      mendekati ular di mode hard.       |\n");
+    printf("|    - Computer memiliki chance 50/50     |\n");
+    printf("|      jika mendekati ular di mode easy.  |\n");
+    printf("|    - Computer memiliki chance 50/50     |\n");
+    printf("|      jika mendekati tangga di mode hard.|\n");
+    printf("===========================================\n");
+    printf("|             PERBEDAAN MODE              |\n");
+    printf("===========================================\n");
 }
 
 void infoDifficulty() {
@@ -728,15 +755,37 @@ void infoDifficulty() {
    * FS:
    * Layar menampilkan informasi difficulty permainan
  */
-  printf("=== Perbedaan Difficulty ===\n");
-  printf("1. Easy :\n");
-  printf("- Setiap player akan diberi waktu kocok dadu 10 detik.\n");
-  printf("2. Normal :\n");
-  printf("- Setiap player akan diberi waktu kocok dadu 5 detik.\n");
-  printf("3. Hard :\n");
-  printf("- Setiap player akan diberi waktu kocok dadu 3 detik.\n");
-  printf("- Jika player menginjak player lain, maka player yang terinjak akan kembali ke kotak 0.\n");
-  printf("=== Perbedaan Difficulty ===\n");
+
+    printf("===========================================\n");
+    printf("|         PERBEDAAN DIFFICULTY            |\n");
+    printf("===========================================\n");
+    printf("| 1. Easy :                               |\n");
+    printf("|    - Setiap player diberi waktu kocok   |\n");
+    printf("|      dadu 10 detik.                     |\n");
+    printf("|    - Peluang player mendekati tangga    |\n");
+    printf("|      lebih besar.                       |\n");
+    printf("|    - Peluang computer mendekati ular    |\n");
+    printf("|      lebih besar.                       |\n");
+    printf("|                                         |\n");
+    printf("| 2. Normal :                             |\n");
+    printf("|    - Setiap player diberi waktu kocok   |\n");
+    printf("|      dadu 5 detik.                      |\n");
+    printf("|                                         |\n");
+    printf("| 3. Hard :                               |\n");
+    printf("|    - Setiap player diberi waktu kocok   |\n");
+    printf("|      dadu 3 detik.                      |\n");
+    printf("|    - Jika player menginjak player lain, |\n");
+    printf("|      maka player yang terinjak akan     |\n");
+    printf("|      kembali ke kotak 0.                |\n");
+    printf("|    - Peluang player mendekati ular      |\n");
+    printf("|      lebih besar.                       |\n");
+    printf("|    - Peluang computer mendekati ular    |\n");
+    printf("|      lebih kecil.                       |\n");
+    printf("===========================================\n");
+    printf("|         PERBEDAAN DIFFICULTY            |\n");
+    printf("===========================================\n");
+
+
 }
 
 #endif

@@ -246,10 +246,7 @@ void game(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCoun
         }
 
         instruction(playerArray);
-        // printRank(playerArray, players);
-        // bool wawa = true;
-        // while (isRunning) {
-        // printf("%d", i);
+        
         bool waitInput = true;
         while (waitInput) {
           ch = getch();
@@ -258,20 +255,11 @@ void game(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCoun
             j = currentTurn + playerCount;
             isRunning = false;
             break;
-          }/*else if (ch == 's'){
-            saveGame(playerArray, players, ladderCount, snakeCount, difficulty);
-            i = players;
-            isRunning = false;
-            break;
-            
-          } */
+          }
           else if (ch == ' ') {
             waitInput = false;
             break;
-          } 
-          // else if (ch == 'w') {
-          //   playerArray[i].isPlaying == false;
-          // } 
+          }  
           else if (ch == 's') {
             int nextTurn = getTurn(j + 1, playerCount);
             save(playerCount, mode, nextTurn, L, ladderCount, S, snakeCount, playerArray, *winnerCount, difficulty, grid, colorCount);
@@ -310,8 +298,8 @@ int getTurn(int j, int playerCount) {
    * Deskripsi:
    * Fungsi untuk menghitung giliran pemain dengan memastikan giliran tetap berada dalam batas jumlah pemain.
    *
-   * IS: `j` adalah indeks giliran pemain yang sedang dimainkan, `playerCount` adalah total jumlah pemain.
-   * FS: Mengembalikan indeks pemain berikutnya dengan memutar kembali setelah mencapai jumlah pemain.
+   * IS: `j` adalah indeks giliran pemain, tapi terkadang melebihi batas jumlah pemain, `playerCount` adalah total jumlah pemain.
+   * FS: Mengembalikan indeks yang seharusnya dengan memutar kembali setelah mencapai jumlah pemain.
    */
   if (j >= playerCount) {
     return j - playerCount;

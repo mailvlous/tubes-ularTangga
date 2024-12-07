@@ -25,7 +25,7 @@ void save(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCoun
      */
     FILE *file = fopen("saveFile.txt", "w");
     if (file == NULL) {
-        perror("Error opening file");
+        printf("Error opening file");
         return;
     }
 

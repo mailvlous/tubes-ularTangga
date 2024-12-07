@@ -36,6 +36,8 @@ void infoRule();
 
 void infoDifficulty();
 
+void infoMode();
+
 // void checkWin(Player *player, int players);
 
 // void decideRank(Player *player, int players);

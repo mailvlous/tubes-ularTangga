@@ -412,7 +412,7 @@ void printPlayerIcons(int playerNum, char colors[][7], int colorCount, bool isCo
   /**
    * printPlayerIcons - Menampilkan ikon pemain berdasarkan nomor pemain.
    *
-   * Fungsi ini mencetak simbol "P" dengan warna yang sesuai untuk setiap pemain
+   * Fungsi ini mencetak simbol "P" atau "C" dengan warna yang sesuai untuk setiap pemain
    * berdasarkan nomor pemain yang diberikan.
    *
    * Parameter:

@@ -23,7 +23,7 @@ void initiateSnakes(int numSnakes, int grid, int occupied[], int *occupiedCount,
 int searchNumber(int arr[], int size, int num);
 int searchNumber2D(int arr[][2], int col, int row, int num);
 
-void printBoardVSPlayer(Snake S[], Ladder L[], Player playerArray[],
+void printBoard(Snake S[], Ladder L[], Player playerArray[],
                         int snakeCount, int ladderCount, int playerCount,
                         int grid);
 
@@ -33,11 +33,11 @@ void printBoardVSComputer(Snake S[], Ladder L[], Player playerArray[],
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void printBoardVSPlayer(Snake S[], Ladder L[], Player playerArray[],
+void printBoard(Snake S[], Ladder L[], Player playerArray[],
                         int snakeCount, int ladderCount, int playerCount,
                         int grid) {
   /**
-   * printBoardVSPlayer - Menampilkan papan permainan ular tangga.
+   * printBoard - Menampilkan papan permainan ular tangga.
    *
    * Menampilkan grid papan permainan dengan ular, tangga, pemain, dan nomor
    * kotak. Posisi ular/tangga ditandai "S" atau "L" diikuti nomor, pemain
@@ -197,101 +197,101 @@ void printBlock0(Player playerArray[], int playerCount) {
   }
 }
 
-void printBoardVSComputer(Snake S[], Ladder L[], Player playerArray[],
-                          int snakeCount, int ladderCount, int playerCount,
-                          int grid) {
-  int gridNum = grid * grid;
-  for (int i = 0; i < grid; i++) {
-    for (int j = 0; j < grid; j++) {
-      printf("---------");
-    }
-    printf("\n");
-    for (int j = 0; j < grid; j++) {
-      int sum;
-      if (i % 2 == 0) {
-        sum = gridNum - j;
-      } else {
-        sum = gridNum - grid + 1 + j;
-      }
+// void printBoardVSComputer(Snake S[], Ladder L[], Player playerArray[],
+//                           int snakeCount, int ladderCount, int playerCount,
+//                           int grid) {
+//   int gridNum = grid * grid;
+//   for (int i = 0; i < grid; i++) {
+//     for (int j = 0; j < grid; j++) {
+//       printf("---------");
+//     }
+//     printf("\n");
+//     for (int j = 0; j < grid; j++) {
+//       int sum;
+//       if (i % 2 == 0) {
+//         sum = gridNum - j;
+//       } else {
+//         sum = gridNum - grid + 1 + j;
+//       }
 
-      int ladderNum = searchNumber2D(L, 2, ladderCount, sum);
-      int snakeNum = searchNumber2D(S, 2, snakeCount, sum);
-      if (ladderNum != -1) {
-        printf("↑%d      |", ladderNum + 1);
-      } else if (snakeNum != -1) {
-        printf("↓%d      |", snakeNum + 1);
-      } else {
-        printf("        |");
-      }
-    }
-    printf("\n");
-    for (int j = 0; j < grid; j++) {
-      int sum;
-      if (i % 2 == 0) {
-        sum = gridNum - j;
-      } else {
-        sum = gridNum - grid + 1 + j;
-      }
-      char colors[4][7] = {"\033[31m", "\033[34m", "\033[32m", "\033[33m"};
-      int playerHere[playerCount];
-      int playerHereCount = 0;
-      searchPlayer(playerArray, playerCount, sum, playerHere, &playerHereCount);
-      if (playerHereCount == 4) {
-        printf("  ");
+//       int ladderNum = searchNumber2D(L, 2, ladderCount, sum);
+//       int snakeNum = searchNumber2D(S, 2, snakeCount, sum);
+//       if (ladderNum != -1) {
+//         printf("↑%d      |", ladderNum + 1);
+//       } else if (snakeNum != -1) {
+//         printf("↓%d      |", snakeNum + 1);
+//       } else {
+//         printf("        |");
+//       }
+//     }
+//     printf("\n");
+//     for (int j = 0; j < grid; j++) {
+//       int sum;
+//       if (i % 2 == 0) {
+//         sum = gridNum - j;
+//       } else {
+//         sum = gridNum - grid + 1 + j;
+//       }
+//       char colors[4][7] = {"\033[31m", "\033[34m", "\033[32m", "\033[33m"};
+//       int playerHere[playerCount];
+//       int playerHereCount = 0;
+//       searchPlayer(playerArray, playerCount, sum, playerHere, &playerHereCount);
+//       if (playerHereCount == 4) {
+//         printf("  ");
 
-        for (int k = 0; k < playerHereCount; k++) {
-          printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
-        }
-        printf("  |");
-      } else if (playerHereCount == 3) {
-        printf("  ");
+//         for (int k = 0; k < playerHereCount; k++) {
+//           printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
+//         }
+//         printf("  |");
+//       } else if (playerHereCount == 3) {
+//         printf("  ");
 
-        for (int k = 0; k < playerHereCount; k++) {
-          printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
-        }
-        printf("   |");
-      } else if (playerHereCount == 2) {
-        printf("   ");
-        for (int k = 0; k < playerHereCount; k++) {
-          printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
-        }
-        printf("   |");
-      } else if (playerHereCount == 1) {
-        printf("   ");
-        for (int k = 0; k < playerHereCount; k++) {
-          printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
-        }
-        printf("    |");
-      } else {
-        printf("        |");
-      }
-    }
-    printf("\n");
-    for (int j = 0; j < grid; j++) {
-      int sum;
-      if (i % 2 == 0) {
-        sum = gridNum - j;
-      } else {
-        sum = gridNum - grid + 1 + j;
-      }
+//         for (int k = 0; k < playerHereCount; k++) {
+//           printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
+//         }
+//         printf("   |");
+//       } else if (playerHereCount == 2) {
+//         printf("   ");
+//         for (int k = 0; k < playerHereCount; k++) {
+//           printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
+//         }
+//         printf("   |");
+//       } else if (playerHereCount == 1) {
+//         printf("   ");
+//         for (int k = 0; k < playerHereCount; k++) {
+//           printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
+//         }
+//         printf("    |");
+//       } else {
+//         printf("        |");
+//       }
+//     }
+//     printf("\n");
+//     for (int j = 0; j < grid; j++) {
+//       int sum;
+//       if (i % 2 == 0) {
+//         sum = gridNum - j;
+//       } else {
+//         sum = gridNum - grid + 1 + j;
+//       }
 
-      if (sum > 99) {
-        printf("%d     |", sum);
-      } else if (sum > 9) {
-        printf("%d      |", sum);
-      } else {
-        printf("%d       |", sum);
-      }
-    }
+//       if (sum > 99) {
+//         printf("%d     |", sum);
+//       } else if (sum > 9) {
+//         printf("%d      |", sum);
+//       } else {
+//         printf("%d       |", sum);
+//       }
+//     }
 
-    printf("\n");
-    gridNum -= grid;
-  }
-  for (int j = 0; j < grid; j++) {
-    printf("---------");
-  }
-  printf("\n");
-}
+//     printf("\n");
+//     gridNum -= grid;
+//   }
+//   for (int j = 0; j < grid; j++) {
+//     printf("---------");
+//   }
+//   printf("\n");
+// }
 
 void initiateBoard(int snakeCount, int ladderCount, Snake S[], Ladder L[]) {
   /**
@@ -441,7 +441,7 @@ int compareAscending(const void *a, const void *b) {
    * compareAscending - Fungsi pembanding untuk urutan menaik.
    *
    * Fungsi ini digunakan untuk membandingkan dua elemen bertipe integer dalam
-   * urutan menaik, biasanya digunakan dalam fungsi `qsort`.
+   * urutan menaik, digunakan dalam fungsi `qsort` dari stdlib.h.
    *
    * Parameter:
    * @a   : Pointer ke elemen pertama yang akan dibandingkan.
@@ -459,7 +459,7 @@ int compareDescending(const void *a, const void *b) {
    * compareDescending - Fungsi pembanding untuk urutan menurun.
    *
    * Fungsi ini digunakan untuk membandingkan dua elemen bertipe integer dalam
-   * urutan menurun, biasanya digunakan dalam fungsi `qsort`.
+   * urutan menurun, digunakan dalam fungsi `qsort` dari stdlib.h.
    *
    * Parameter:
    * @a   : Pointer ke elemen pertama yang akan dibandingkan.

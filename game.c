@@ -191,14 +191,25 @@ bool isComputerOrPlayer(Player *player, int players) {
 
 
 int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake, Player player) {
-    /**
-   * Deskripsi :
-   *  Mengocok dadu untuk menentukan langkah player
-   * IS:
-   * 
-   * FS:
-   *  
- */
+  /**
+     * Fungsi ini untuk "mengocok" dadu, tapi sebenarnya dadu ini 
+     * punya bias. Hasil kocokan bisa diatur tergantung 
+     * tingkat kesulitan permainan. Semakin susah difficulty, semakin dirugikan player manusia, semakin diuntungkan player Computer. 
+     * 
+     * IS:
+     * - Player sedang berada di posisi tertentu di papan permainan.
+     * - Tingkat kesulitan sudah ditentukan (1 untuk mudah, 3 untuk susah).
+     * - Ada informasi tentang tangga atau ular terdekat (atau mungkin nggak ada sama sekali).
+     * - Kita tahu apakah pemain ini manusia atau komputer.
+     * 
+     * FS:
+     * - Dadu menghasilkan angka antara 1 sampai 6, tetapi:
+     *   - Kalau ada tangga dekat dan diffculty-nya mudah, hasilnya mungkin 
+     *     diarahkan ke tangga
+     *   - Kalau ada ular dekat dan diffculty-nya sysah, hasilnya mungkin diarahkan ke ular
+     *   - Kalau nggak ada apa-apa di sekitar, ya hasilnya murni kocokan dadu biasa.
+     *   - Kalau tingkat kesulitan nggak valid, hasilnya -1
+     */
   int min = 1;
   int max = 6;
   int result = rand() % (max - min + 1) + min;
@@ -287,7 +298,7 @@ void sixCheck(int dice, int *i, int turn, char colors[][7], bool isComputer) {
   if (dice == 6) {
     printf("Karena mendapat angka 6, Player %d (", turn + 1);
     printPlayerIcons(turn, colors, 4, isComputer);
-    printf(") mendapat giliran lagi");
+    printf(") mendapat giliran lagi\n");
     *i -= 1;
   }
 }
@@ -295,15 +306,17 @@ void sixCheck(int dice, int *i, int turn, char colors[][7], bool isComputer) {
 int checkNearestLadder(Ladder L[], int ladderCount, Player player) {
     /**
    * Deskripsi :
+   * Fungsi ini mencari tangga terdekat dari posisi pemain dalam jarak 1-6 langkah.
    *  
-   * IS:
+   * IS: Pemain berada pada posisi tertentu.
    * 
-   * FS:
+   * FS: Mengembalikan jarak ke tangga terdekat jika ditemukan dalam 6 langkah, 
+     *     atau -1 jika tidak ada tangga yang ditemukan.
    *  
  */
   for (int i = player.position + 1; i <= player.position + 6; i++) {
     for (int j = 0; j < ladderCount; j++) {
-      if (i == L[i][0]) {
+      if (i == L[j][0]) {
         return i - player.position;
       }
     }
@@ -314,15 +327,17 @@ int checkNearestLadder(Ladder L[], int ladderCount, Player player) {
 int checkNearestSnake(Snake S[], int snakeCount, Player player) {
     /**
    * Deskripsi :
-   *  Mengocok dadu untuk menentukan langkah player
-   * IS:
+   * Fungsi ini mencari ular terdekat dari posisi pemain dalam jarak 1-6 langkah.
+   *  
+   * IS: Pemain berada pada posisi tertentu.
    * 
-   * FS:
+   * FS: Mengembalikan jarak ke ular terdekat jika ditemukan dalam 6 langkah, 
+     *     atau -1 jika tidak ada ular yang ditemukan.
    *  
  */
   for (int i = player.position + 1; i <= player.position + 6; i++) {
     for (int j = 0; j < snakeCount; j++) {
-      if (i == S[i][0]) {
+      if (i == S[j][0]) {
         return i - player.position;
       }
     }
@@ -455,13 +470,19 @@ void writeOutputToFile(Player *playerArray, int players) {
 void stepOnPlayer(Player playerArray[], int playerCount, int blockNum,
                   int playerNum) {
 /**
-   * Deskripsi :
-   *  Mengocok dadu untuk menentukan langkah player
+   * Deskripsi:
+   *  Mengecek apakah ada pemain lain di blok `blockNum`. Jika lebih dari satu
+   *  pemain berada di blok tersebut (termasuk pemain `playerNum`), maka pemain
+   *  lain akan di-reset ke posisi 0 (kembali ke start).
+   *
    * IS:
+   *  - Pemain memiliki posisi masing-masing di papan.
+   *  - Pemain `playerNum` baru saja pindah ke `blockNum`.
    * 
    * FS:
-   *  
- */
+   *  - Pemain lain yang berada di `blockNum` di-reset ke posisi 0.
+   *  - Pesan hasil diprint ke konsol.
+   */
   int playerHere[playerCount];
   int playerHereCount = 0;
   if (blockNum != 0) {
@@ -569,19 +590,25 @@ void identifierComputer(Player *playerArray, int players) {
 void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,
                       int snakeCount) {
   /**
-   * Deskripsi :
-   *  Mengocok dadu untuk menentukan langkah player
+   * Deskripsi:
+   *  Memeriksa apakah pemain berada di posisi tangga atau ular dan mengubah
+   *  posisinya sesuai dengan itu.
+   *
    * IS:
+   *  - Pemain berada di posisi tertentu.
+   *  - Daftar tangga dan ular disediakan.
    * 
    * FS:
-   *  
- */
+   *  - Posisi pemain diperbarui jika berada di tangga atau ular.
+   *  - Pesan yang sesuai dicetak untuk setiap aksi (tangga/ular).
+   */
   for (int i = 0; i < ladderCount; i++) {
     if ((*player).position == L[i][0]) {
       setPosition(L[i][1], player);
       printf("Player %s discovered a Ladder! (YAYY :D) Player %s is now on "
              "block %d\n",
              (*player).name, (*player).name, L[i][1]);
+      return;
     }
   }
   for (int i = 0; i < snakeCount; i++) {
@@ -590,6 +617,7 @@ void checkLadderSnake(Player *player, Ladder L[], Snake S[], int ladderCount,
       printf("Player %s discovered a Snake! (AWW T-T) Player %s is now on "
              "block %d\n",
              (*player).name, (*player).name, S[i][1]);
+      return;
     }
   }
 }

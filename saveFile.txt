@@ -1,27 +1,27 @@
 playerCount 2
 mode 2
 currentTurn 1
-ladderCount 3
-snakeCount 7
+ladderCount 7
+snakeCount 3
 winnerCount 0
-difficulty 3
+difficulty 1
 colorCount 4
 grid 10
 LADDERBEGIN
-65 93
-8 17
-3 62
+25 40
+5 98
+21 82
+59 81
+11 43
+42 85
+27 73
 LADDEREND
 SNAKEBEGIN
-47 11
-31 15
-58 26
-69 14
-74 54
-43 13
-42 35
+45 38
+75 49
+57 20
 SNAKEEND
 PLAYERBEGIN
-arkan 68 114 1 0 0 -1
-computer 22 110 1 1 0 -1
+yudha 41 106 1 0 0 -1
+SIGMA_MALE_420 17 110 1 0 0 -1
 PLAYEREND

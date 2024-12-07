@@ -14,6 +14,14 @@ typedef struct {
 } User;
 
 void loadScores(User users[], int *count) {
+     /**
+     * Deskripsi:
+     * Fungsi untuk memuat data skor tertinggi pengguna dari file "user.txt".
+     * Mengisi array `users` dan memperbarui jumlah pengguna yang dimuat ke dalam `count`.
+     *
+     * IS: Membuka file "user.txt" dan membaca nama serta skor pengguna.
+     * FS: Array `users` diisi dengan data pengguna dan `count` diperbarui sesuai jumlah pengguna.
+     */
     FILE *file = fopen("user.txt", "r");
     if (!file) {
         *count = 0;
@@ -28,6 +36,15 @@ void loadScores(User users[], int *count) {
 }
 
 void updateHighScore(User users[], int *userCount, char name[], int newScore) {
+    /**
+     * Deskripsi:
+     * Fungsi untuk memperbarui skor tertinggi pengguna. Jika pengguna sudah ada,
+     * dan skor baru lebih tinggi, maka skor akan diperbarui. Jika pengguna belum ada,
+     * akan ditambahkan ke daftar dengan skor baru.
+     *
+     * IS: Memeriksa apakah nama pengguna ada dalam daftar dan memperbarui skor jika perlu.
+     * FS: Skor tertinggi pengguna diperbarui atau pengguna baru ditambahkan ke daftar.
+     */
     for (int i = 0; i < *userCount; i++) {
         if (strcmp(users[i].name, name) == 0) {
             if (newScore > users[i].highScore) {
@@ -42,6 +59,13 @@ void updateHighScore(User users[], int *userCount, char name[], int newScore) {
 }
 
 void writeUsersToFile(User users[], int userCount) {
+    /**
+     * Deskripsi:
+     * Fungsi ini untuk menulis daftar pengguna beserta skor tertingginya ke dalam file.
+     *
+     * IS: Data pengguna dan skor tertingginya tersedia dalam array `users`, jumlah user di userCount.
+     * FS: File "user.txt" akan berisi nama pengguna dan skor tertingginya.
+     */
     FILE *file = fopen("user.txt", "w");
     if (file == NULL) {
         perror("Error opening file");
@@ -56,6 +80,13 @@ void writeUsersToFile(User users[], int userCount) {
 }
 
 void displayScores(User users[], int count) {
+    /**
+     * Deskripsi:
+     * Fungsi ini menampilkan daftar skor tertinggi dari pengguna ke layar.
+     *
+     * IS: Daftar pengguna dengan skor tertinggi tersedia dalam array `users`, jumlah user ada di userCount.
+     * FS: Menampilkan nama pengguna beserta skor tertinggi mereka.
+     */
     printf("High Scores:\n");
     printf("------------\n");
     for (int i = 0; i < count; i++) {
@@ -65,6 +96,13 @@ void displayScores(User users[], int count) {
 }
 
 void saveHighScoreFromPlayer(Player playerArray[], int playerCount) {
+    /**
+     * Deskripsi:
+     * Memperbarui atau menambahkan skor tertinggi pemain ke dalam file.
+     *
+     * IS: Memuat skor yang ada dan memeriksa nama pemain.
+     * FS: Skor diperbarui atau pemain baru ditambahkan ke daftar, disimpan di suatu file.
+     */
     User users[100];
     int count = 0;
     loadScores(users, &count);
@@ -82,54 +120,4 @@ void saveHighScoreFromPlayer(Player playerArray[], int playerCount) {
     // displayScores(users, count);
 }
 
-/*void savePlayer(Player *playerArray, int players) {
-  // Open file for writing
-  FILE *file = fopen("saveFile.txt", "w");
-  if (file == NULL) {
-    perror("Error opening file");
-  } else {
-    //
-  for (int i = 0; i < players; i++) {
-    printf("%s", playerArray[i].name);
-    fprintf(file, "%s, %d, %d, %d, %d\n", playerArray[i].name, playerArray[i].position, playerArray[i].score, 
-            playerArray[i].isPlaying, playerArray[i].isComputer);
-  }
-  fprintf(file, "\n");
-  // Close the file
-  fclose(file);
-  }  
-}
-
-void saveBoard(int dificulty, Ladder L, Snake S){
-// Open file for writing
-FILE *file = fopen("saveFile.txt", "w");
-if (file == NULL) {
-    perror("Error opening file");
-} else {
-    fprintf(file, "%d, %d, %d", dificulty, L, S);
-    fprintf(file, "\n\n");
-    fclose(file);
-}
-
-void saveTurn(int players){
-FILE *file = fopen("saveFile.txt", "w");
-if (file == NULL) {
-    perror("Error opening file");
-} else {
-    fprintf(file, "%d", players );
-    fclose(file);    
-}
- 
-}
-void saveGame(Player playerArray[], int players, int ladderCount, int snakeCount, int dificulty){
-FILE *file = fopen("saveFile.txt", "w");
-if (file == NULL){
-perror("Error opening file");
-return;
-}
-savePlayer(&playerArray, players);
-//saveBoard(ladderCount, snakeCount, dificulty);
-fclose(file); 
-}
-*/
 #endif

@@ -9,6 +9,20 @@
 void game(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCount, Snake S[], int snakeCount, Player playerArray[], int *winnerCount, int difficulty, char colors[][7], int grid, int colorCount);
 
 void save(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCount, Snake S[], int snakeCount, Player playerArray[], int winnerCount, int difficulty, int grid, int colorCount) {
+    /**
+     * Deskripsi:
+     *  Menyimpan status permainan ke dalam file "saveFile.txt" termasuk informasi pemain,
+     *  tangga, ular, dan pengaturan permainan.
+     *
+     * IS:
+     *  - Semua data permainan (jumlah pemain, mode, turn saat ini, tangga, ular, dan status pemain) sudah ada.
+     *  - File "saveFile.txt" dapat dibuka untuk penulisan.
+     *
+     * FS:
+     *  - Data permainan disimpan dalam format yang terstruktur ke dalam file "saveFile.txt".
+     *  - Menutup file setelah data disimpan.
+     *  - Jika file tidak dapat dibuka, menampilkan pesan kesalahan.
+     */
     FILE *file = fopen("saveFile.txt", "w");
     if (file == NULL) {
         perror("Error opening file");
@@ -47,6 +61,18 @@ void save(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCoun
 }
 
 bool emptyCheck() {
+    /**
+     * Deskripsi:
+     *  Memeriksa apakah file "saveFile.txt" ada dan tidak kosong.
+     *
+     * IS:
+     *  - File "saveFile.txt" ada dan dapat dibuka.
+     *
+     * FS:
+     *  - Mengembalikan `true` jika file kosong.
+     *  - Mengembalikan `false` jika file tidak kosong.
+     *  - Jika file tidak dapat dibuka, menampilkan pesan kesalahan.
+     */
     FILE *file = fopen("saveFile.txt", "r");
     if (file == NULL) {
         printf("File not found or cannot be opened.\n");
@@ -69,6 +95,20 @@ bool emptyCheck() {
 }
 
 void load() {
+    /**
+     * Deskripsi:
+     *  Memuat data dari file penyimpanan untuk melanjutkan permainan yang sebelumnya disimpan.
+     *  Jika tidak ada file yang disimpan, menampilkan pesan kesalahan dan kembali ke menu awal.
+     *
+     * IS:
+     *  - File "saveFile.txt" ada dan dapat dibuka.
+     *  - Data pemain, tangga, ular, dan pengaturan permainan terbaca dengan benar.
+     *
+     * FS:
+     *  - Jika file ada, permainan dilanjutkan dengan data yang disimpan.
+     *  - Jika file tidak ditemukan, menampilkan pesan "Tidak ada game yang di save".
+     *  - Menunggu input 'q' untuk kembali ke menu awal.
+     */
     if (!emptyCheck()) {
         FILE *file = fopen("saveFile.txt", "r");
         if (file == NULL) {

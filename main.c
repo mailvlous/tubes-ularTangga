@@ -268,9 +268,11 @@ void game(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCoun
           else if (ch == ' ') {
             waitInput = false;
             break;
-          } else if (ch == 'w') {
-            playerArray[i].isPlaying == false;
-          } else if (ch == 's') {
+          } 
+          // else if (ch == 'w') {
+          //   playerArray[i].isPlaying == false;
+          // } 
+          else if (ch == 's') {
             int nextTurn = getTurn(j + 1, playerCount);
             save(playerCount, mode, nextTurn, L, ladderCount, S, snakeCount, playerArray, *winnerCount, difficulty, grid, colorCount);
             j = currentTurn + playerCount;
@@ -324,7 +326,7 @@ void printAllHighScore() {
    * Fungsi untuk menampilkan daftar skor tertinggi dari pemain yang disimpan.
    * Menunggu input dari pengguna untuk kembali ke menu awal.
    *
-   * IS: Menampilkan layar kosong, memuat data skor pemain.
+   * IS: Data belum ditampilkan.
    * FS: Menunggu input pengguna (tekan 'q' untuk kembali ke menu utama), konsol menampilkan data highscore pemain.
    */
   system("cls");

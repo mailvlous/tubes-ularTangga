@@ -683,7 +683,7 @@ void instruction(Player *playerArray) {
     printf("=== Permainan Ular Tangga ===\n");
     printf("Instruksi:\n");
     printf("- Tekan [Spasi] untuk giliran selanjutnya (lempar dadu).\n");
-    printf("- Tekan [W] untuk menyerah dan keluar tanpa menyimpan.\n");
+    // printf("- Tekan [W] untuk menyerah dan keluar tanpa menyimpan.\n");
     printf("- Tekan [S] untuk keluar dan menyimpan permainan.\n");
     printf("- Tekan [Q] untuk keluar dan menyelesaikan permainan tanpa menyimpan.\n");
     printf("Player dengan nama %s berada di Posisi: %d\n", (*playerArray).name,  (*playerArray).position);

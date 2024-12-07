@@ -73,10 +73,10 @@ void startApp() {
    *  - Fungsi ini akan terus berjalan hingga pengguna memilih untuk keluar dari permainan.
    *
    * IS:
-   *  - Menampilkan layar intro dan menunggu input dari pengguna untuk memilih opsi.
+   *  - Aplikasi belum melakukan apa-apa
    *
    * FS:
-   *  - Berdasarkan input pengguna, memulai opsi yang dipilih (misalnya memulai permainan, menampilkan skor, keluar, dll).
+   *  - Menu utama ditampilkan, lalu berdasarkan input pengguna, memulai opsi yang dipilih (misalnya memulai permainan, menampilkan skor, keluar, dll).
    */
   bool isRunning = true;
   while (isRunning) {

@@ -16,7 +16,7 @@ typedef struct {
 void loadScores(User users[], int *count) {
      /**
      * Deskripsi:
-     * Fungsi untuk memuat data skor tertinggi pengguna dari file "user.txt".
+     * Prosedur untuk memuat data skor tertinggi pengguna dari file "user.txt".
      * Mengisi array `users` dan memperbarui jumlah pengguna yang dimuat ke dalam `count`.
      *
      * IS: Membuka file "user.txt" dan membaca nama serta skor pengguna.
@@ -27,7 +27,6 @@ void loadScores(User users[], int *count) {
         *count = 0;
         return;
     }
-
     *count = 0;
     while (fscanf(file, "%s %d", users[*count].name, &users[*count].highScore) == 2) {
         (*count)++;
@@ -38,11 +37,11 @@ void loadScores(User users[], int *count) {
 void updateHighScore(User users[], int *userCount, char name[], int newScore) {
     /**
      * Deskripsi:
-     * Fungsi untuk memperbarui skor tertinggi pengguna. Jika pengguna sudah ada,
+     * Prosedur untuk memperbarui skor tertinggi pengguna. Jika pengguna sudah ada,
      * dan skor baru lebih tinggi, maka skor akan diperbarui. Jika pengguna belum ada,
      * akan ditambahkan ke daftar dengan skor baru.
      *
-     * IS: Memeriksa apakah nama pengguna ada dalam daftar dan memperbarui skor jika perlu.
+     * IS: Daftar pengguna (users[]) dengan jumlah pengguna (userCount) yang diketahui, dan setiap pengguna memiliki nama dan skor tertinggi masing-masing.
      * FS: Skor tertinggi pengguna diperbarui atau pengguna baru ditambahkan ke daftar.
      */
     for (int i = 0; i < *userCount; i++) {
@@ -61,28 +60,26 @@ void updateHighScore(User users[], int *userCount, char name[], int newScore) {
 void writeUsersToFile(User users[], int userCount) {
     /**
      * Deskripsi:
-     * Fungsi ini untuk menulis daftar pengguna beserta skor tertingginya ke dalam file.
+     * Procedure ini untuk menulis daftar pengguna beserta skor tertingginya ke dalam file.
      *
      * IS: Data pengguna dan skor tertingginya tersedia dalam array `users`, jumlah user di userCount.
      * FS: File "user.txt" akan berisi nama pengguna dan skor tertingginya.
      */
     FILE *file = fopen("user.txt", "w");
     if (file == NULL) {
-        perror("Error opening file");
+        printf("Error opening file");
         return;
     }
-
     for (int i = 0; i < userCount; i++) {
         fprintf(file, "%s %d\n", users[i].name, users[i].highScore);
     }
-
     fclose(file);
 }
 
 void displayScores(User users[], int count) {
     /**
      * Deskripsi:
-     * Fungsi ini menampilkan daftar skor tertinggi dari pengguna ke layar.
+     *Prosedur ini menampilkan daftar skor tertinggi dari pengguna ke layar.
      *
      * IS: Daftar pengguna dengan skor tertinggi tersedia dalam array `users`, jumlah user ada di userCount.
      * FS: Menampilkan nama pengguna beserta skor tertinggi mereka.
@@ -100,24 +97,19 @@ void saveHighScoreFromPlayer(Player playerArray[], int playerCount) {
      * Deskripsi:
      * Memperbarui atau menambahkan skor tertinggi pemain ke dalam file.
      *
-     * IS: Memuat skor yang ada dan memeriksa nama pemain.
+     * IS: Daftar pengguna (users[]) dengan skor tertinggi yang sudah ada dan jumlah pengguna (count). Data pemain (playerArray[]) dengan skor yang ingin diperbarui.
      * FS: Skor diperbarui atau pemain baru ditambahkan ke daftar, disimpan di suatu file.
      */
     User users[100];
     int count = 0;
     loadScores(users, &count);
-    // displayScores(users, count);
-
     for (int i = 0; i < playerCount; i++) {
         char newName[50];
         strcpy(newName, playerArray[i].name);
         int newScore = playerArray[i].score;
         updateHighScore(users, &count, newName, newScore);
     }
-    // char newName[50] = "butoba";
-    // int newScore = 1;
     writeUsersToFile(users, count);
-    // displayScores(users, count);
 }
 
 #endif

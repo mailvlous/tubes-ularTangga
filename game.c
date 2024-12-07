@@ -104,9 +104,9 @@ void checkWin(Player *player, int players, int *winnerCount) {
    *  Menentukan apakah Player mememenangkan permainan atau tidak. Jika player berada pada posisi 100
    *  Player memenangkan permainan
    * IS:
-   * Nilai subvar isWin dari player masih belum ditentukan
+   * Nilai subvar isWin dari player belum berubah
    * FS:
-   * Nilai subvar isWin dari player telah ditentukan
+   * Nilai subvar isWin dari player true jika menang, false jika tidak menang
  */
   if ((*player).position == 100) {
     (*player).isWin = true;

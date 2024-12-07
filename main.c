@@ -75,7 +75,14 @@ void startGame() {
             waitInput = false;
           } else if (ch == '5') {
             infoRule();
-            waitInput = false;
+            while (waitInput){
+            char ch = getch();
+            if (ch == ' '){
+              waitInput = false;
+            } else{
+            printf("input tidak valid");
+            }
+          }
           }
         }
   }
@@ -323,7 +330,14 @@ void game(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCoun
             j = currentTurn + playerCount;
             isRunning = false;
             break;
-          } else if (ch == ' ') {
+          }/*else if (ch == 's'){
+            saveGame(playerArray, players, ladderCount, snakeCount, difficulty);
+            i = players;
+            isRunning = false;
+            break;
+            
+          } */
+          else if (ch == ' ') {
             waitInput = false;
             break;
           } else if (ch == 'w') {

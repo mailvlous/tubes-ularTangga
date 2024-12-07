@@ -3,6 +3,7 @@
 #include "board.c"
 #include "types.h"
 #include <conio.h>
+#include <string.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -713,7 +714,7 @@ void infoRule() {
     printf("===========================================\n");
     printf("===         Permainan Ular Tangga       ===\n");
     printf("===========================================\n");
-  printf("Tekan [Enter] untuk mulai permainan\n");
+  printf("Tekan [spasi] untuk mulai permainan\n");
 }
 
 void infoMode() {
@@ -787,5 +788,7 @@ void infoDifficulty() {
 
 
 }
+
+
 
 #endif

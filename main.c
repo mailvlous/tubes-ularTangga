@@ -15,7 +15,7 @@ void initiateGame();
 void printAllHighScore();
 int modePicker();
 int setDifficulty();
-void startGame();
+void startApp();
 void game(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCount, Snake S[], int snakeCount, Player playerArray[], int *winnerCount, int difficulty, char colors[][7], int grid, int colorCount);
 
 void setScores(Player *players, int size, int newScore);
@@ -51,21 +51,21 @@ void infoMode();
 int main() {
   /**
    * Deskripsi: 
-   * Fungsi utama yang memulai permainan dengan memanggil `startGame`.
+   * Modul utama yang memulai permainan dengan memanggil `startApp`.
    *
    * IS: Tidak ada input sebelum memulai permainan.
    * FS: Permainan dimulai.
    */
-  startGame();
+  startApp();
   return 0;
 }
 
 
-void startGame() {
+void startApp() {
   /**
    * Deskripsi:
    *  - Memulai permainan dengan menampilkan layar intro dan memberikan pilihan kepada pengguna untuk:
-   *    1. Memulai permainan multiplayer
+   *    1. Memulai permainan
    *    2. Melihat skor tertinggi
    *    3. Keluar dari permainan
    *    4. Memuat permainan yang disimpan

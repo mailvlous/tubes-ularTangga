@@ -2,21 +2,6 @@ arkan 86
 aang 90
 hamam 102
 namrud 0
-<<<<<<< HEAD
-re 0
-de 0
 ww 0
 dd 0
-ee 0
-=======
-lulu 0
-rafa 100
-AAAAAA 0
-baba 0
-bubu 0
-rara 87
-rere 0
-toto 0
-tata 0
-rata 0
->>>>>>> 3c7bb89cf4e9c4aa1d9627e27a6318d62a16107b
+computer 82

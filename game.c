@@ -275,7 +275,7 @@ int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake, Player p
   
 }
 
-void sixCheck(int dice, int *i, char colors[][7], bool isComputer) {
+void sixCheck(int dice, int *i, int turn, char colors[][7], bool isComputer) {
     /**
    * Deskripsi :
    *  Mengecek apakah Player mendapatkan angka pada pengocokan dadu
@@ -285,8 +285,8 @@ void sixCheck(int dice, int *i, char colors[][7], bool isComputer) {
    * Layer menampilkan Player mendapatkan angka 6, dan akan mendapatkan giliran lagi
  */
   if (dice == 6) {
-    printf("Karena mendapat angka 6, Player %d (", *i + 1);
-    printPlayerIcons(*i, colors, 4, isComputer);
+    printf("Karena mendapat angka 6, Player %d (", turn + 1);
+    printPlayerIcons(turn, colors, 4, isComputer);
     printf(") mendapat giliran lagi");
     *i -= 1;
   }
@@ -434,7 +434,6 @@ void writeOutputToFile(Player *playerArray, int players) {
   } else {
     // Writing formatted text using fprintf
   for (int i = 0; i < players; i++) {
-    printf("%s", playerArray[i].name);
     if (playerArray[i].score <= 100) {
       fprintf(file, "%s, %d\n", playerArray[i].name,
         playerArray[i].score);
@@ -447,7 +446,7 @@ void writeOutputToFile(Player *playerArray, int players) {
   // Close the file
   fclose(file);
 
-  printf("Data disimpan di 'output.txt'.\n");
+  printf("\nData disimpan di 'output.txt'.\n");
   }  
 }
 

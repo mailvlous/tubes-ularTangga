@@ -114,7 +114,7 @@ void multiplayer() {
   int winnerCount = 0;
   initiateBoard(snakeCount, ladderCount, S, L);
   int currentTurn = 0;
-  int playing = playerCount;
+  int playing = players;
   bool isFinished = false;
   game(players, mode, currentTurn, L, ladderCount, S, snakeCount, playerArray, &winnerCount, difficulty, colors, grid, colorCount);
   
@@ -251,7 +251,7 @@ void game(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCoun
             i = j;
         }
       system("cls");
-      if ((*winnerCount == playerCount - 1) || (playingCount == playerCount - 1)) {
+      if ((*winnerCount == playerCount - 1)) {
         printf("Karena sisa satu orang, permainan selesai :)\n");
         j = currentTurn + playerCount;
         isFinished = true;
@@ -308,7 +308,7 @@ void game(int playerCount, int mode, int currentTurn, Ladder L[], int ladderCoun
           printBlock0(playerArray, playerCount);
           printScore(playerArray, playerCount);
 
-          sixCheck(dice, &j, colors, playerArray[i].isComputer);
+          sixCheck(dice, &j, i, colors, playerArray[i].isComputer);
           // printf("%d", winnerCount);
         } else {
           decideRank(&(playerArray[i]), playerCount, *winnerCount);

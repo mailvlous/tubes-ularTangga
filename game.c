@@ -506,7 +506,7 @@ void stepOnPlayer(Player playerArray[], int playerCount, int blockNum,
 void setPosition(int n, Player *player) {
       /**
    * Deskripsi :
-   * Menentukan posisi player berdasarkan n
+   * Mengatur posisi player ke nilai n.
    * IS:
    * Nilai subvar position masih belum berubah
    * FS:

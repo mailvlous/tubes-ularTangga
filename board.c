@@ -21,7 +21,7 @@ void initiateSnakes(int numSnakes, int grid, int occupied[], int *occupiedCount,
                     Snake arr[]);
 
 int searchNumber(int arr[], int size, int num);
-int searchNumber2D(int arr[][2], int col, int row, int num);
+int searchNumber2DReturnRow(int arr[][2], int col, int row, int num);
 
 void printBoard(Snake S[], Ladder L[], Player playerArray[],
                         int snakeCount, int ladderCount, int playerCount,
@@ -66,8 +66,8 @@ void printBoard(Snake S[], Ladder L[], Player playerArray[],
         sum = gridNum - grid + 1 + j;
       }
 
-      int ladderNum = searchNumber2D(L, 2, ladderCount, sum);
-      int snakeNum = searchNumber2D(S, 2, snakeCount, sum);
+      int ladderNum = searchNumber2DReturnRow(L, 2, ladderCount, sum);
+      int snakeNum = searchNumber2DReturnRow(S, 2, snakeCount, sum);
       if (ladderNum != -1) {
         printf("L%d      |", ladderNum + 1);
       } else if (snakeNum != -1) {
@@ -197,102 +197,6 @@ void printBlock0(Player playerArray[], int playerCount) {
   }
 }
 
-// void printBoardVSComputer(Snake S[], Ladder L[], Player playerArray[],
-//                           int snakeCount, int ladderCount, int playerCount,
-//                           int grid) {
-//   int gridNum = grid * grid;
-//   for (int i = 0; i < grid; i++) {
-//     for (int j = 0; j < grid; j++) {
-//       printf("---------");
-//     }
-//     printf("\n");
-//     for (int j = 0; j < grid; j++) {
-//       int sum;
-//       if (i % 2 == 0) {
-//         sum = gridNum - j;
-//       } else {
-//         sum = gridNum - grid + 1 + j;
-//       }
-
-//       int ladderNum = searchNumber2D(L, 2, ladderCount, sum);
-//       int snakeNum = searchNumber2D(S, 2, snakeCount, sum);
-//       if (ladderNum != -1) {
-//         printf("↑%d      |", ladderNum + 1);
-//       } else if (snakeNum != -1) {
-//         printf("↓%d      |", snakeNum + 1);
-//       } else {
-//         printf("        |");
-//       }
-//     }
-//     printf("\n");
-//     for (int j = 0; j < grid; j++) {
-//       int sum;
-//       if (i % 2 == 0) {
-//         sum = gridNum - j;
-//       } else {
-//         sum = gridNum - grid + 1 + j;
-//       }
-//       char colors[4][7] = {"\033[31m", "\033[34m", "\033[32m", "\033[33m"};
-//       int playerHere[playerCount];
-//       int playerHereCount = 0;
-//       searchPlayer(playerArray, playerCount, sum, playerHere, &playerHereCount);
-//       if (playerHereCount == 4) {
-//         printf("  ");
-
-//         for (int k = 0; k < playerHereCount; k++) {
-//           printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
-//         }
-//         printf("  |");
-//       } else if (playerHereCount == 3) {
-//         printf("  ");
-
-//         for (int k = 0; k < playerHereCount; k++) {
-//           printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
-//         }
-//         printf("   |");
-//       } else if (playerHereCount == 2) {
-//         printf("   ");
-//         for (int k = 0; k < playerHereCount; k++) {
-//           printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
-//         }
-//         printf("   |");
-//       } else if (playerHereCount == 1) {
-//         printf("   ");
-//         for (int k = 0; k < playerHereCount; k++) {
-//           printPlayerIcons(playerHere[k], colors, 4, playerArray[playerHere[k]].isComputer);
-//         }
-//         printf("    |");
-//       } else {
-//         printf("        |");
-//       }
-//     }
-//     printf("\n");
-//     for (int j = 0; j < grid; j++) {
-//       int sum;
-//       if (i % 2 == 0) {
-//         sum = gridNum - j;
-//       } else {
-//         sum = gridNum - grid + 1 + j;
-//       }
-
-//       if (sum > 99) {
-//         printf("%d     |", sum);
-//       } else if (sum > 9) {
-//         printf("%d      |", sum);
-//       } else {
-//         printf("%d       |", sum);
-//       }
-//     }
-
-//     printf("\n");
-//     gridNum -= grid;
-//   }
-//   for (int j = 0; j < grid; j++) {
-//     printf("---------");
-//   }
-//   printf("\n");
-// }
-
 void initiateBoard(int snakeCount, int ladderCount, Snake S[], Ladder L[]) {
   /**
    * initiateBoard - Menginisialisasi papan permainan dengan ular dan tangga.
@@ -373,9 +277,9 @@ int searchNumber(int arr[], int size, int num) {
   return -1;
 }
 
-int searchNumber2D(int arr[][2], int col, int row, int num) {
+int searchNumber2DReturnRow(int arr[][2], int col, int row, int num) {
   /**
-   * searchNumber2D - Mencari angka dalam array 2D.
+   * searchNumber2DReturnRow - Mencari angka dalam array 2D.
    *
    * Fungsi ini memeriksa apakah sebuah angka terdapat dalam array 2D tertentu
    * dan mengembalikan indeks BARIS tempat angka ditemukan, atau -1 jika tidak
@@ -497,7 +401,12 @@ void initiatePlayers(Player playerArray[], int playerCount) {
   }
 }
 
-void resetColor() { printf("\033[0m"); }
+void resetColor() {
+  /**
+     * Mengembalikan warna teks ke default.
+     */
+  printf("\033[0m");
+}
 
 void printPlayerIcons(int playerNum, char colors[][7], int colorCount, bool isComputer) {
   /**
@@ -604,24 +513,5 @@ void searchPlayer(Player playerArray[], int playerCount, int blockNum,
     }
   }
 }
-
-/////////////////////////////////
-
-// void initiateComputers(Computer computerArray[], int computerCount) {
-//   for (int i = 0; i < computerCount; i++) {
-//     printf("Nama player ke-%d: ", i + 1);
-//     getchar();
-//     scanf("%49[^\n]", computerArray[i].name);
-//     computerArray[i].position = 0;
-//   }
-// }
-
-// void printPlayers(Player playerArray[], int playerCount, char colors[][7],
-//                   int colorCount) {
-//   for (int i = 0; i < playerCount; i++) {
-//     printPlayerIcons(i, colors, colorCount);
-//     printf(": %s\n", playerArray[i].name);
-//   }
-// }
 
 #endif

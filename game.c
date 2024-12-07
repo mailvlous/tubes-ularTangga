@@ -210,9 +210,7 @@ int rollDiceRigged(int difficulty, int nearestLadder, int nearestSnake, Player p
      *   - Kalau nggak ada apa-apa di sekitar, ya hasilnya murni kocokan dadu biasa.
      *   - Kalau tingkat kesulitan nggak valid, hasilnya -1
      */
-  int min = 1;
-  int max = 6;
-  int result = rand() % (max - min + 1) + min;
+  int result = rollDice(difficulty);
   if (player.isComputer == false) {
       if (player.position == 0) {
       if (difficulty == 1) {
